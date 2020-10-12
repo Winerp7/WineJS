@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+# random macOS file which changes sometimes but is not related to the project
+.DS_Store
