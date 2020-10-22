@@ -5,8 +5,8 @@ https://winejs.azurewebsites.net/
 Alt muligt nice om dette project.
 
 ## Usage
-Clone this Repository.
-Add the **.env** file from discord *remember to put a . in front of env*. 
+Clone this Repository.  
+Add the **.env** file from discord *remember to put a . in front of env*.  
 run `npm install`.  
 run `npm run dev` for dev server.  
 run `npm start` for prod server.  
