@@ -1,0 +1,20 @@
+extends layout
+
+block styles
+  link(rel="stylesheet", href="/css/forms.css")
+  link(rel="stylesheet", href="/css/product.css")
+
+block content
+
+  form.product-form(action='/signup', method='POST')
+    .form-control
+      p 
+        | Name
+        input(type='text', name='name', value='') 
+        | Email 
+        input(type='text', email='email', value='')
+        | Password 
+        input(type='text', password='password', value='')
+
+        button.btn(type='submit') Sign up
+        

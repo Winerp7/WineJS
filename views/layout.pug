@@ -1,7 +1,31 @@
+// This document is the general layout for all pages
+// This means that the content here will be displayed if there is *no* block available
+// A block is html content loaded from the other views (.pug extenstion)
+// Example: content specific to the homepage will be written in homepage.pug
+// And loaded into this document through blocks
+
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title #{pageTitle}
+    //title= title
+    //link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="/stylesheets/main.css")
+
+    block styles
+
   body
+    header.main-header
+      nav.main-header__nav
+          ul.main-header__item-list
+            li.main-header__item
+              a(href="/", class=(path === '/' ? 'active' : '')) Homepage
+            li.main-header__item
+              a(href="/user/dashboard", class=(path === '/dashboard' ? 'active' : '')) Dashboard
+            li.main-header__item
+              a(href="/user/add-device", class=(path === '/add-device' ? 'active' : '')) Add Device
+          block header
     block content

@@ -1,0 +1,22 @@
+extends layout
+
+block styles
+  link(rel="stylesheet", href="/stylesheets/forms.css")
+  link(rel="stylesheet", href="/stylesheets/product.css")
+
+block header
+  form(action='/signup', method='POST')
+      p
+        | Email 
+        input(type='text', email='email', value='')
+        | Password 
+        input(type='text', password='password', value='')
+        | 
+        button.btn(type='submit') Login
+        |
+        |
+        a(href="/users/signup"): button.btn(type="button") Sign up
+
+block content
+
+  h1 Hello from the other side
