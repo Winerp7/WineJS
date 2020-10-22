@@ -6,7 +6,7 @@ let _db;
 // Establish connection to mongoDB
 const mongoConnect = callback => {
   MongoClient.connect(
-    'mongodb+srv://jens:sabj17@winecluster.zj8vg.azure.mongodb.net/WineCluster?retryWrites=true&w=majority'
+    `${process.env.MONGO_CONNECTION_STRING}`
     )
     .then(client => {
       console.log('Successfully connected to MongoDB');
