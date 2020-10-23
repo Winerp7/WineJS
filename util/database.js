@@ -9,7 +9,7 @@ const mongoConnect = callback => {
     `${process.env.MONGO_CONNECTION_STRING}`
   )
     .then(client => {
-      console.log('Successfully connected to MongoDB');
+      console.log('Successfully connected to MongoDB...');
       _db = client.db();
       callback();
     })
