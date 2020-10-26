@@ -1,21 +1,20 @@
 const createError = require('http-errors');
 const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const dotenv = require('dotenv').config()
+const flash = require('connect-flash');
+
 
 // Imports of our files
-const indexRouter = require('./routes/landingpage');
-const userRouter = require('./routes/user');
+const errorHandlers = require('./util/errorHandlers');
 
-const mongoConnect = require('./util/database').mongoConnect;
+const helpers = require('./util/helpers');
+const indexRouter = require('./routes/index');
 
-
-// Connect to database
-mongoConnect(() => {
-  app.listen(5000);
-});
 
 // Init app
 const app = express();
@@ -33,30 +32,70 @@ app.use(cookieParser());
 // Creating static path to public folder to make it easier to work with css files and images
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Sessions allow us to store data on visitors from request to request
+// This keeps users logged in and allows us to send flash messages
+app.use(session({
+  secret: process.env.SECRET,
+  key: process.env.KEY,
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+
+// The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
+app.use(flash());
+
+// pass variables to our templates + all requests
+app.use((req, res, next) => {
+  res.locals.helper = helpers;
+  res.locals.flashes = req.flash();
+  next();
+});
+
 // ----- All middleware goes *before* our routes -----
 
-
 // Our routes
-app.use('/user', userRouter);
 app.use('/', indexRouter);
 
 // ----- Error handling if non of our routes handles the request -----
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// If that above routes didnt work, we 404 them and forward to error handler
+app.use(errorHandlers.notFound);
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// One of our error handlers will see if these errors are just validation errors
+app.use(errorHandlers.flashValidationErrors);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// Otherwise this was a really bad error we didn't expect! Shoot eh
+if (app.get('env') === 'development') {
+  /* Development Error Handler - Prints stack trace */
+  app.use(errorHandlers.developmentErrors);
+}
+
+// production error handler
+app.use(errorHandlers.productionErrors);
 
 
+
+
+
+//* DEFAULT ERROR HANDLiNG. STILL FIGURING OUT IF I LIKE THE NEW BETTER *//
+
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
+
+
+// We export it so we can start the site in /bin/www
 module.exports = app;

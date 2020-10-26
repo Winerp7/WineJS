@@ -10,22 +10,40 @@ html
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    title #{pageTitle}
-    //title= title
-    //link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet", href="/stylesheets/main.css")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    title #{pageTitle}
 
     block styles
 
   body
+    include _header
+
+
     header.main-header
       nav.main-header__nav
           ul.main-header__item-list
             li.main-header__item
               a(href="/", class=(path === '/' ? 'active' : '')) Homepage
             li.main-header__item
-              a(href="/user/dashboard", class=(path === '/dashboard' ? 'active' : '')) Dashboard
+              a(href="/dashboard", class=(path === '/dashboard' ? 'active' : '')) Dashboard
             li.main-header__item
-              a(href="/user/add-device", class=(path === '/add-device' ? 'active' : '')) Add Device
+              a(href="/add-node", class=(path === '/add-device' ? 'active' : '')) Add Device
+            li.main-header__item
+              a(href="/nodes", class=(path === '/nodes' ? 'active' : '')) Devices
           block header
+
+
+    block messages
+      if locals.flashes
+        .inner.inner--flashes
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    
+    
     block content

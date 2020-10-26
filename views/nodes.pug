@@ -1,0 +1,9 @@
+extends layout
+
+include mixins/_nodeCard
+
+block content
+  .inner
+    h2= title
+    each node in nodes
+      +nodeCard(node)
