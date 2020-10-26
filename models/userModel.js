@@ -1,22 +1,17 @@
-const getDb = require('../util/database').getDb;
+const mongoose = require('mongoose');
 
-class User {
-    constructor(username, password) {
-      this.username = username;
-      this.password = password;        
-    }
 
-    save(){
-      const db = getDb();
-      db.collection('users')
-      .insertOne(this)
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      });
-    }
-}
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: [true, 'A user must have a name'],
+    unique: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: [true, 'A user must have a password']
+  }
+});
 
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);

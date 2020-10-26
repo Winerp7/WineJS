@@ -1,0 +1,10 @@
+mixin nodeCard(node = {})
+  .card
+    h2.title
+      a(href=`/node/${node.slug}`) #{node.name}
+    p NodeID: #{node.nodeID}
+    p Name: #{node.name}
+    p Status: #{node.status}
+    p Slug: #{node.slug}
+    a(href=`/nodes/${node._id}/edit`): button.btn(type="button") Edit
+     

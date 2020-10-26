@@ -1,0 +1,13 @@
+mixin nodeForm(node = {})
+  form(action=`/add-node/${node._id || ''}` method="POST" class="card")
+    label(for="nodeID") Node ID
+    input(type="text" name="nodeID", value=node.nodeID)
+    label(for="name") Name
+    input(type="text" name="name", value=node.name)
+    - const sensors = ['Temp', 'Humid', 'Sun']
+    - const chosen = node.sensors || []
+    ul.tags
+      each sensor in sensors
+        input(type="checkbox" id=sensor value=sensor name="sensors" checked=(sensors.includes(choice)))
+        label(for=sensor) #{sensor}
+    input(type="submit" value="Save ➡️" class="btn")

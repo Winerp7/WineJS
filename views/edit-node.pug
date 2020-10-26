@@ -1,10 +1,12 @@
 extends layout
+include mixins/_nodeForm
 
 block styles
   link(rel="stylesheet", href="/css/forms.css")
   link(rel="stylesheet", href="/css/product.css")
 
-block content
 
-  
-  h1 this is an awesome dashboard
+block content
+  main
+    h2 #{title}
+    +nodeForm(node)

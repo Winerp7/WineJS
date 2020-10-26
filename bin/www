@@ -1,5 +1,30 @@
 #!/usr/bin/env node
 
+const mongoose = require('mongoose');
+
+// import environment variables from our variables.env file
+require('dotenv').config({path: 'variables.env'});
+
+// Connect to database and handle bad connections
+mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+  // settings to remove deprecation warnings
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}).then(con => {
+  //console.log(con.connections);
+  console.log('DB connection successful!');
+})
+.catch(err => {
+  console.log(err);
+});
+mongoose.Promise = global.Promise; // lets mongoose use ES6 promises
+
+// import all of our models
+require('../models/userModel');
+require('../models/nodeModel');
+
 /**
  * Module dependencies.
  */
