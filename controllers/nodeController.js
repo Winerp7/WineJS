@@ -16,7 +16,6 @@ exports.createNode = async (req, res) => {
 
 exports.getNodes = async (req, res) => {
   const nodes = await Node.find();
-  console.log(nodes);
   res.render('nodes', {title: 'Your nodes', nodes: nodes});
 };
 

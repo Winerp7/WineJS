@@ -3,8 +3,19 @@ extends layout
 block styles
   link(rel="stylesheet", href="/css/forms.css")
   link(rel="stylesheet", href="/css/product.css")
+  link(rel="stylesheet", href="/stylesheets/chartist.css")
+
 
 block content
-
   
   h1 this is an awesome dashboard
+  div!= chart
+  != line
+  != pie
+
+  //- used this documentation to figure it out
+  //- https://github.com/Automattic/node-canvas#canvastobuffer
+  img(src="data:image/jpg;base64" + canvas)
+
+  //- already has data:image/jpg;base64 encoded, so *draw* is enough
+  img(src=draw)
