@@ -14,7 +14,10 @@ router.post('/add-user', userController.createUser);
 router.get('/add-node', nodeController.addNode);
 router.post('/add-node', catchErrors(nodeController.createNode));
 router.post('/add-node/:id', catchErrors(nodeController.updateNode));
-router.get('/nodes', catchErrors(nodeController.getNodes));
+router.get('/nodes',
+  catchErrors(nodeController.fetchNodes),
+  catchErrors(nodeController.getNodes)
+);
 router.get('/nodes/:id/edit', catchErrors(nodeController.editNode))
 
 router.get('/', landingpageController.landingpage); 

@@ -7,7 +7,9 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "canvasjs": "^1.8.3",
+    "canvas": "^2.6.1",
+    "chart.js": "^2.9.4",
+    "chartjs-node-canvas": "^3.0.6",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "~1.4.4",
@@ -19,6 +21,7 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.9",
     "morgan": "~1.9.1",
+    "node-chartist": "^1.0.5",
     "passport": "^0.4.1",
     "pug": "2.0.0-beta11",
     "slugify": "^1.4.5"

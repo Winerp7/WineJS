@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const { makeChart, makeLine, makePie, makeCanvas, draw } = require('../util/canni'); 
+
 
 exports.createUser = async (req, res) => {
   try {
@@ -23,8 +25,14 @@ exports.directSignup = (req, res, next) => {
   res.render('signup', { pageTitle: 'Sign up'});
 };
 
-exports.directDashboard = (req, res, next) => {
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard'});
+exports.directDashboard = async (req, res, next) => {
+  const Line = await makeLine();
+  const Pie = await makePie();
+  const Chart = await makeChart();
+  const Canvas =  await makeCanvas;
+  const Draw = await draw();
+
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', chart: Chart, line: Line, pie: Pie, canvas: Canvas, draw: Draw});
 };
 
 exports.directAddDevice = (req, res, next) => {
