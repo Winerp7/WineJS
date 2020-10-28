@@ -10,7 +10,7 @@ Alt muligt nice om dette project.
 **Make sure you have nodeJS installed**
 
 Clone this Repository.  
-Add the **.env** file from discord to your root folder _remember to put a . in front of env_.  
+Add the **variables.env** file from discord to your root folder  
 In terminal in your root folder:  
 run `npm install`.  
 run `npm run dev` for dev server.  
