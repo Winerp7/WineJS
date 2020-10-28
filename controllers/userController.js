@@ -32,7 +32,6 @@ exports.directDashboard = async (req, res, next) => {
   const Canvas =  await makeCanvas;
   const Draw = await draw();
 
-  console.log(Draw);
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', chart: Chart, line: Line, pie: Pie, canvas: Canvas, draw: Draw});
 };
 

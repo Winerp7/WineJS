@@ -67,6 +67,7 @@ exports.makeCanvas = (async () => {
   //console.log(image);
   //console.log(dataUrl);
   //console.log(stream);
+  
 
   return dataUrl;
 })();
@@ -132,7 +133,7 @@ exports.makePie = co.wrap(function * () {
 
 // nico example
 // https://github.com/Automattic/node-canvas#loadimage
-const { createCanvas, loadImage } = require('canvas')
+const { createCanvas } = require('canvas')
 exports.draw = async () => {
   const canvas = createCanvas(200, 200)
   const ctx = canvas.getContext('2d'); 

@@ -14,9 +14,13 @@ exports.createNode = async (req, res) => {
   res.redirect('/');
 };
 
+exports.fetchNodes = async (req, res, next) => {
+  req.nodes = await Node.find();
+  next();
+};
+
 exports.getNodes = async (req, res) => {
-  const nodes = await Node.find();
-  res.render('nodes', {title: 'Your nodes', nodes: nodes});
+  res.render('nodes', {title: 'Your nodes', nodes: req.nodes});
 };
 
 exports.editNode = async (req, res) => {
