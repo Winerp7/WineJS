@@ -38,3 +38,7 @@ exports.directDashboard = async (req, res, next) => {
 exports.directAddDevice = (req, res, next) => {
   res.render('add-device', { pageTitle: 'Add Device', path: '/add-device'});
 };
+
+exports.directSettings = (req, res, next) => {
+  res.render('settings', { pageTitle: 'Settings', path: '/settings'});
+};

@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css"
   },
   "dependencies": {
+    "autoprefixer": "^10.0.1",
     "canvas": "^2.6.1",
     "chart.js": "^2.9.4",
     "chartjs-node-canvas": "^3.0.6",
@@ -23,8 +25,10 @@
     "morgan": "~1.9.1",
     "node-chartist": "^1.0.5",
     "passport": "^0.4.1",
+    "postcss-cli": "^8.1.0",
     "pug": "2.0.0-beta11",
-    "slugify": "^1.4.5"
+    "slugify": "^1.4.5",
+    "tailwindcss": "^1.9.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.5"

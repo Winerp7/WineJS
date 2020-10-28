@@ -9,6 +9,7 @@ router.get('/signup', userController.directSignup);
 router.get('/dashboard', userController.directDashboard);
 router.get('/add-device', userController.directAddDevice);
 router.post('/add-user', userController.createUser);
+router.get('/settings', userController.directSettings);
 
 
 router.get('/add-node', nodeController.addNode);

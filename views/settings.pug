@@ -13,14 +13,4 @@ block header
         a(href="/settings", class=(path === '/settings' ? 'active' : '')) Settings
 
 block content
-  h1 this is an awesome dashboard
-  div!= chart
-  != line
-  != pie
-
-  //- used this documentation to figure it out
-  //- https://github.com/Automattic/node-canvas#canvastobuffer
-  img(src="data:image/jpg;base64" + canvas)
-
-  //- already has data:image/jpg;base64 encoded, so *draw* is enough
-  img(src=draw)
+  
