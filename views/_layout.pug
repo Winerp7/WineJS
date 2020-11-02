@@ -39,25 +39,23 @@ html
     block content
       main(class="flex-grow min-w-full")
         // To edit size of "view" alter the mx and my parameters
-        div(class="mx-16 my-10 py-6 px-6 lg:px-8 bg-white rounded-2xl")
-          div(class="px-4 py-4 sm:px-0")
-            div(class="h-96 text-gray-700")
-              block primary
-                | This is our primary content, and all HTML code should be put into a primary
-                | block like this one. <br> <br>
-                | It can then be designed however needed on each view. 
-    
+        div(class="mx-20 my-12 px-8 rounded-2xl")
+          block primary
+            | This is our primary content, and all HTML code should be put into a primary
+            | block like this one. <br> <br>
+            | It can then be designed however needed on each view. 
+  
     block footer
       div(class="w-full bg-white")
         div(class="flex flex-wrap text-center justify-align")
-          div(class="p-3 md:text-left ml-6")
+          div(class="p-3 text-left ml-6")
             div(class="my-2 text-l text-indigo-300")
               | About us
               p(class="mt-2 text-gray-700 text-xs")
                 | Group SW707E20
               p(class="mt-2 text-gray-700 text-xs")
-                | Aalborg University
-          div(class="p-3 md:text-left ml-6")
+                | Software, Aalborg University
+          div(class="p-3 text-left ml-6")
             div(class="my-2 text-l text-teal-300")
               | Contact us
               p(class="mt-2 text-gray-700 text-xs")
