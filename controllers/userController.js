@@ -32,7 +32,7 @@ exports.directDashboard = async (req, res, next) => {
   const Canvas =  await makeCanvas;
   const Draw = await draw();
 
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', chart: Chart, line: Line, pie: Pie, canvas: Canvas, draw: Draw});
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', chart: Chart, line: Line, pie: Pie, canvas: Canvas, draw: Draw, nodes: req.nodes});
 };
 
 exports.directAddDevice = (req, res, next) => {

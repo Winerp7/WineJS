@@ -1,18 +1,34 @@
 extends layout
 
 block styles
-  link(rel="stylesheet", href="/css/forms.css")
-  link(rel="stylesheet", href="/css/product.css")
-  link(rel="stylesheet", href="/stylesheets/chartist.css")
+  link(rel="stylesheet", href="/stylesheets/styles.css")
 
-block header
-    ul.main-header__item-list
-      li.main-header__item
-        a(href="/nodes", class=(path === '/nodes' ? 'active' : '')) Functions
-      li.main-header__item
-        a(href="/settings", class=(path === '/settings' ? 'active' : '')) Settings
+
 
 block content
+  table.table-auto
+    thead
+      tr
+        th.px-4.py-2 Title
+        th.px-4.py-2 Author
+        th.px-4.py-2 Views
+    tbody
+      tr
+        td.border.px-4.py-2 Intro to CSS
+        td.border.px-4.py-2 Adam
+        td.border.px-4.py-2 858
+      tr.bg-gray-100
+        td.border.px-4.py-2
+          | A Long and Winding Tour of the History of UI Frameworks and Tools and the Impact on Design
+        td.border.px-4.py-2 Adam
+        td.border.px-4.py-2 112
+      tr
+        td.border.px-4.py-2 Intro to JavaScript
+        td.border.px-4.py-2 Chris
+        td.border.px-4.py-2 1,280
+
+
+
   h1 this is an awesome dashboard
   div!= chart
   != line
@@ -24,3 +40,6 @@ block content
 
   //- already has data:image/jpg;base64 encoded, so *draw* is enough
   img(src=draw)
+
+
+

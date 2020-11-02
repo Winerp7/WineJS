@@ -1,0 +1,9 @@
+h2 {
+    text-align: center;
+    padding: 20px 0;
+    background-color: white;
+  }
+  
+  .table-bordered {
+    border: 1px solid #ddd !important;
+  }

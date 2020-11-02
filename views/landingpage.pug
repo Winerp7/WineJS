@@ -5,18 +5,7 @@ block styles
   link(rel="stylesheet", href="/stylesheets/product.css")
   link(rel="stylesheet", href="/stylesheets/styles.css")
 
-block header
-  form(action='/signup', method='POST')
-      p
-        | Email 
-        input(type='text', email='email', value='')
-        | Password 
-        input(type='text', password='password', value='')
-        | 
-        button.btn(type='submit') Login
-        |
-        |
-        a(href="/signup"): button.btn(type="button") Sign up
+
 
 block content
   <div class="py-12 bg-white">

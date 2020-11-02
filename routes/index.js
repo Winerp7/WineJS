@@ -6,7 +6,9 @@ const nodeController = require('../controllers/nodeController');
 const { catchErrors } = require('../util/errorHandlers'); 
 
 router.get('/signup', userController.directSignup);
-router.get('/dashboard', userController.directDashboard);
+router.get('/dashboard', 
+  catchErrors(nodeController.fetchNodes),
+  userController.directDashboard);
 router.get('/add-device', userController.directAddDevice);
 router.post('/add-user', userController.createUser);
 router.get('/settings', userController.directSettings);
