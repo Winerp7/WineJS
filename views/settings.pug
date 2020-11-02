@@ -1,16 +1,5 @@
-extends layout
+extends _layout
 
-block styles
-  link(rel="stylesheet", href="/css/forms.css")
-  link(rel="stylesheet", href="/css/product.css")
-  link(rel="stylesheet", href="/stylesheets/chartist.css")
-
-block header
-    ul.main-header__item-list
-      li.main-header__item
-        a(href="/nodes", class=(path === '/nodes' ? 'active' : '')) Functions
-      li.main-header__item
-        a(href="/settings", class=(path === '/settings' ? 'active' : '')) Settings
-
-block content
+block primary
+  | Some content on my settings page
   

@@ -12,3 +12,16 @@ header.header
     else
       a.nav__el(href='/login') Log in
       a.nav__el.nav__el--cta(href='#') Sign up
+
+header.main-header
+      nav.main-header__nav
+          ul.main-header__item-list
+            li.main-header__item
+              a(href="/", class=(path === '/' ? 'active' : '')) Homepage
+            li.main-header__item
+              a(href="/dashboard", class=(path === '/dashboard' ? 'active' : '')) Dashboard
+            li.main-header__item
+              a(href="/add-node", class=(path === '/add-device' ? 'active' : '')) Add Device
+            li.main-header__item
+              a(href="/nodes", class=(path === '/nodes' ? 'active' : '')) Devices
+          block header
