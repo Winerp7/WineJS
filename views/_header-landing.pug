@@ -3,21 +3,52 @@ include mixins/_modal
 nav(class="flex items-center justify-between flex-wrap bg-teal-500 p-4 px-6")
   div(class="flex items-center flex-shrink-0 text-white mr-4")
     img.h-10.w-auto.mr-2(src='/images/logo-white.png' alt='Wine logo')
-  div(class="block sm:hidden")
-    button(class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white")
-      svg(class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg")
-        <title>
-          | Menu
-        </title>
-        // For "hamburger"-logo when in mobile
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
   div(class="w-full block flex-grow flex items-center lg:w-auto")
     div(class="text-sm lg:flex-grow")
       a(href="/" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4" class=(path === '/' ? 'text-white' : 'text-teal-200'))
         | Homepage
     div
-      button(onclick='showModal()' id="buttonSignInModal" class="text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mx-6")
+      button(id="signInBtn" class="text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mx-6")
         | Sign in
+      // Modal begins here
+      div(id="overlay" class="bg-gray-900 bg-opacity-50 absolute inset-0 hidden justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModal" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-10") Sign in to WineJS
+          div(class="mt-4 text-xs mx-4")
+            | Username
+          div(class="mt-1 text-xs mx-4")
+            input(id="username" class="w-full rounded")
+          div(class="mt-2 text-xs mx-4")
+            | Password
+          div(class="mt-1 text-xs mx-4")
+            input(type="password" id="password" class="w-full rounded")
+          div(class="mt-4 flex justify-center text-md")
+            button(id="secondSignInBtn" class="px-5 py-1 bg-indigo-300 border rounded-lg text-gray-100 hover:border-indigo-300 hover:bg-gray-200 hover:text-indigo-300")
+              | Sign in
+          div(class="text-xs flex justify-center mt-2")
+            p Don't have an account? <a href="/signup" class="text-teal-300"> Sign up</a> now!
+      // Modal ends here
     div
-      a(href="/signup" class="inline-block text-sm px-4 py-2 leading-none border rounded mt-4 lg:mt-0" class=(path === '/signup' ? 'text-white' : "text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white"))
+      a(href="/signup" class="inline-block text-sm px-4 py-2 leading-none border rounded-lg mt-4 lg:mt-0" class=(path === '/signup' ? 'text-white' : "text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white"))
         | Sign up
+
+script. 
+  window.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.querySelector('#overlay');
+    const signin = document.querySelector('#signInBtn');
+    const close = document.querySelector('#closeModal');
+
+    // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
+    const toggleModal = () => {
+      overlay.classList.toggle('hidden');
+      overlay.classList.toggle('flex');
+    }
+
+    signin.addEventListener('click', (toggleModal))
+    close.addEventListener('click', (toggleModal))
+  })
