@@ -22,7 +22,7 @@ exports.createUser = async (req, res) => {
 }
 
 exports.directSignup = (req, res, next) => {
-  res.render('signup', { pageTitle: 'Sign up'});
+  res.render('signup', { pageTitle: 'Sign up', path: '/signup'});
 };
 
 exports.directDashboard = async (req, res, next) => {

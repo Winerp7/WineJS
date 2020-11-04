@@ -18,8 +18,7 @@ html
 
   body(class="flex flex-col min-h-screen bg-indigo-100")
     block header
-      div(class="border-b border-white text-gray-900")
-        | some header from frederik
+      include _header-landing
 
     // Messages to be used for confirmation of user actions, e.g. when signing up
     // the user should receive message in browser saying "Succesfully created user X" 
@@ -34,16 +33,13 @@ html
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.remove()") &times;
     
-    // The content block should never be overwritten in any view, i.e. do NOT write "block content" 
-    // Instead, when creating views we should overwrite the primary block, i.e. write "block primary"
-    block content
-      main(class="flex-grow min-w-full")
-        // To edit size of "view" alter the mx and my parameters
-        div(class="mx-20 my-12 px-8 rounded-2xl")
-          block primary
-            | This is our primary content, and all HTML code should be put into a primary
-            | block like this one. <br> <br>
-            | It can then be designed however needed on each view. 
+    main(class="flex-grow min-w-full")
+      // To edit size of "view" alter the mx and my parameters
+      div(class="mx-20 my-12 px-8 rounded-2xl")
+        block content
+          | This is our primary content, and all HTML code should be put into a primary
+          | block like this one. <br> <br>
+          | It can then be designed however needed on each view. 
   
     block footer
       div(class="w-full bg-white")
@@ -61,4 +57,4 @@ html
               p(class="mt-2 text-gray-700 text-xs")
                 | sw707e20@cs.aau.dk
               p(class="mt-2 text-gray-700 text-xs")
-                | +45 xx yy zz ii
+                | +45 00 00 00 00
