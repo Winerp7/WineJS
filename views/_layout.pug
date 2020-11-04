@@ -1,0 +1,59 @@
+// This document is the general layout for all pages
+// This means that the content here will be displayed if there is *no* block available
+// A block is html content loaded from the other views (.pug extenstion)
+// Example: content specific to the homepage will be written in homepage.pug
+// And loaded into this document through blocks
+
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    link(rel="stylesheet", href="/stylesheets/flash-messages.css")
+    link(rel='stylesheet', href='/stylesheets/styles.css')
+    title #{pageTitle}
+    
+    block styles
+
+  body(class="flex flex-col min-h-screen bg-indigo-100")
+    block header
+      include _header-landing
+
+    // Messages to be used for confirmation of user actions, e.g. when signing up
+    // the user should receive message in browser saying "Succesfully created user X" 
+    block messages
+      if locals.flashes
+        .flash-inner.inner--flashes
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    
+    main(class="flex-grow min-w-full")
+      // To edit size of "view" alter the mx and my parameters
+      div(class="mx-20 my-12 px-8 rounded-2xl")
+        block content
+          | This is our block content, and all HTML code should be put into a primary
+          | block like this one. <br> <br>
+          | It can then be designed however needed on each view. 
+  
+    div(class="w-full bg-white")
+      div(class="flex flex-wrap text-center justify-align")
+        div(class="p-3 text-left ml-6")
+          div(class="my-2 text-l text-indigo-300")
+            | About us
+            p(class="mt-2 text-gray-700 text-xs")
+              | Group SW707E20
+            p(class="mt-2 text-gray-700 text-xs")
+              | Software, Aalborg University
+        div(class="p-3 text-left ml-6")
+          div(class="my-2 text-l text-teal-300")
+            | Contact us
+            p(class="mt-2 text-gray-700 text-xs")
+              | sw707e20@cs.aau.dk
+            p(class="mt-2 text-gray-700 text-xs")
+              | +45 00 00 00 00
