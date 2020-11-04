@@ -20,7 +20,7 @@ exports.fetchNodes = async (req, res, next) => {
 };
 
 exports.getNodes = async (req, res) => {
-  res.render('nodes', {title: 'Your nodes', nodes: req.nodes});
+  res.render('nodes', {title: 'Your nodes', nodes: req.nodes, path: '/nodes'});
 };
 
 exports.editNode = async (req, res) => {
