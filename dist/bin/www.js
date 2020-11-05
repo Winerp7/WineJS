@@ -27,7 +27,7 @@ mongoose_1.default.connect(process.env.MONGO_CONNECTION_STRING, {
 });
 mongoose_1.default.Promise = global.Promise; // lets mongoose use ES6 promises
 // import all of our models
-require('../models/userModel');
+require("../models/userModel");
 require("../models/nodeModel");
 /**
  * Module dependencies.

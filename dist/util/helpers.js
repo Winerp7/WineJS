@@ -8,7 +8,4 @@ exports.dump = void 0;
 // Write: 
 // pre= helper.dump(locals)
 // in a template and it will show all locals available on that page
-function dump(obj) {
-    JSON.stringify(obj, null, 2);
-}
-exports.dump = dump;
+exports.dump = (obj) => JSON.stringify(obj, null, 2);
