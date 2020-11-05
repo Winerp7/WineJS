@@ -1,0 +1,113 @@
+nav(class="flex flex-row bg-teal-500 p-4 px-6")
+  div(class="flex-shrink-0 text-white mr-4")
+    img.h-10.w-auto.mr-2(src='/images/logo-white.png' alt='Wine logo')
+  div(class="w-full block flex items-center justify-between")
+    div(class="text-sm")
+      a(href="/" class="block hover:text-white ml-6" class=(path === '/' ? 'text-white' : 'text-teal-200'))
+        | Homepage
+    div(class="flex items-center")
+      a(id="signInBtn" class="cursor-pointer text-sm block text-teal-200 hover:text-white mx-6")
+        | Log in
+      // Modal begins here
+      div(id="overlay" class="bg-gray-900 bg-opacity-75 absolute inset-0 hidden justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModal" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-10") Log in to WineJS
+          div(class="mt-4 text-xs mx-4")
+            | Email
+          div(class="mt-1 text-xs mx-4")
+            input(id="sign-in-username" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | Password
+          div(class="mt-1 text-xs mx-4")
+            input(type="password" id="sign-in-password" class="w-full rounded border border-gray-700")
+          div(class="mt-5 flex justify-center text-md")
+            button(id="secondSignInBtn" class="px-5 py-1 bg-indigo-300 border rounded-lg text-gray-100 hover:border-indigo-300 hover:bg-gray-200 hover:text-indigo-300")
+              | Log in
+          div(class="text-xs flex justify-center mt-2 mb-2")
+            p Don't have an account? <a id="signUpBtn2" class="cursor-pointer text-teal-300"> Sign up</a> now!
+      // Modal ends here
+      a(id="signUpBtn" class="cursor-pointer inline-block text-sm px-4 py-2 leading-none border rounded-lg text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white")
+        | Sign up
+      // Modal begins here
+      div(id="overlaySignUp" class="bg-gray-900 bg-opacity-75 absolute inset-0 hidden justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModalSignUp" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-10") Sign up to WineJS
+          div(class="mt-4 text-xs mx-4")
+            | Name
+          div(class="mt-1 text-xs mx-4")
+            input(id="sign-in-username" class="w-full rounded border border-gray-700")
+          div(class="mt-4 text-xs mx-4")
+            | Email
+          div(class="mt-1 text-xs mx-4")
+            input(id="sign-in-username" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | Password
+          div(class="mt-1 text-xs mx-4")
+            input(type="password" id="sign-in-password" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | Repeat password
+          div(class="mt-1 text-xs mx-4")
+            input(type="password" id="sign-in-password" class="w-full rounded border border-gray-700")
+          div(class="mt-5 flex justify-center text-md")
+            button(id="secondSignUpBtn" class="px-5 py-1 bg-teal-300 border rounded-lg text-gray-100 hover:border-teal-300 hover:bg-gray-200 hover:text-teal-300")
+              | Sign up
+          div(class="text-xs flex justify-center mt-2 mb-2")
+            p Already have an account? <a id="loginBtn" class="cursor-pointer text-indigo-500"> Log in</a> now!
+      // Modal ends here
+
+script. 
+  window.addEventListener('DOMContentLoaded', () => {
+    const overlayLogIn = document.querySelector('#overlay');
+    const login = document.querySelector('#signInBtn');
+    const closeLogin = document.querySelector('#closeModal');
+    const login2 = document.querySelector('#loginBtn');
+
+
+    const overlaySignUp = document.querySelector('#overlaySignUp')
+    const closeSignUp = document.querySelector('#closeModalSignUp');
+    const signup = document.querySelector('#signUpBtn');
+    const signup2 = document.querySelector('#signUpBtn2');
+
+    // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
+    const toggleModal = () => {
+      overlay.classList.toggle('hidden');
+      overlay.classList.toggle('flex');
+    }
+
+    const toggleModal2 = () => {
+      overlaySignUp.classList.toggle('hidden');
+      overlaySignUp.classList.toggle('flex');
+      overlay.classList.toggle('hidden');
+      overlay.classList.toggle('flex');
+    }
+
+    const toggleSignUpModal = () => {
+      overlaySignUp.classList.toggle('hidden');
+      overlaySignUp.classList.toggle('flex');
+    }
+
+    const toggleSignUpModal2 = () => {
+      overlay.classList.toggle('hidden');
+      overlay.classList.toggle('flex');
+      overlaySignUp.classList.toggle('hidden');
+      overlaySignUp.classList.toggle('flex');
+    }
+
+    login.addEventListener('click', toggleModal)
+    closeLogin.addEventListener('click', toggleModal)
+    login2.addEventListener('click', toggleModal2)
+
+    signup.addEventListener('click', toggleSignUpModal)
+    closeSignUp.addEventListener('click', toggleSignUpModal)
+    signup2.addEventListener('click', toggleSignUpModal2)
+  })
