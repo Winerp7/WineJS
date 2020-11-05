@@ -17,7 +17,7 @@ router.post('/add-node', catchErrors(nodeController.createNode));
 router.post('/add-node/:id', catchErrors(nodeController.updateNode));
 router.get('/nodes',
   catchErrors(nodeController.fetchNodes),
-  catchErrors(nodeController.getNodes)
+  nodeController.getNodes
 );
 router.get('/nodes/:id/edit', catchErrors(nodeController.editNode))
 

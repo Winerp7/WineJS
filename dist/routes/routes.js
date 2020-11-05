@@ -38,6 +38,6 @@ router.get('/settings', userController.directSettings);
 router.get('/add-node', nodeController.addNode);
 router.post('/add-node', errorHandlers_1.catchErrors(nodeController.createNode));
 router.post('/add-node/:id', errorHandlers_1.catchErrors(nodeController.updateNode));
-router.get('/nodes', errorHandlers_1.catchErrors(nodeController.fetchNodes), errorHandlers_1.catchErrors(nodeController.getNodes));
+router.get('/nodes', errorHandlers_1.catchErrors(nodeController.fetchNodes), nodeController.getNodes);
 router.get('/nodes/:id/edit', errorHandlers_1.catchErrors(nodeController.editNode));
 router.get('/', landingpageController.landingpage);
