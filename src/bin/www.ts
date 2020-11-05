@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // import environment variables from our variables.env file
 require('dotenv').config({path: 'variables.env'});
+
+
+// TODO: Add prober error handler function in errorHandler.ts
+if (!process.env.MONGO_CONNECTION_STRING) {
+  throw 'Missing environment Mongo connection string! 🔥🔥';
+}
 
 // Connect to database and handle bad connections
 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
@@ -22,8 +28,8 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
 mongoose.Promise = global.Promise; // lets mongoose use ES6 promises
 
 // import all of our models
-require('../models/userModel');
-require('../models/nodeModel');
+import '../models/userModel';
+import '../models/nodeModel';
 
 /**
  * Module dependencies.
@@ -58,7 +64,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalizePort(val: string) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -78,7 +84,7 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error: { syscall: string; code: any; }) {
   if (error.syscall !== 'listen') {
     throw error;
   }

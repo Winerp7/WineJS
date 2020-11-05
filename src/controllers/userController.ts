@@ -1,0 +1,46 @@
+import mongoose from 'mongoose';
+import { Response, Request, NextFunction } from 'express';
+const User = mongoose.model('User');
+import { makeCanvas, draw } from '../util/canni';
+
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const newUser = await User.create(req.body);
+
+    res.status(201).json({
+      status: 'succes',
+      data: {
+        user: newUser
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err
+    });
+  }
+};
+
+export const directSignup = (req: Request, res: Response) => {
+  res.render('signup', { pageTitle: 'Sign up' });
+};
+
+export const directDashboard = async (req: Request, res: Response) => {
+  const Canvas = await makeCanvas();
+  const Draw = await draw();
+
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw });
+};
+
+// export function directAddDevice (req: Request, res: Response, next: NextFunction) {
+//   res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device'});
+// };
+
+export const directAddDevice = (req: Request, res: Response) => {
+  res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device' });
+};
+
+export const directSettings = (req: Request, res: Response) => {
+  res.render('settings', { pageTitle: 'Settings', path: '/settings' });
+};

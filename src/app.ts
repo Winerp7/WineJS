@@ -1,42 +1,45 @@
-const createError = require('http-errors');
-const express = require('express');
-const session = require('express-session');
-const mongoose = require('mongoose');
+import createError from 'http-errors';
+import express from 'express';
+import session from 'express-session';
+import mongoose from 'mongoose';
 const MongoStore = require('connect-mongo')(session);
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const flash = require('connect-flash');
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import flash from 'connect-flash';
 
 
 // Imports of our files
-const errorHandlers = require('./util/errorHandlers');
-
-const helpers = require('./util/helpers');
-const indexRouter = require('./routes/index');
+import * as errorHandlers from './util/errorHandlers';
+import * as helpers from './util/helpers';
+import {router} from './routes/routes';
 
 
 // Init app
 const app = express();
 
 // View engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
 // Basic setup / middleware that just makes our lives easier.
 // Mainly parsing that turns the raw request to usable properties e.g req.body or req.cookies
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // Creating static path to public folder to make it easier to work with css files and images
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
+
+// TODO: Add prober error handler function in errorHandler.ts
+if (!process.env.SECRET) {
+  throw 'Missing environment secret! 🔥🔥';
+}
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 app.use(session({
   secret: process.env.SECRET,
-  key: process.env.KEY,
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -55,7 +58,7 @@ app.use((req, res, next) => {
 // ----- All middleware goes *before* our routes -----
 
 // Our routes
-app.use('/', indexRouter);
+app.use('/', router);
 
 // ----- Error handling if non of our routes handles the request -----
 
@@ -73,29 +76,6 @@ if (app.get('env') === 'development') {
 
 // production error handler
 app.use(errorHandlers.productionErrors);
-
-
-
-
-
-//* DEFAULT ERROR HANDLiNG. STILL FIGURING OUT IF I LIKE THE NEW BETTER *//
-
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-
 
 // We export it so we can start the site in /bin/www
 module.exports = app;
