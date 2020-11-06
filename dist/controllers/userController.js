@@ -48,5 +48,5 @@ exports.directAddDevice = (req, res) => {
     res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device' });
 };
 exports.directSettings = (req, res) => {
-    res.render('settings', { pageTitle: 'Settings', path: '/settings' });
+    res.render('settings', { pageTitle: 'Settings', path: '/settings', user: {name: "Jens TypeScript Lover", mail: "jns@hello.dk", password: "password"}});
 };
