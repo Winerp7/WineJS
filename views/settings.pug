@@ -1,5 +1,148 @@
 extends _layout
 
 block content
-  | Some content on my settings page
+  div(id="settings-container" class="mx-64 border border-gray-300 rounded-lg")
+    div(class="flex flex-col profile-settings mt-6")
+      a(class="text-gray-900 text-2xl font-light mx-4") Profile
+      a(class="text-xs text-gray-600 mx-4") Change your profile settings.
+      div(id="editName" class="flex flex-row mt-4 py-2 hover:bg-gray-300 cursor-pointer")
+        div(class="w-32")
+          a(class="text-xs text-gray-700 ml-4") Name
+        div(class="")
+          a(class="text-xs text-gray-700") #{user.name}
+      // Modal begins here
+      div(id="modalName" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModalName" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-10") Change name
+          div(class="mt-2 text-xs mx-4")
+            | Name
+          div(class="mt-1 text-xs mx-4")
+            input(id="new-name" class="w-full rounded border border-gray-700")
+          div(class="mt-5 flex justify-center text-md")
+            button(id="saveNameBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
+              | Save
+          div(class="text-xs flex justify-center mt-2 mb-2")
+            <a id="cancelNameBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
+      // Modal ends here
+
+    div(class="flex flex-col login-settings my-6")
+      a(class="text-gray-900 text-2xl font-light mx-4") Login
+      a(class="text-xs text-gray-600 mx-4") Change your login settings.
+      div(id="editEmail" class="flex flex-row mt-4 py-2 hover:bg-gray-300 cursor-pointer")
+        div(class="w-32")
+          a(class="text-xs text-gray-700 ml-4") Mail
+        div(class="")
+          a(class="text-xs text-gray-700") #{user.mail}
+      // Modal begins here
+      div(id="modalEmail" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModalEmail" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-10") Change mail
+          div(class="mt-2 text-xs mx-4")
+            | Current mail
+          div(class="mt-1 text-xs mx-4")
+            input(id="old-email" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | New mail
+          div(class="mt-1 text-xs mx-4")
+            input(id="new-email" class="w-full rounded border border-gray-700")
+          div(class="mt-5 flex justify-center text-md")
+            button(id="saveEmailBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
+              | Save
+          div(class="text-xs flex justify-center mt-2 mb-2")
+            <a id="cancelEmailBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
+      // Modal ends here
+      
+      div(id="editPassword" class="flex flex-row py-2 hover:bg-gray-300 cursor-pointer")
+        div(class="w-32")
+          a(class="text-xs text-gray-700 ml-4") Password
+        div(class="")
+          a(class="text-xs text-gray-700") **********
+      // Modal begins here
+      div(id="modalPass" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+          div(class="flex text-white")
+            <svg id="closeModalPass" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          div(class="flex justify-center")
+            img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+          div(class="flex justify-center items-center")
+            h4(class="text-2xl font-light px-8") Change password
+          div(class="mt-2 text-xs mx-4")
+            | Current password
+          div(class="mt-1 text-xs mx-4")
+            input(id="old-pass" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | New password
+          div(class="mt-1 text-xs mx-4")
+            input(id="new-pass-one" class="w-full rounded border border-gray-700")
+          div(class="mt-2 text-xs mx-4")
+            | Repeat new password
+          div(class="mt-1 text-xs mx-4")
+            input(id="new-pass-two" class="w-full rounded border border-gray-700")
+          div(class="mt-5 flex justify-center text-md")
+            button(id="savePassBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
+              | Save
+          div(class="text-xs flex justify-center mt-2 mb-2")
+            <a id="cancelPassBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
+      // Modal ends here
+      
+      div(class="mt-5 flex justify-center text-sm")
+        button(id="deleteAccountBtn" class="px-4 py-1 bg-red-500 border rounded-lg text-gray-100 hover:border-red-500 hover:bg-indigo-100 hover:text-red-500")
+          | Delete account
   
+block scripts 
+  script.
+    window.addEventListener('DOMContentLoaded', () => {
+      // for editing name
+      const modalName = document.querySelector('#modalName');
+      const editName = document.querySelector('#editName');
+      const closeEditName = document.querySelector('#closeModalName');
+      const cancelEditName = document.querySelector('#cancelNameBtn');
+
+      // for editing email 
+      const modalEmail = document.querySelector('#modalEmail');
+      const editEmail = document.querySelector('#editEmail');
+      const closeEditEmail = document.querySelector('#closeModalEmail');
+      const cancelEditEmail = document.querySelector('#cancelEmailBtn');
+
+      // for editing password
+      const modalPass = document.querySelector('#modalPass');
+      const editPass = document.querySelector('#editPassword');
+      const closeEditPass = document.querySelector('#closeModalPass');
+      const cancelEditPass = document.querySelector('#cancelPassBtn');
+
+
+      // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
+      const toggleModalName = () => {
+        modalName.classList.toggle('hidden');
+      }
+
+      const toggleModalEmail = () => {
+        modalEmail.classList.toggle('hidden');
+      }
+
+      const toggleModalPass = () => {
+        modalPass.classList.toggle('hidden');
+      }
+
+      editName.addEventListener('click', toggleModalName)
+      closeEditName.addEventListener('click', toggleModalName)
+      cancelEditName.addEventListener('click', toggleModalName)
+
+      editEmail.addEventListener('click', toggleModalEmail)
+      closeEditEmail.addEventListener('click', toggleModalEmail)
+      cancelEditEmail.addEventListener('click', toggleModalEmail)
+
+      editPass.addEventListener('click', toggleModalPass)
+      closeEditPass.addEventListener('click', toggleModalPass)
+      cancelEditPass.addEventListener('click', toggleModalPass)
+    })
