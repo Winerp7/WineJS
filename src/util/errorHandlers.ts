@@ -33,7 +33,6 @@ export const notFound = (_req: Request, _res: Response, next: NextFunction) => {
 
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
-
 export const flashValidationErrors = (err: any, req: Request, res: Response, next: NextFunction) => {
   if (!err.errors) return next(err);
   // validation errors look like

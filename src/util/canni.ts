@@ -62,6 +62,7 @@ export const makeCanvas = async () => {
           }
       }
   };
+
   //const image = await canvasRenderService.renderToBuffer(configuration);
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
   //const stream = canvasRenderService.renderToStream(configuration);

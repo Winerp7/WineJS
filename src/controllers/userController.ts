@@ -33,10 +33,6 @@ export const directDashboard = async (_req: Request, res: Response) => {
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw });
 };
 
-// export function directAddDevice (req: Request, res: Response, next: NextFunction) {
-//   res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device'});
-// };
-
 export const directAddDevice = (_req: Request, res: Response) => {
   res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device' });
 };

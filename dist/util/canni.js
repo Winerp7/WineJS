@@ -69,9 +69,11 @@ exports.makeCanvas = () => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
     };
+
     //const image = await canvasRenderService.renderToBuffer(configuration);
     const dataUrl = yield canvasRenderService.renderToDataURL(configuration);
     //const stream = canvasRenderService.renderToStream(configuration);
+
     return dataUrl;
 });
 // nico example
