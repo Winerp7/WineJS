@@ -33,10 +33,10 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-exports.directSignup = (req, res) => {
+exports.directSignup = (_req, res) => {
     res.render('signup', { pageTitle: 'Sign up' });
 };
-exports.directDashboard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.directDashboard = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const Canvas = yield canni_1.makeCanvas();
     const Draw = yield canni_1.draw();
     res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw });
@@ -44,9 +44,9 @@ exports.directDashboard = (req, res) => __awaiter(void 0, void 0, void 0, functi
 // export function directAddDevice (req: Request, res: Response, next: NextFunction) {
 //   res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device'});
 // };
-exports.directAddDevice = (req, res) => {
+exports.directAddDevice = (_req, res) => {
     res.render('add-device', { pageTitle: 'Ads: Response Device', path: '/add-device' });
 };
-exports.directSettings = (req, res) => {
+exports.directSettings = (_req, res) => {
     res.render('settings', { pageTitle: 'Settings', path: '/settings' });
 };

@@ -69,12 +69,9 @@ exports.makeCanvas = () => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
     };
-    const image = yield canvasRenderService.renderToBuffer(configuration);
+    //const image = await canvasRenderService.renderToBuffer(configuration);
     const dataUrl = yield canvasRenderService.renderToDataURL(configuration);
-    const stream = canvasRenderService.renderToStream(configuration);
-    //console.log(image);
-    //console.log(dataUrl);
-    //console.log(stream);
+    //const stream = canvasRenderService.renderToStream(configuration);
     return dataUrl;
 });
 // nico example

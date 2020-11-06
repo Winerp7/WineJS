@@ -20,7 +20,7 @@ exports.createNode = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     req.flash('success', `Successfully Created ${node.name}.`);
     res.redirect('/');
 });
-exports.fetchNodes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchNodes = (req, _res, next) => __awaiter(void 0, void 0, void 0, function* () {
     req.nodes = yield nodeModel_1.Node.find();
     next();
 });

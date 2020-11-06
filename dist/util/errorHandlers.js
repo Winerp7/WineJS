@@ -19,7 +19,7 @@ exports.catchErrors = (fn) => {
 
   If we hit a route that is not found, we mark it as 404 and pass it along to the next error handler to display
 */
-exports.notFound = (req, res, next) => {
+exports.notFound = (_req, _res, next) => {
     const err = new Error('Not Found');
     // TODO: Fix so err. can have a status 404
     //err.status = 404;
@@ -43,7 +43,7 @@ exports.flashValidationErrors = (err, req, res, next) => {
 
   In development we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
 */
-exports.developmentErrors = (err, req, res, next) => {
+exports.developmentErrors = (err, _req, res, _next) => {
     err.stack = err.stack || '';
     const errorDetails = {
         message: err.message,
@@ -64,7 +64,7 @@ exports.developmentErrors = (err, req, res, next) => {
 
   No stacktraces are leaked to user
 */
-exports.productionErrors = (err, req, res, next) => {
+exports.productionErrors = (err, _req, res, _next) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
