@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
-export const landingpage = (req: Request, res: Response, next: NextFunction) => {
+export const landingpage = (_req: Request, res: Response) => {
   res.render('landingpage', { title: 'Our dope ass app', path: '/' });
 };

@@ -21,7 +21,7 @@ export const catchErrors = (fn: any) => {
 
   If we hit a route that is not found, we mark it as 404 and pass it along to the next error handler to display
 */
-export const notFound = (req: Request, res: Response, next: NextFunction) => {
+export const notFound = (_req: Request, _res: Response, next: NextFunction) => {
   const err = new Error('Not Found');
   // TODO: Fix so err. can have a status 404
   //err.status = 404;
@@ -33,7 +33,6 @@ export const notFound = (req: Request, res: Response, next: NextFunction) => {
 
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
-
 export const flashValidationErrors = (err: any, req: Request, res: Response, next: NextFunction) => {
   if (!err.errors) return next(err);
   // validation errors look like
@@ -48,7 +47,7 @@ export const flashValidationErrors = (err: any, req: Request, res: Response, nex
 
   In development we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
 */
-export const developmentErrors = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const developmentErrors = (err: any, _req: Request, res: Response, _next: NextFunction) => {
   err.stack = err.stack || '';
   const errorDetails = {
     message: err.message,
@@ -71,7 +70,7 @@ export const developmentErrors = (err: any, req: Request, res: Response, next: N
 
   No stacktraces are leaked to user
 */
-export const productionErrors = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const productionErrors = (err: any, _req: Request, res: Response, _next: NextFunction) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

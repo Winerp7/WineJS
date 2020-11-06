@@ -12,7 +12,7 @@ export const createNode = async (req: Request, res: Response) => {
   res.redirect('/');
 };
 
-export const fetchNodes = async (req: Request, res: Response, next: NextFunction) => {
+export const fetchNodes = async (req: Request, _res: Response, next: NextFunction) => {
   req.nodes = await Node.find();
   next();
 };

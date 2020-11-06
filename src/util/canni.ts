@@ -62,14 +62,10 @@ export const makeCanvas = async () => {
           }
       }
   };
-  const image = await canvasRenderService.renderToBuffer(configuration);
-  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
-  const stream = canvasRenderService.renderToStream(configuration);
 
-  //console.log(image);
-  //console.log(dataUrl);
-  //console.log(stream);
-  
+  //const image = await canvasRenderService.renderToBuffer(configuration);
+  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  //const stream = canvasRenderService.renderToStream(configuration);
 
   return dataUrl;
 };

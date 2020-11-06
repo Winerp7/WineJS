@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true
-}).then(con => {
+}).then(_con => {
   //console.log(con.connections);
   console.log('DB connection successful!');
 })
