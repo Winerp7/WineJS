@@ -38,5 +38,5 @@ export const directAddDevice = (_req: Request, res: Response) => {
 };
 
 export const directSettings = (_req: Request, res: Response) => {
-  res.render('settings', { pageTitle: 'Settings', path: '/settings' });
+  res.render('settings', { pageTitle: 'Settings', path: '/settings', user: {name: 'Eminem', mail: 'eminem@sup.com'} });
 };
