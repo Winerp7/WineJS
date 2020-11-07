@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./dist/bin/www",
     "merge": "rimraf ./dist && tsc",
     "dev:clean": "rimraf ./dist",
     "dev:build": "tsc -w",
     "dev:run": "nodemon ./dist/bin/www",
     "dev": "concurrently npm:dev:*",
-    "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css"
+    "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css",
+    "postinstall": "tsc",
+    "start": "node ./dist/bin/www"
   },
   "dependencies": {
     "autoprefixer": "^10.0.1",
