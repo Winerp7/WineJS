@@ -5,8 +5,8 @@
 // https://github.com/Automattic/node-canvas#canvastobuffer
 import { CanvasRenderService } from 'chartjs-node-canvas';
 
-const width = 400;
-const height = 400;
+const width = 250;
+const height = 250;
 // TODO: give ChartJS the correct type
 const chartCallback = (ChartJS: any) => {
 
@@ -24,7 +24,7 @@ const chartCallback = (ChartJS: any) => {
 const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
 
 
-export const makeCanvas = async () => {
+export const makeCanvasBar = async () => {
   const configuration = {
       type: 'bar',
       data: {
@@ -70,6 +70,58 @@ export const makeCanvas = async () => {
   return dataUrl;
 };
 
+// https://www.chartjs.org/docs/latest/charts/
+export const makeCanvasLine = async (ID: String, values: Array<number>, timestamps: Array<String>) => {  
+  const configuration = {
+      type: 'line',
+      data: {
+      labels: timestamps,
+      datasets: [{
+          label: ID,
+          data: values,
+          pointBackgroundColor: 'rgba(200,0,0,1)',
+          backgroundColor: [
+              'rgba(255, 0, 0, 1)', // Graph & label color
+          ]
+          /*}, {
+          label: "GreenGraph",
+          data: [0, 1, 0.3, 0.5, 2],
+          pointBackgroundColor: 'rgba(0,200,0,1)',
+          backgroundColor: [
+              'rgba(0, 255, 0, 1)', // Graph & label color
+          ]*/
+      }],
+      }
+  };
+  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  return dataUrl;
+};
+  
+  
+export const makeCanvasDoughnut = async () => {
+  const configuration = {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [10, 20, 30, 40],
+        backgroundColor: [
+          'rgba(255,0,0,1)',
+          'rgba(0,255,0,1)',
+          'rgba(0,0,255,1)',
+          'rgba(255,255,0,1)',
+        ],
+      }],
+      labels: [
+        '1st',
+        '2nd',
+        '3rd',
+        '4th',
+      ]
+    }
+  };
+  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  return dataUrl;
+};
 
 
 

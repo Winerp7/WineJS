@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Response, Request } from 'express';
 const User = mongoose.model('User');
-import { makeCanvas, draw } from '../util/canni';
+import { makeCanvasBar, makeCanvasLine, makeCanvasDoughnut, draw } from '../util/canni';
 
 
 export const createUser = async (req: Request, res: Response) => {
@@ -27,10 +27,16 @@ export const directSignup = (_req: Request, res: Response) => {
 };
 
 export const directDashboard = async (_req: Request, res: Response) => {
-  const Canvas = await makeCanvas();
-  const Draw = await draw();
+  const CanvasBar = await makeCanvasBar();
+  const CanvasLine = await makeCanvasLine(
+    'Sensor 5', 
+    [100, 10.5, 35.2, 77.7, 101.20, 140.9],
+    ['08:50', '09:00', '09:10', '09:20', '09:30', '09:40']
+  );
+  const CanvasDoughnut = await makeCanvasDoughnut();
+  // const Draw = await draw();
 
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw });
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: [CanvasBar, CanvasLine, CanvasDoughnut]});
 };
 
 export const directAddDevice = (_req: Request, res: Response) => {

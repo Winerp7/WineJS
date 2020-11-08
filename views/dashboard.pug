@@ -1,14 +1,13 @@
 extends _layout
 
 block content
-  h1 this is an awesome dashboard
-  div!= chart
-  != line
-  != pie
+  div(class="flex justify-center")
+    each graph in graphs
+      img(src="data:image/jpg;base64" + graph class="mx-10")
 
   //- used this documentation to figure it out
   //- https://github.com/Automattic/node-canvas#canvastobuffer
-  img(src="data:image/jpg;base64" + canvas)
+  //- img(src="data:image/jpg;base64" + canvas)
 
   //- already has data:image/jpg;base64 encoded, so *draw* is enough
-  img(src=draw)
+  //- img(src=draw)
