@@ -70,6 +70,7 @@ export const validateRegister = (req: Request, res: Response, next: NextFunction
   const errors = req.validationErrors();
   if (errors) {
     req.flash('error', errors.map((err: any) => err.msg));
+    // TODO: use req.body to populate the modal again, so the user don't have to refill the fields
     res.render('landingpage', { title: 'Register', body: req.body, flashes: req.flash(), showModal: 'flex' });
     return; // stop the fn from running
   }
