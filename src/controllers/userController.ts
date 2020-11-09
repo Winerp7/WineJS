@@ -20,10 +20,6 @@ export const updateSettings = async (req: Request, res: Response) => {
     throw new Error("this is bad");
   }
   let user = req.user as IUser;
-  console.log("body");
-  console.log(req.body);
-  console.log("user");
-  console.log(req.user);
 
   const updates = {
     name: req.body.name || user.name,
@@ -31,9 +27,6 @@ export const updateSettings = async (req: Request, res: Response) => {
     password: 'sabj17' // TODO: remember to do some validation on pw1 og pw2
     // TODO: Fix password, can't get user.password because it is a hash 
   };
-
-  console.log("email");
-  console.log(updates.email);
 
   //const user = req.user as IUser;
   await User.findOneAndUpdate(
