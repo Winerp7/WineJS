@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-mongoose.Promise = global.Promise;
+//mongoose.Promise = global.Promise; // test if this can be deletede and no false positives from mongo
 import slug from 'slugify';
 
 // Add the fns from mongoose document, so *this* has access to *isModified* fn
