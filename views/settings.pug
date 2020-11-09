@@ -8,8 +8,10 @@ block content
       div(id="editName" class="flex flex-row mt-4 py-2 hover:bg-gray-300 cursor-pointer")
         div(class="w-32")
           a(class="text-xs text-gray-700 ml-4") Name
-        div(class="")
+        div(class="w-64")
           a(class="text-xs text-gray-700") #{user.name}
+        div(class="pl-20 mt-2 text-gray-700")
+          <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
       // Modal begins here
       div(id="modalName" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
         div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
@@ -37,8 +39,10 @@ block content
       div(id="editEmail" class="flex flex-row mt-4 py-2 hover:bg-gray-300 cursor-pointer")
         div(class="w-32")
           a(class="text-xs text-gray-700 ml-4") Mail
-        div(class="")
+        div(class="w-64")
           a(class="text-xs text-gray-700") #{user.email}
+        div(class="pl-20 mt-2 text-gray-700")
+          <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
       // Modal begins here
       div(id="modalEmail" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
         div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
@@ -67,8 +71,10 @@ block content
       div(id="editPassword" class="flex flex-row py-2 hover:bg-gray-300 cursor-pointer")
         div(class="w-32")
           a(class="text-xs text-gray-700 ml-4") Password
-        div(class="")
+        div(class="w-64")
           a(class="text-xs text-gray-700") **********
+        div(class="pl-20 mt-2 text-gray-700")
+          <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
       // Modal begins here
       div(id="modalPass" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
         div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
