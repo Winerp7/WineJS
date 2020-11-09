@@ -4,7 +4,6 @@
 
 declare namespace Express {
   interface Request {
-    nodes: import ("../../models/nodeModel").INode[];
-    age: number;
+    nodes?: import("../../models/nodeModel").INode[];
   }
 }

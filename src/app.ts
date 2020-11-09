@@ -1,18 +1,22 @@
 //import createError from 'http-errors';
 import express from 'express';
 import session from 'express-session';
+import expressValidator from 'express-validator';
 import mongoose from 'mongoose';
 const MongoStore = require('connect-mongo')(session);
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import flash from 'connect-flash';
+import passport from 'passport';
 
 
 // Imports of our files
 import * as errorHandlers from './util/errorHandlers';
 import * as helpers from './util/helpers';
-import {router} from './routes/routes';
+import { router } from './routes/routes';
+import './util/passport'; // invokes the code in passport.ts
+import { promisify } from 'es6-promisify';
 
 
 // Init app
@@ -22,14 +26,19 @@ const app = express();
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
+// Creating static path to public folder to make it easier to work with css files and images
+app.use(express.static(path.join(__dirname, '../public')));
+
 // Basic setup / middleware that just makes our lives easier.
 // Mainly parsing that turns the raw request to usable properties e.g req.body or req.cookies
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
+app.use(expressValidator());
+// populates req.cookies with any cookies that came along with the request
 app.use(cookieParser());
-// Creating static path to public folder to make it easier to work with css files and images
-app.use(express.static(path.join(__dirname, '../public')));
+
 
 // TODO: Add prober error handler function in errorHandler.ts
 if (!process.env.SECRET) {
@@ -45,6 +54,10 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
+// Initilize passport which we use for login and authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
 // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
 app.use(flash());
 
@@ -52,6 +65,14 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.helper = helpers;
   res.locals.flashes = req.flash();
+  res.locals.user = req.user || null;
+  res.locals.currentPath = req.path;
+  next();
+});
+
+// promisify some callback based APIs
+app.use((req, _res, next) => {
+  req.login = promisify(req.login.bind(req));
   next();
 });
 

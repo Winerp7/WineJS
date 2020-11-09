@@ -3,24 +3,31 @@ const router = express.Router();
 import * as userController from '../controllers/userController';
 import * as landingpageController from '../controllers/landingpageController';
 import * as nodeController from '../controllers/nodeController';
-import { catchErrors } from '../util/errorHandlers'; 
+import * as authController from '../controllers/authController';
+import { catchErrors } from '../util/errorHandlers';
 
-router.get('/signup', userController.directSignup);
 router.get('/dashboard', catchErrors(userController.directDashboard));
-router.get('/add-device', userController.directAddDevice);
-router.post('/add-user', userController.createUser);
-router.get('/settings', userController.directSettings);
+router.get('/settings', authController.isLoggedIn, userController.settings);
+router.post('/settings', catchErrors(userController.updateSettings));
 
 
-router.get('/add-node', nodeController.addNode);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
+router.post('/register',
+  userController.validateRegister,
+  userController.register,
+  authController.login
+);
+
+router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
 router.post('/add-node', catchErrors(nodeController.createNode));
 router.post('/add-node/:id', catchErrors(nodeController.updateNode));
+router.get('/nodes/:id/edit', catchErrors(nodeController.editNode));
 router.get('/nodes',
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
-router.get('/nodes/:id/edit', catchErrors(nodeController.editNode))
 
-router.get('/', landingpageController.landingpage); 
+router.get('/', landingpageController.landingpage);
 
 export { router };
