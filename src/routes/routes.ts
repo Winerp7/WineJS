@@ -6,7 +6,7 @@ import * as nodeController from '../controllers/nodeController';
 import * as authController from '../controllers/authController';
 import { catchErrors } from '../util/errorHandlers';
 
-router.get('/dashboard', catchErrors(userController.directDashboard));
+router.get('/dashboard', authController.isLoggedIn, catchErrors(userController.directDashboard));
 router.get('/settings', authController.isLoggedIn, userController.settings);
 router.post('/settings', catchErrors(userController.updateSettings));
 
@@ -24,6 +24,7 @@ router.post('/add-node', catchErrors(nodeController.createNode));
 router.post('/add-node/:id', catchErrors(nodeController.updateNode));
 router.get('/nodes/:id/edit', catchErrors(nodeController.editNode));
 router.get('/nodes',
+  authController.isLoggedIn,
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
