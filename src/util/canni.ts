@@ -24,80 +24,68 @@ const chartCallback = (ChartJS: any) => {
 const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
 
 
-export const makeCanvasBar = async () => {
+export const makeCanvasBar = async (title: string, values: Array<number>, labels: Array<string>) => {
   const configuration = {
       type: 'bar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: labels,
           datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
+              label: title,
+              data: values,
+              backgroundColor: 'rgba(93, 188, 210, 0.5)',
+              borderColor: 'rgba(93, 188, 210, 1)',
               borderWidth: 1
           }]
       },
       options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true,
-                      callback: (value: string) => '$' + value
-                  }
-              }]
+        legend: {
+          labels: {
+            boxWidth: 0
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
   };
-
   //const image = await canvasRenderService.renderToBuffer(configuration);
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
   //const stream = canvasRenderService.renderToStream(configuration);
-
   return dataUrl;
 };
 
 // https://www.chartjs.org/docs/latest/charts/
-export const makeCanvasLine = async (ID: String, values: Array<number>, timestamps: Array<String>) => {  
+export const makeCanvasLine = async (title: string, values: Array<number>, timestamps: Array<string>) => {    
   const configuration = {
       type: 'line',
       data: {
-      labels: timestamps,
-      datasets: [{
-          label: ID,
-          data: values,
-          pointBackgroundColor: 'rgba(200,0,0,1)',
-          backgroundColor: [
-              'rgba(255, 0, 0, 1)', // Graph & label color
-          ]
-          /*}, {
-          label: "GreenGraph",
-          data: [0, 1, 0.3, 0.5, 2],
-          pointBackgroundColor: 'rgba(0,200,0,1)',
-          backgroundColor: [
-              'rgba(0, 255, 0, 1)', // Graph & label color
-          ]*/
-      }],
+          labels: timestamps,
+          datasets: [{
+              label: title,
+              data: values,
+              fill: false,
+              pointBackgroundColor: 'rgba(93, 188, 210, 1)',
+              borderColor: [
+                  'rgba(93, 188, 210, 1)',
+              ]
+          }],
+      },
+      options: {
+        legend: {
+          labels: {
+            boxWidth: 0
+          }
+        }
       }
   };
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
   return dataUrl;
 };
-  
-  
+
 export const makeCanvasDoughnut = async () => {
   const configuration = {
     type: 'doughnut',

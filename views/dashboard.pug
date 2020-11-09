@@ -1,9 +1,13 @@
 extends _layout
 
 block content
-  div(class="flex justify-center")
+  div
+    p There should be some filters here!
+  div(class="justify-center flex flex-wrap")
     each graph in graphs
-      img(src="data:image/jpg;base64" + graph class="mx-10")
+      img(src="data:image/jpg;base64" + graph class="mx-6 my-2")
+  div
+    p There should be some tables here!
 
   //- used this documentation to figure it out
   //- https://github.com/Automattic/node-canvas#canvastobuffer
