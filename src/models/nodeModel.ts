@@ -6,7 +6,9 @@ import slug from 'slugify';
 export interface INode extends Document {
   nodeID: string;
   name: string;
+  isMaster: boolean;
   status: string;
+  sensors: string[];
   slug: string;
 }
 
@@ -22,12 +24,15 @@ const nodeSchema = new mongoose.Schema({
     default: 'New Node',
     trim: true
   },
+  isMaster: {
+    type: Boolean
+  },
   status: {
     type: String,
     default: 'Is this thing on?'
   },
+  sensors: [String], // TODO: Change to type of sensors
   slug: String,
-  sensors: [String]
 });
 
 nodeSchema.pre('save', function (this: INode, next) {
