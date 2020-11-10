@@ -32,6 +32,11 @@ const nodeSchema = new mongoose.Schema({
     default: 'Is this thing on?'
   },
   sensors: [String], // TODO: Change to type of sensors
+  sensorData: [{
+    timestamp: String,
+    value: Number,
+    sensorID: String
+  }],
   slug: String,
 });
 
