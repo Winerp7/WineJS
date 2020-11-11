@@ -24,14 +24,14 @@ const chartCallback = (ChartJS: any) => {
 const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
 
 
-export const makeCanvasBar = async (title: string, values: Array<number>, labels: Array<string>) => {
+export const makeCanvasBar = async (title: string, xValues: Array<string>, yValues: Array<number>) => {
   const configuration = {
       type: 'bar',
       data: {
-          labels: labels,
+          labels: xValues,
           datasets: [{
               label: title,
-              data: values,
+              data: yValues,
               backgroundColor: 'rgba(93, 188, 210, 0.5)',
               borderColor: 'rgba(93, 188, 210, 1)',
               borderWidth: 1
@@ -59,14 +59,14 @@ export const makeCanvasBar = async (title: string, values: Array<number>, labels
 };
 
 // https://www.chartjs.org/docs/latest/charts/
-export const makeCanvasLine = async (title: string, values: Array<number>, timestamps: Array<string>) => {    
+export const makeCanvasLine = async (title: string, xValues: Array<string>, yValues: Array<number>) => {    
   const configuration = {
       type: 'line',
       data: {
-          labels: timestamps,
+          labels: xValues,
           datasets: [{
               label: title,
-              data: values,
+              data: yValues,
               fill: false,
               pointBackgroundColor: 'rgba(93, 188, 210, 1)',
               borderColor: [
