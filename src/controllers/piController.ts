@@ -9,7 +9,8 @@ export const updateSensorData = async (req: Request, res: Response) => {
   console.log("Status ", req.body.status);
 
   const { isMaster, status } = req.body;
-  const updates = Object.entries({ isMaster, status }).filter(isData => isData);
+  const hej = { status };
+  const updates = Object.entries({ isMaster, status }).filter(newData => newData);
   const result = {};
   Object.assign(result, updates);
   console.log('res ', result);
@@ -18,7 +19,7 @@ export const updateSensorData = async (req: Request, res: Response) => {
   const node = await Node.findOneAndUpdate(
     { _id: req.params.id },
     {
-      $set: updates,
+      $set: hej,
       $push: { sensorData: req.body.sensorData }
     },
     { new: true }
