@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Node } from "../models/nodeModel";
 
 export const initNode = async (req: Request, res: Response) => {
@@ -28,27 +28,18 @@ export const updateSensorData = async (req: Request, res: Response) => {
   }
 };
 
+// Updates a node's status and updateStatus property
+// If a node is *not* found it will create a new node
 export const updateStatus = async (req: Request, res: Response) => {
-
-  console.log("booty :P :P :P ", req.body);
-  console.log("hmmmmm");
-  console.log(req.body.status, req.body.updateStatus);
-
   const node = await Node.findOneAndUpdate(
-    { nodeID: req.body.nodeID },
+    { nodeID: req.params.id },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-    { upsert: true, new: true }
+    { upsert: true }
   );
 
-  console.log("THIS SUCKS");
-  console.log("empty node: ", node);
-
-  // if (!node) {
-  //   //initNode;
-  //   res.sendStatus(404).send('Buhu - no such node 👎');
-
-  // } else {
-  //   res.status(200).send('The node has been updated 👯‍♀️');
-  // }
-
+  if (!node) {
+    res.status(200).send('A new node has been created 👀');
+  } else {
+    res.status(200).send('The node has been updated 👯‍♀');
+  }
 };
