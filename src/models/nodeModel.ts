@@ -26,7 +26,8 @@ const nodeSchema = new mongoose.Schema({
     trim: true
   },
   isMaster: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   status: {
     type: String,
