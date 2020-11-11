@@ -7,7 +7,7 @@ import * as authController from '../controllers/authController';
 import { catchErrors } from '../util/errorHandlers';
 
 
-router.get('/dashboard', authController.isLoggedIn, catchErrors(userController.directDashboard));
+router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard)); 
 router.get('/settings', authController.isLoggedIn, userController.settings);
 router.post('/settings', catchErrors(userController.updateSettings));
 

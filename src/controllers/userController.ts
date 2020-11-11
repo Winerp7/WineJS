@@ -4,11 +4,11 @@ import { makeCanvas, draw } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
 
-export const directDashboard = async (_req: Request, res: Response) => {
+export const directDashboard = async (req: Request, res: Response) => {
   const Canvas = await makeCanvas();
   const Draw = await draw();
 
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw });
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw, nodes: req.nodes });
 };
 
 export const settings = (_req: Request, res: Response) => {
