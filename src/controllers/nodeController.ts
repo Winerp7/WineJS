@@ -35,7 +35,7 @@ export const editNode = async (req: Request, res: Response) => {
 export const updateNode = async (req: Request, res: Response) => {
   console.log(req.body)
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true, // retuns the new node instead of the old one
+    new: true, // returns the new node instead of the old one
     runValidators: true // runs the validators to ensure there is stil name etc.
   }).exec();
 
