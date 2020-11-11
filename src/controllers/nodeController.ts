@@ -21,6 +21,7 @@ export const getNodes = (req: Request, res: Response) => {
   res.render('nodes', { title: 'Your nodes', nodes: req.nodes });
 };
 
+// Finds a specific node based on its unique _id from mongoDB
 export const editNode = async (req: Request, res: Response) => {
   const node = await Node.findOne({ _id: req.params.id });
   if (!node) {
@@ -30,6 +31,7 @@ export const editNode = async (req: Request, res: Response) => {
   }
 };
 
+// Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // retuns the new node instead of the old one

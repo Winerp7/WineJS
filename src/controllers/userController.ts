@@ -4,7 +4,7 @@ import { makeCanvasBar, makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
 
-export const directDashboard = async (_req: Request, res: Response) => {
+export const directDashboard = async (req: Request, res: Response) => {
   let graphs: Array<string> = [];
 
   graphs.push(await makeCanvasBar(
@@ -24,7 +24,7 @@ export const directDashboard = async (_req: Request, res: Response) => {
   ));
   // graphs.push(await makeCanvasDoughnut());
 
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs});
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes });
 };
 
 export const settings = (_req: Request, res: Response) => {

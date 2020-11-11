@@ -6,12 +6,25 @@ block content
   div(class="justify-center flex flex-wrap")
     each graph in graphs
       img(src="data:image/jpg;base64" + graph class="mx-6 my-2")
-  div
-    p There should be some tables here!
-
-  //- used this documentation to figure it out
-  //- https://github.com/Automattic/node-canvas#canvastobuffer
-  //- img(src="data:image/jpg;base64" + canvas)
-
-  //- already has data:image/jpg;base64 encoded, so *draw* is enough
-  //- img(src=draw)
+  //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
+  a(class="text-3xl") Devices
+  table(class="table-auto border-4 rounded")
+    thead
+      tr
+        th(class="px-4 py-2")
+          | Name
+        th(class="px-4 py-2")
+          | ID
+        th(class="px-4 py-2")
+          | Status
+          
+    body
+      each node in nodes
+        tr
+          td(class="border px-4 py-2") #{node.name}
+          td(class="border px-4 py-2") #{node.nodeID}
+          td(class="border px-4 py-2")
+            if node.status == "Online"
+              span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800") #{node.status}
+            else
+              span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
