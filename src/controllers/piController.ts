@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { Node } from "../models/nodeModel";
 
 export const initNode = async (req: Request, res: Response) => {
@@ -28,15 +28,15 @@ export const updateSensorData = async (req: Request, res: Response) => {
   }
 };
 
-export const updateStatus = async (req: Request, res: Response) => {
+export const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
   const node = await Node.findOneAndUpdate(
     { _id: req.params.id },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
     { new: true },
     (error, doc) => {
       if (error) {
-        console.log('💩💩💩💩💩: ', error);
-
+        console.log('💩💩💩💩💩: ');
+        next();
       } else {
         console.log("massive success 👏👏👏👏👏👏👏👏👏");
       }
@@ -44,6 +44,7 @@ export const updateStatus = async (req: Request, res: Response) => {
       // doc: the document before updates are applied if `new: false`, or after updates if `new = true`
     }
   ).exec();
+  console.log("Got here");
 
   console.log("empty node: ", node);
 
