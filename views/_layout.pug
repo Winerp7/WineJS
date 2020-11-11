@@ -18,7 +18,10 @@ html
 
   body(class="flex flex-col min-h-screen bg-indigo-100")
     block header
-      include _header-landing
+      if user
+        include _header
+      else
+        include _header-landing
 
     // Messages to be used for confirmation of user actions, e.g. when signing up
     // the user should receive message in browser saying "Succesfully created user X" 
