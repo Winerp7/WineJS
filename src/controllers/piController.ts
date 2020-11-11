@@ -35,7 +35,7 @@ export const updateStatus = async (req: Request, res: Response) => {
   console.log(req.body.status, req.body.updateStatus);
 
   const node = await Node.findOneAndUpdate(
-    { nodeID: 'jens123' },
+    { nodeID: req.body.nodeID },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
     { upsert: true, new: true }
   );
