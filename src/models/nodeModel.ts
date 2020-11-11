@@ -16,12 +16,10 @@ export interface INode extends Document {
 const nodeSchema = new mongoose.Schema({
   nodeID: {
     type: String,
-    required: 'A node must have an ID',
     unique: true
   },
   name: {
     type: String,
-    required: 'A node must have a name',
     default: 'New Node',
     trim: true
   },

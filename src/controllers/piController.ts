@@ -29,45 +29,26 @@ export const updateSensorData = async (req: Request, res: Response) => {
 };
 
 export const updateStatus = async (req: Request, res: Response) => {
+
+  console.log("booty :P :P :P ", req.body);
+  console.log("hmmmmm");
+  console.log(req.body.status, req.body.updateStatus);
+
   const node = await Node.findOneAndUpdate(
-    { _id: req.params.id },
+    { nodeID: 'jens123' },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-    { new: true, upsert: true },
-    (error) => {
-      if (error) {
-        console.log('💩💩💩💩💩: ', error);
+    { upsert: true, new: true }
+  );
 
-      } else {
-        console.log("massive success 👏👏👏👏👏👏👏👏👏");
-      }
-      // error: any errors that occurred
-      // doc: the document before updates are applied if `new: false`, or after updates if `new = true`
-    }
-  ).exec();
-
-  // async function getTeamById(id) {
-  //   if (!mongoose.Types.ObjectId.isValid(id)) {
-  //     // handle bad id
-  //   }
-  //   try {
-  //     const team = await Team.findById(id);
-  //     if (!team) {
-  //       // no team with such id, error handling code
-  //     }
-  //     // team was obtained, rest of the code
-  //   } catch (error) {
-  //     // handle query error
-  //   }
-  // }
-
+  console.log("THIS SUCKS");
   console.log("empty node: ", node);
 
-  if (!node) {
-    //initNode;
-    res.sendStatus(404).send('Buhu - no such node 👎');
+  // if (!node) {
+  //   //initNode;
+  //   res.sendStatus(404).send('Buhu - no such node 👎');
 
-  } else {
-    res.status(200).send('The node has been updated 👯‍♀️');
-  }
+  // } else {
+  //   res.status(200).send('The node has been updated 👯‍♀️');
+  // }
 
 };
