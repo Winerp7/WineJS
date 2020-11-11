@@ -1,18 +1,45 @@
 extends _layout
 
 block content
-  div
-    p There should be some filters here!
+  div(class="flex")
+    button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
+      | Change graphs
+      <svg class="fill-current h-4 w-4 mt-1 ml-1 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+    // Dropdown menu starts here
+    div(class="hidden z-0 absolute text-gray-900 bg-gray-100 flex flex-col rounded-lg mt-10 text-sm p-2 w-auto" id="dropdownGraphs")
+      //TODO: These options should come from somewhere...
+      div(class="hover:bg-indigo-100 rounded px-2 py-1")
+        input(type="checkbox" id="checkbox1")
+        label(for="checkbox1" class="px-2")
+          | Temperatures
+      div(class="hover:bg-indigo-100 rounded px-2 py-1")
+        input(type="checkbox" id="checkbox2")
+        label(for="checkbox2" class="px-2")
+          | Option 2
+      div(class="hover:bg-indigo-100 rounded px-2 py-1")
+        input(type="checkbox" id="checkbox3")
+        label(for="checkbox3" class="px-2")
+          | Option 3
+      div(class="hover:bg-indigo-100 rounded px-2 py-1")
+        input(type="checkbox" id="checkbox4")
+        label(for="checkbox4" class="px-2")
+          | Option 4
+      div(class="hover:bg-indigo-100 rounded px-2 py-1")
+        input(type="checkbox" id="checkbox5")
+        label(for="checkbox5" class="px-2")
+          | Yet another option
+  //- Graphs are displayed here
   div(class="justify-center flex flex-wrap")
     each graph in graphs
       img(src="data:image/jpg;base64" + graph class="mx-6 my-2")
+      
   //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
   a(class="text-3xl") Devices
   table(class="table-auto border-4 rounded")
     thead
       tr
         th(class="px-4 py-2")
-          | Name
+          | Name  
         th(class="px-4 py-2")
           | ID
         th(class="px-4 py-2")
@@ -28,3 +55,13 @@ block content
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800") #{node.status}
             else
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
+
+  script. 
+    window.addEventListener('DOMContentLoaded', () => {
+      const graphsBtn = document.querySelector('#graphsBtn'); 
+      const dropdownGraphs = document.querySelector('#dropdownGraphs'); 
+
+      graphsBtn.addEventListener('click', () => {
+        dropdownGraphs.classList.toggle('hidden');
+      })
+    })

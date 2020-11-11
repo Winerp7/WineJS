@@ -7,6 +7,19 @@ import { promisify } from 'es6-promisify';
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: Array<string> = [];
 
+  if (req.nodes) {
+    console.log("Hello");
+
+    // async/await doesn't seem to work with forEach =(
+    for (let index: number = 0; index < req.nodes.length; index++) {
+      graphs.push(await makeCanvasLine(
+        req.nodes[index].name,
+        ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
+        [5, -2, 1, 0, 4, -1],
+      ));
+    }
+  }
+/*
   graphs.push(await makeCanvasBar(
     'Temperature (Celsius)',
     ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
@@ -21,8 +34,7 @@ export const directDashboard = async (req: Request, res: Response) => {
     'Sensor 11', 
     ['13:30', '13:40', '13:50', '14:00', '14:10', '14:20'],
     [78, 27, 82, 35, 40, 101],
-  ));
-  // graphs.push(await makeCanvasDoughnut());
+  ));*/
 
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes });
 };
