@@ -33,6 +33,10 @@ const nodeSchema = new mongoose.Schema({
     type: String,
     default: 'Is this thing on?'
   },
+  updateStatus: {
+    type: String,
+    default: 'Updated'
+  },
   sensors: [String], // TODO: Change to type of sensors
   sensorData: [{
     timestamp: String,

@@ -32,7 +32,7 @@ router.get('/nodes',
 );
 
 router.post('/pi/updateSensorData/:id', piController.updateSensorData);
-router.post('/pi/initMaster', piController.initMaster);
+router.post('/pi/initNode', piController.initNode);
 
 router.get('/', landingpageController.landingpage);
 
