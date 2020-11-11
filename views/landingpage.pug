@@ -1,17 +1,43 @@
 extends _layout
 
 block content 
-  div(class="")
+  div(class="flex flex-col items-center")
     p(class="text-6xl font-bold tracking-wide text-gray-500") 
      | About this project<span class="text-teal-300">.</span>
-    div(class="my-4")
-      p(class="text-sm")
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-        | sed do eiusmod tempor incididunt ut labore et dolore magna 
-        | aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-        | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-        | dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-        | nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-        | culpa qui officia deserunt mollit anim id est laborum.
-    div(class="")
-      p ...
+    p(class="text-sm")
+      | Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+      | sed do eiusmod tempor incididunt ut labore et dolore magna 
+      | aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+      | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+      | dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+      | nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+      | culpa qui officia deserunt mollit anim id est laborum.
+    div(class="p-20")
+      video(class="text-center rounded-lg", width='920', height='840', controls)
+        source(src='/videos/video1.mp4', type='video/mp4')
+    div(class="flex flex-row")
+      div(class="flex flex-row max-w-md mx-4")
+        img(class="self-start pt-4 mx-2" src='/images/chart.svg' alt='Wine logo')
+        div(class="flex flex-col")
+          div(class="text-xl mb-1") DATA MANAGEMENT
+          div(class="") 
+            | Data collected in a network can be managed without trouble through WineJS. Multiple graphs and charts
+            | are build-in and ready to display user-selected sensor data. Its also
+            | possible to download the data.
+      div(class="flex flex-row max-w-md mx-4")
+        img(class="self-start pt-4 mx-2" src='/images/monitor.svg' alt='Wine logo')
+        div(class="flex flex-col")
+          div(class="text-xl mb-1") WEB APPLICATION
+          div(class="") 
+            | WineJS offers a web application ready to use from the start. Through this application, multiple feature
+            | resides such as easy deployment of an IoT system build on mesh technology, editing nodes in the network 
+            | and adding new functionalities to the nodes.
+      div(class="flex flex-row max-w-md mx-4")
+        img(class="self-start pt-4 mx-2" src='/images/rss.svg' alt='Wine logo')
+        div(class="flex flex-col")
+          div(class="text-xl mb-1") MESH NETWORK
+          div(class="") 
+            | Constructing an IoT system based on mesh technology has never been easier with WineJS. This framework uses
+            | an advanced mesh network library, capable of self-healing, self-configuring
+            | and other comprehensive features. 
+
