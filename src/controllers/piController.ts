@@ -16,3 +16,14 @@ export const updateSensorData = async (req: Request, res: Response) => {
     res.status(200).send('The node has been updated 👯‍♀️');
   }
 };
+
+export const initMaster = async (req: Request, res: Response) => {
+  const node = await (new Node(req.body)).save();
+  console.log(node);
+  if (!node) {
+    // TODO: Add proper handling
+    res.sendStatus(404).send('Sorry mate - thats not a node 👎');
+  } else {
+    res.status(200).send('A master node has been created 👯‍♀️');
+  }
+}
