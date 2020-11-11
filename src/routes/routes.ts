@@ -4,6 +4,7 @@ import * as userController from '../controllers/userController';
 import * as landingpageController from '../controllers/landingpageController';
 import * as nodeController from '../controllers/nodeController';
 import * as authController from '../controllers/authController';
+import * as piController from '../controllers/piController';
 import { catchErrors } from '../util/errorHandlers';
 
 
@@ -29,6 +30,8 @@ router.get('/nodes',
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
+
+router.post('/pi/updateSensorData/:id', piController.updateSensorData);
 
 router.get('/', landingpageController.landingpage);
 
