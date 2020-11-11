@@ -35,7 +35,7 @@ export const updateStatus = async (req: Request, res: Response) => {
     { new: true }
   ).exec();
 
-    console.log("empty node: ", node);
+  console.log("empty node: ", node);
 
   if (!node) {
     //initNode;
