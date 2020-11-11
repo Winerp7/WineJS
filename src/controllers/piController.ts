@@ -32,7 +32,17 @@ export const updateStatus = async (req: Request, res: Response) => {
   const node = await Node.findOneAndUpdate(
     { _id: req.params.id },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-    { new: true }
+    { new: true },
+    (error, doc) => {
+      if (error) {
+        console.log('💩💩💩💩💩: ', error);
+
+      } else {
+        console.log("massive success 👏👏👏👏👏👏👏👏👏");
+      }
+      // error: any errors that occurred
+      // doc: the document before updates are applied if `new: false`, or after updates if `new = true`
+    }
   ).exec();
 
   console.log("empty node: ", node);
