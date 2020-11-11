@@ -32,8 +32,8 @@ export const updateStatus = async (req: Request, res: Response, next: NextFuncti
   const node = await Node.findOneAndUpdate(
     { _id: req.params.id },
     { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-    { new: true },
-    (error, doc) => {
+    { new: true, upsert: true },
+    (error) => {
       if (error) {
         console.log('💩💩💩💩💩: ');
         next();
@@ -45,6 +45,21 @@ export const updateStatus = async (req: Request, res: Response, next: NextFuncti
     }
   ).exec();
   console.log("Got here");
+
+  // async function getTeamById(id) {
+  //   if (!mongoose.Types.ObjectId.isValid(id)) {
+  //     // handle bad id
+  //   }
+  //   try {
+  //     const team = await Team.findById(id);
+  //     if (!team) {
+  //       // no team with such id, error handling code
+  //     }
+  //     // team was obtained, rest of the code
+  //   } catch (error) {
+  //     // handle query error
+  //   }
+  // }
 
   console.log("empty node: ", node);
 
