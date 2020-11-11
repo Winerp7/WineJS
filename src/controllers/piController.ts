@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { Node } from "../models/nodeModel";
 
 export const initNode = async (req: Request, res: Response) => {
