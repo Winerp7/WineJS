@@ -73,4 +73,16 @@ block content
       graphsBtn.addEventListener('click', () => {
         dropdownGraphs.classList.toggle('hidden');
       })
+
+      // Check the checkboxes if the user already has them filtered
+      const filter = "#{filter}"; // Makes a string of the filters, separated by commas
+      const splitFilter = filter.split(','); // Splits the string into an array
+      //TODO: The filters cannot contain commas when doing this. 
+      const checkboxes = document.querySelectorAll('input[type=checkbox]'); // Gets all checkboxes
+
+      //TODO: Should it check on something else than name?
+      for (var index = 0; index < checkboxes.length; index++) {
+        if (splitFilter.includes(checkboxes[index].name))
+          checkboxes[index].checked = "true";
+      }
     })
