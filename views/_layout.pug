@@ -16,7 +16,7 @@ html
     
     block styles
 
-  body(class="flex flex-col min-h-screen bg-indigo-100")
+  body(id="body" class="flex flex-col min-h-screen bg-indigo-100")
     block header
       if user
         include _header
@@ -36,9 +36,9 @@ html
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.remove()") &times;
     
-    main(class="flex-grow min-w-full")
+    main(class="flex-grow min-w-full min-h-full")
       // To edit size of "view" alter the mx and my parameters
-      div(class="mx-20 my-12 px-8 rounded-2xl")
+      div(class="mx-20 my-12 px-8")
         block content
           | This is our block content, and all HTML code should be put into a content
           | block like this one. <br> <br>
