@@ -9,7 +9,7 @@ nav(class="flex flex-row bg-teal-500 p-4 px-6 shadow-lg")
       a(id="signInBtn" class="cursor-pointer text-sm block text-teal-200 hover:text-white mx-6")
         | Log in
       // Modal begins here
-      div(id="overlay" class="bg-gray-900 bg-opacity-75 absolute inset-0 hidden justify-center items-center")
+      div(id="overlay" class="overscroll-none hidden flex z-10 bg-gray-900 bg-opacity-75 absolute inset-0 justify-center items-center")
         div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
           div(class="flex text-white")
             <svg id="closeModal" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -35,7 +35,7 @@ nav(class="flex flex-row bg-teal-500 p-4 px-6 shadow-lg")
       a(id="signUpBtn" class="cursor-pointer inline-block text-sm px-4 py-2 leading-none border rounded-lg text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white")
         | Register
       // Modal begins here
-      div(id="overlaySignUp" class=`bg-gray-900 bg-opacity-75 absolute inset-0 ${showModal || 'hidden'} justify-center items-center`)
+      div(id="overlaySignUp" class=`z-10 bg-gray-900 bg-opacity-75 absolute inset-0 ${showModal || 'hidden'} justify-center flex items-center`)
         div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
           div(class="flex text-white")
             <svg id="closeModalSignUp" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -69,11 +69,11 @@ nav(class="flex flex-row bg-teal-500 p-4 px-6 shadow-lg")
 
 script. 
   window.addEventListener('DOMContentLoaded', () => {
-    const overlayLogIn = document.querySelector('#overlay');
+    const body = document.querySelector('#body');
+    const overlay = document.querySelector('#overlay');
     const login = document.querySelector('#signInBtn');
     const closeLogin = document.querySelector('#closeModal');
     const login2 = document.querySelector('#loginBtn');
-
 
     const overlaySignUp = document.querySelector('#overlaySignUp')
     const closeSignUp = document.querySelector('#closeModalSignUp');
@@ -83,26 +83,22 @@ script.
     // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
     const toggleModal = () => {
       overlay.classList.toggle('hidden');
-      overlay.classList.toggle('flex');
+      body.classList.toggle('overflow-hidden');
     }
 
     const toggleModal2 = () => {
       overlaySignUp.classList.toggle('hidden');
-      overlaySignUp.classList.toggle('flex');
       overlay.classList.toggle('hidden');
-      overlay.classList.toggle('flex');
     }
 
     const toggleSignUpModal = () => {
       overlaySignUp.classList.toggle('hidden');
-      overlaySignUp.classList.toggle('flex');
+      body.classList.toggle('overflow-hidden');
     }
 
     const toggleSignUpModal2 = () => {
       overlay.classList.toggle('hidden');
-      overlay.classList.toggle('flex');
       overlaySignUp.classList.toggle('hidden');
-      overlaySignUp.classList.toggle('flex');
     }
 
     login.addEventListener('click', toggleModal)
