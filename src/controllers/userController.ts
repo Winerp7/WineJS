@@ -5,11 +5,10 @@ import { promisify } from 'es6-promisify';
 
 
 export const directDashboard = async (req: Request, res: Response) => {
-  let graphs: Array<string> = [];
+  let graphs: string[] = [];
+  //let sensors: string[] = [];
 
   if (req.nodes) {
-    console.log("Hello");
-
     // async/await doesn't seem to work with forEach =(
     for (let index: number = 0; index < req.nodes.length; index++) {
       graphs.push(await makeCanvasLine(
@@ -18,25 +17,40 @@ export const directDashboard = async (req: Request, res: Response) => {
         [5, -2, 1, 0, 4, -1],
       ));
     }
+
+    /*for (let index: number = 0; index < req.nodes.length; index++) {
+      sensors = sensors.concat(req.nodes[index].sensors);
+    }
+
+    console.log('Sensors: ' + sensors);*/
   }
-/*
-  graphs.push(await makeCanvasBar(
-    'Temperature (Celsius)',
-    ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
-    [5, -2, 1, 0, 4, -1],
-  ));
-  graphs.push(await makeCanvasLine(
-    'Sensor 5', 
-    ['08:50', '09:00', '09:10', '09:20', '09:30', '09:40'],
-    [100, 10.5, 35.2, 77.7, 101.20, 140.9],
-  ));
-  graphs.push(await makeCanvasLine(
-    'Sensor 11', 
-    ['13:30', '13:40', '13:50', '14:00', '14:10', '14:20'],
-    [78, 27, 82, 35, 40, 101],
-  ));*/
 
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes });
+};
+
+export const updateFilters = async (req: Request, res: Response) => {
+  if (!req.user) {
+    throw new Error("this is bad");
+  }
+  let user = req.user as IUser;
+
+  let newFilter: string[] = [];
+
+  for (var key in req.body)
+    if (req.body.hasOwnProperty(key))
+      newFilter.push(key);
+
+  const updates = {
+    filter: newFilter
+  };
+
+  await User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+  req.flash('success', 'Updated filters! 🥳');
+  res.redirect('back');
 };
 
 export const settings = (_req: Request, res: Response) => {
