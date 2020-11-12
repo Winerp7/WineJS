@@ -33,6 +33,7 @@ router.get('/nodes',
 
 router.post('/pi/updateSensorData/:id', piController.updateSensorData);
 router.post('/pi/updateStatus/:id', catchErrors(piController.updateStatus));
+router.post('/pi/updateLoad', catchErrors(piController.updateLoad));
 router.post('/pi/initNode', piController.initNode);
 
 router.get('/', landingpageController.landingpage);

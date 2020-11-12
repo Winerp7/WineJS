@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response} from 'express';
 import { Node } from "../models/nodeModel";
 
 export const initNode = async (req: Request, res: Response) => {
@@ -42,4 +42,29 @@ export const updateStatus = async (req: Request, res: Response) => {
   } else {
     res.status(200).send('The node has been updated 👯‍♀');
   }
+};
+
+export const updateLoad = async (req: Request, res: Response) => {
+  
+  console.log("Lets begin");
+  console.log(req.body.nodes);
+
+
+
+  const yousuck = true;
+  if (yousuck) {
+    const node = await Node.findOneAndUpdate(
+      { nodeID: {$in: req.body.nodes} },
+      { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
+      { upsert: true },
+      function (error) {
+        if (error) {
+          console.log("💩💩💩💩💩💩💩");
+          console.log(error);
+        }
+      }
+    );
+  }
+  
+  res.status(200).send('You are doing great buddy 👍');
 };
