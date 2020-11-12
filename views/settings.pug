@@ -26,7 +26,7 @@ block content
               div(class="mt-2 text-xs mx-4")
                 | Name
               div(class="mt-1 text-xs mx-4")
-                input(type="text" name="name" value=user.name id="new-name" class="w-full rounded border border-gray-700")
+                input(type="text" name="name" value=user.name id="new-name" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-5 flex justify-center text-md")
                 button(id="saveNameBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
                   | Save
@@ -57,11 +57,11 @@ block content
               div(class="mt-2 text-xs mx-4")
                 | Current mail
               div(class="mt-1 text-xs mx-4")
-                input(type="email" name="email" value=user.email id="old-email" class="w-full rounded border border-gray-700")
+                input(type="email" name="email" value=user.email id="old-email" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-2 text-xs mx-4")
                 | New mail
               div(class="mt-1 text-xs mx-4")
-                input(type="email" name="newEmail" id="new-email" class="w-full rounded border border-gray-700")
+                input(type="email" name="newEmail" id="new-email" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-5 flex justify-center text-md")
                 button(id="saveEmailBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
                   | Save
@@ -89,15 +89,15 @@ block content
               div(class="mt-2 text-xs mx-4")
                 | Current password
               div(class="mt-1 text-xs mx-4")
-                input(type="password" name="password" id="old-pass" class="w-full rounded border border-gray-700")
+                input(type="password" name="password" id="old-pass" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-2 text-xs mx-4")
                 | New password
               div(class="mt-1 text-xs mx-4")
-                input(type="password" name="newPasswordOne" id="new-pass-one" class="w-full rounded border border-gray-700")
+                input(type="password" name="newPasswordOne" id="new-pass-one" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-2 text-xs mx-4")
                 | Repeat new password
               div(class="mt-1 text-xs mx-4")
-                input(type="password" name="newPasswordTwo" id="new-pass-two" class="w-full rounded border border-gray-700")
+                input(type="password" name="newPasswordTwo" id="new-pass-two" class="pl-1 w-full rounded border border-gray-700")
               div(class="mt-5 flex justify-center text-md")
                 button(id="savePassBtn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
                   | Save
@@ -112,6 +112,8 @@ block content
 block scripts 
   script.
     window.addEventListener('DOMContentLoaded', () => {
+      const body = document.querySelector('#body');
+
       // for editing name
       const modalName = document.querySelector('#modalName');
       const editName = document.querySelector('#editName');
@@ -134,14 +136,17 @@ block scripts
       // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
       const toggleModalName = () => {
         modalName.classList.toggle('hidden');
+        body.classList.toggle('overflow-hidden');
       }
 
       const toggleModalEmail = () => {
         modalEmail.classList.toggle('hidden');
+        body.classList.toggle('overflow-hidden');
       }
 
       const toggleModalPass = () => {
         modalPass.classList.toggle('hidden');
+        body.classList.toggle('overflow-hidden');
       }
 
       editName.addEventListener('click', toggleModalName)
