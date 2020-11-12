@@ -1,4 +1,4 @@
-import { Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { Node } from "../models/nodeModel";
 
 export const initNode = async (req: Request, res: Response) => {
@@ -30,6 +30,7 @@ export const updateSensorData = async (req: Request, res: Response) => {
 
 // Updates a node's status and updateStatus property
 // If a node is *not* found it will create a new node
+// TODO: This might not be needed since we have updateLoad 👋👋👋👋👋👋
 export const updateStatus = async (req: Request, res: Response) => {
   const node = await Node.findOneAndUpdate(
     { nodeID: req.params.id },
@@ -44,27 +45,17 @@ export const updateStatus = async (req: Request, res: Response) => {
   }
 };
 
+// Update sensor data for all nodes at once
 export const updateLoad = async (req: Request, res: Response) => {
-  
-  console.log("Lets begin");
-  console.log(req.body.nodes);
+  let bulk = Node.collection.initializeUnorderedBulkOp();
 
+  req.body.nodes.forEach((node: { nodeID: string, status: string, updateStatus: string; }) => {
+    bulk.find({ nodeID: node.nodeID })
+      .upsert()
+      .update({ $set: { status: node.status, updateStatus: node.updateStatus } });
+  });
+  // TODO: Error handling here
+  bulk.execute();
 
-
-  const yousuck = true;
-  if (yousuck) {
-    const node = await Node.findOneAndUpdate(
-      { nodeID: {$in: req.body.nodes} },
-      { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-      { upsert: true },
-      function (error) {
-        if (error) {
-          console.log("💩💩💩💩💩💩💩");
-          console.log(error);
-        }
-      }
-    );
-  }
-  
-  res.status(200).send('You are doing great buddy 👍');
+  res.status(200).send('Your load has been recieved and handled 😏');
 };
