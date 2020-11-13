@@ -17,7 +17,9 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   margin-bottom: 2rem;
   padding: 2rem;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
   border-radius: 3px;
   display: -ms-flexbox;
