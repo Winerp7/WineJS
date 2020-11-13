@@ -3,25 +3,5 @@ include mixins/_nodeForm
 
 
 block content
-
-  
-  h2 #{title}
   +nodeForm(node)
   
-  
-  //node
-  //form(action=`/add-node/${node._id || ''}` method="POST" class="")
-    div(class="flex flex-col border rounded-lg bg-white max-w-sm")
-      div(class="text-gray-600 font-medium mx-4 my-5")
-        | ADD NODE
-      div(class="flex flex-row mb-4")
-        div(class="text-gray-600 ml-4 w-40")
-          | Node Identifier
-        div(class="text-gray-600 justify-end")
-          input(type="password" name="newPasswordTwo" id="" class="border-4 rounded-lg border-gray-200 bg-gray-200 focus:bg-white")
-      div(class="flex flex-wrap mb-4")
-        div(class="text-gray-600 ml-4 w-40")
-          | Name
-        div(class="text-gray-600")
-          input(type="password" name="newPasswordTwo" id="" class="w-full border-4 rounded-lg border-gray-200 bg-gray-200 focus:bg-white")
-        
