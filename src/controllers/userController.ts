@@ -6,8 +6,9 @@ import { promisify } from 'es6-promisify';
 
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: string[] = [];
-  //let sensors: string[] = [];
 
+  // Generate graphs
+  // TODO Should be based on the user's filters & should graph sensors, not nodes.
   if (req.nodes) {
     // async/await doesn't seem to work with forEach =(
     for (let index: number = 0; index < req.nodes.length; index++) {
