@@ -1,25 +1,54 @@
 extends _layout
 
 block content
-  h1 this is an awesome dashboard
-  div!= chart
-  != line
-  != pie
-
-  //- used this documentation to figure it out
-  //- https://github.com/Automattic/node-canvas#canvastobuffer
-  img(src="data:image/jpg;base64" + canvas)
-
-  //- already has data:image/jpg;base64 encoded, so *draw* is enough
-  img(src=draw)
-
+  div(class="flex")
+    button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
+      | Filter graphs
+      <svg class="fill-current h-4 w-4 mt-1 ml-1 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+    // Dropdown menu starts here
+    div(class="hidden z-0 absolute text-gray-900 bg-gray-100 flex flex-col rounded-lg mt-10 text-sm p-2 w-auto shadow-lg" id="dropdownGraphs")
+      // TODO: These options should come from somewhere...
+      // And the dropdown would get very long if there's a lot of sensors
+      // Maybe change this? Dunno if necessary.
+      form(action="/dashboard" method="POST")
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="temperature")
+          label(for="checkbox1" class="px-2")
+            | Temperature
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="humidity")
+          label(for="checkbox2" class="px-2")
+            | Humidity
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="sunlight")
+          label(for="checkbox3" class="px-2")
+            | Sunlight
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="checkbox4")
+          label(for="checkbox4" class="px-2")
+            | Sensor 1
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="checkbox5")
+          label(for="checkbox5" class="px-2")
+            | Sensor ..
+        div(class="hover:bg-indigo-100 rounded px-2 py-1")
+          input(type="checkbox" name="checkbox6")
+          label(for="checkbox6" class="px-2")
+            | Sensor n
+        button(type="submit" class="focus:outline-none mt-2 border border-teal-300 hover:border-teal-300 bg-teal-300 hover:bg-gray-100 rounded px-2 py-1 block w-full")
+          | Save
+  //- Graphs are displayed here
+  div(class="justify-center flex flex-wrap")
+    each graph in graphs
+      img(src="data:image/jpg;base64" + graph class="mx-6 my-2")
+      
   //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
   a(class="text-3xl") Devices
   table(class="table-auto border-4 rounded")
     thead
       tr
         th(class="px-4 py-2")
-          | Name
+          | Name  
         th(class="px-4 py-2")
           | ID
         th(class="px-4 py-2")
@@ -36,3 +65,24 @@ block content
             else
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
 
+  script. 
+    window.addEventListener('DOMContentLoaded', () => {
+      const graphsBtn = document.querySelector('#graphsBtn'); 
+      const dropdownGraphs = document.querySelector('#dropdownGraphs'); 
+
+      graphsBtn.addEventListener('click', () => {
+        dropdownGraphs.classList.toggle('hidden');
+      })
+
+      // Check the checkboxes if the user already has them filtered
+      const filter = "#{filter}"; // Makes a string of the filters, separated by commas
+      const splitFilter = filter.split(','); // Splits the string into an array
+      //TODO: The filters cannot contain commas when doing this. 
+      const checkboxes = document.querySelectorAll('input[type=checkbox]'); // Gets all checkboxes
+
+      //TODO: Should it check on something else than name?
+      for (var index = 0; index < checkboxes.length; index++) {
+        if (splitFilter.includes(checkboxes[index].name))
+          checkboxes[index].checked = "true";
+      }
+    })
