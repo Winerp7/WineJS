@@ -1,14 +1,51 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvas, draw } from '../util/canni';
+import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
 
 export const directDashboard = async (req: Request, res: Response) => {
-  const Canvas = await makeCanvas();
-  const Draw = await draw();
+  let graphs: string[] = [];
 
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', canvas: Canvas, draw: Draw, nodes: req.nodes });
+  // Generate graphs
+  // TODO Should be based on the user's filters & should graph sensors, not nodes.
+  if (req.nodes) {
+    // async/await doesn't seem to work with forEach =(
+    for (let index: number = 0; index < req.nodes.length; index++) {
+      graphs.push(await makeCanvasLine(
+        req.nodes[index].name,
+        ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
+        [5, -2, 1, 0, 4, -1],
+      ));
+    }
+  }
+  let user = req.user as IUser;
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: user.filter });
+};
+
+export const updateFilters = async (req: Request, res: Response) => {
+  if (!req.user) {
+    throw new Error("this is bad");
+  }
+  let user = req.user as IUser;
+
+  let newFilter: string[] = [];
+
+  for (var key in req.body)
+    if (req.body.hasOwnProperty(key))
+      newFilter.push(key);
+
+  const updates = {
+    filter: newFilter
+  };
+
+  await User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+  req.flash('success', 'Updated filters! 🥳');
+  res.redirect('back');
 };
 
 export const settings = (_req: Request, res: Response) => {
