@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvasBar, makeCanvasLine } from '../util/canni';
+import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
 
