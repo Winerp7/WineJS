@@ -24,8 +24,10 @@ block content
           | ID
         th(class="px-4 py-2")
           | Status
+        th(class="px-4 py-2")
+          | Sensors
           
-    body
+    tbody
       each node in nodes
         tr
           td(class="border px-4 py-2") #{node.name}
@@ -35,4 +37,8 @@ block content
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800") #{node.status}
             else
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
-
+          td(class="border px-4 py-2")
+            each sensor in node.sensors
+              | #{sensor}
+              // TODO: Needs prettyprinting
+            
