@@ -1,13 +1,22 @@
 mixin nodeForm(node = {})
   form(action=`/add-node/${node._id || ''}` method="POST" class="card")
-    label(for="nodeID") Node ID
-    input(type="text" name="nodeID", value=node.nodeID)
-    label(for="name") Name
-    input(type="text" name="name", value=node.name)
-    - const sensors = ['Temp', 'Humid', 'Sun']
-    - const chosen = node.sensors || []
-    ul.tags
-      each sensor in sensors
-        input(type="checkbox" id=sensor value=sensor name="sensors" checked=(sensors.includes(choice)))
-        label(for=sensor) #{sensor}
-    input(type="submit" value="Save ➡️" class="btn")
+     div(class="flex flex-col border rounded-lg bg-white max-w-sm")
+      div(class="text-gray-600 font-medium mx-4 my-5")
+        | ADD NODE
+      div(class="flex flex-row mb-4")
+        div(class="text-gray-600 ml-4 w-40")
+          | Node Identifier
+        div(class="text-gray-600")
+          input(type="text" name="nodeID", value=node.nodeID, class="border-4 rounded-lg border-gray-200 bg-gray-200 focus:bg-white")
+      div(class="flex flex-row mb-4")
+        div(class="text-gray-600 ml-4 w-40")
+          | Name
+        div(class="text-gray-600")
+          input(type="text" name="name" value=node.name, class="w-full border-4 rounded-lg border-gray-200 bg-gray-200 focus:bg-white")
+      div(class="flex flex-row mb-4")
+        div(class="text-gray-600 ml-4 w-40")
+            | Temperature
+        div(class="text-gray-600")
+          input(type="checkbox" id=sensor name="sensors" value=sensor, class="")
+
+        
