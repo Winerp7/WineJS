@@ -72,9 +72,9 @@ export const getFunctionality = async (req: Request, res: Response) => {
     return;
   }
 
-  // Finds the user based on username/email
+  // Finds the user based on email
   // TODO: Needs to be done differently
-  const user = await User.findOne({ username: email});
+  const user = await User.findOne({ email: email});
   if(user != null){
     let nodeUpdates: object[] = [];
     // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
