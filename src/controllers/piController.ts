@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Node } from "../models/nodeModel";
-
+import { INode, Node } from "../models/nodeModel";
+import { User } from "../models/userModel";
 export const initNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
   console.log(node);
@@ -59,3 +59,47 @@ export const updateLoad = async (req: Request, res: Response) => {
 
   res.status(200).send('Your load has been recieved and handled 😏');
 };
+
+
+// Returns the functionality for all nodes that are *Pending* for an update
+export const getFunctionality = async (req: Request, res: Response) => {
+  let email = req.body.email;
+
+  // Retrieves all nodes that are *Pending* for a new update  
+  const nodes = await Node.find({ updateStatus: 'Pending'}, 'nodeID function -_id').exec();
+  if(nodes.length === 0){
+    res.status(200).send('No nodes waiting to update');
+    return;
+  }
+
+  // Finds the user based on username/email
+  // TODO: Needs to be done differently
+  const user = await User.findOne({ username: email});
+  if(user != null){
+    let nodeUpdates: object[] = [];
+    // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
+    nodes.forEach(async (node: INode) => {
+      let func = ensure(user.functionality.find(func => func._id == node.function));
+      nodeUpdates.push({
+        nodeID: node.nodeID,
+        body: {
+          setup: func.setup,
+          loop: func.loop,
+          restart: func.restart
+        }
+      });
+    });
+    res.status(200).send(nodeUpdates);
+  } else {
+    // TODO: Needs to be changed to match the way we are gonna identify the user
+    res.status(404).send(`There is no such user: ${email}`);
+  }
+};
+
+// Throws a TypeError if the functionID does not exist in the user
+function ensure<T>(argument: T | undefined | null, message: string = 'This functionID does not exist'): T {
+  if (argument === undefined || argument === null) {
+    throw new TypeError(message);
+  }
+  return argument;
+}

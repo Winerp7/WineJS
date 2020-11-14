@@ -9,6 +9,7 @@ const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 export interface IUser extends Document {
   name: string;
   email: string;
+  functionality: { _id: string, name: string, setup: string, loop: string, description: string, restart: boolean }[];
   //password: string;
 }
 
@@ -25,7 +26,14 @@ const userSchema = new mongoose.Schema({
     lowercase: true, // Makes it easier to compare two emails if they are all lowercase
     trim: true, // Remove all white space in either end e.g. '   bent@gmail.com      '
     validate: [validator.isEmail, 'Invalid Email Address'], // Checks that email has @ and other requirements for being an email
-  },
+  }, 
+  functionality: [{
+    name: String,
+    setup: String,
+    loop: String,
+    description: String,
+    restart: Boolean
+  }],
   // password: {
   //   type: String,
   //   required: 'Please enter a password'
