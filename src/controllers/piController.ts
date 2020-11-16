@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { INode, Node } from "../models/nodeModel";
 import { User } from "../models/userModel";
-import { register } from './userController';
+
 export const initNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
   if (!node) {
