@@ -15,27 +15,74 @@ export const settings = (_req: Request, res: Response) => {
   res.render('settings', { pageTitle: 'Settings', path: '/settings' });
 };
 
-export const updateSettings = async (req: Request, res: Response) => {
+export const updateSettings = async (req: Request, res: Response, next: NextFunction) => {
+  // TODO: better error handling - maybe just send flash message instead of throwing error
   if (!req.user) {
-    throw new Error("this is bad");
+    throw new Error("Can't update settings when there is no user 🤷‍♂️");
+    // TODO: Proper error handling
   }
-  
-  let user = req.user as IUser;
-  
-  const updates = {
-    name: req.body.name || user.name,
-    email: req.body.newEmail || user.email,
-    password: 'sabj17' // TODO: remember to do some validation on pw1 og pw2
-    // TODO: Fix password, can't get user.password because it is a hash 
-  };
 
-  await User.findOneAndUpdate(
+  let user = req.user as IUser;
+
+  // const updates = {
+  //   name: req.body.name || user.name,
+  //   email: req.body.newEmail || user.email
+  //   //password: 'sabj17' // TODO: remember to do some validation on pw1 og pw2
+  //   // TODO: Fix password, can't get user.password because it is a hash 
+  // };
+
+
+  const updates = {}
+  req.body.name && Object.assign(updates, {name: req.body.name})
+  // TODO: Email validation
+  req.body.newEmail && Object.assign(updates, {email: req.body.newEmail})
+  // TODO: password validation
+
+  const updatedUser = await User.findOneAndUpdate(
     { _id: user._id },
     { $set: updates },
-    { new: true, runValidators: true, context: 'query' }
+    { new: true, runValidators: true, context: 'query' },
+    // function (err, users) {
+    //   if (err) {
+    //     console.log('Could not find a user - sorry ', err);
+    //   }
+    //   if (user) {
+    //     req.login(user, function (err) {
+    //       if (err) { return console.log("🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿", err); }
+    //       if (req.session) {
+    //         console.log("After relogin: " + req.session.passport.user);
+    //       }
+      
+    //       req.flash('success', 'Updated the profile!');
+    //       return res.redirect('back');
+    //     });
+    //   }
+    // }
   );
-  req.flash('success', 'Updated profile! 🥳');
-  res.redirect('back');
+  
+  if (!updatedUser) {
+    req.flash('error', 'Sorry could not find your user in the databse');
+    throw new Error // TODO: change to next, or other error handling
+  }
+  // ! Delete when done
+  // if (req.session) {
+  //   console.log("Before relogin: " + req.session.passport.user);
+  // }
+
+  // if you change the email relogin the user and avoid the auto logout
+  req.login(updatedUser, function (err) {
+    if (err) { return console.log("🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿", err); } //TODO: make proper error message
+    if (req.session) {
+    //  console.log("After relogin: " + req.session.passport.user);
+    }
+    req.flash('success', 'Updated the profile!');
+    return res.redirect('back');
+  });
+  
+
+  //req.flash('success', 'Updated profile! 🥳');
+  //res.redirect('back');
+
 };
 
 export const validateRegister = (req: Request, res: Response, next: NextFunction) => {
