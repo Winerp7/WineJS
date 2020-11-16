@@ -9,7 +9,7 @@ const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 export interface IUser extends Document {
   name: string;
   email: string;
-  functionality: { _id: string, name: string, setup: string, loop: string, description: string, restart: boolean }[];
+  functionality: { _id: string, name: string, setup: string, loop: string, description: string, reboot: boolean }[];
   filter: string[];
   //password: string;
 }
