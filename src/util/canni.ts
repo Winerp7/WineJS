@@ -5,8 +5,8 @@
 // https://github.com/Automattic/node-canvas#canvastobuffer
 import { CanvasRenderService } from 'chartjs-node-canvas';
 
-const width = 400;
-const height = 400;
+const width = 250;
+const height = 250;
 // TODO: give ChartJS the correct type
 const chartCallback = (ChartJS: any) => {
 
@@ -24,52 +24,92 @@ const chartCallback = (ChartJS: any) => {
 const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
 
 
-export const makeCanvas = async () => {
+export const makeCanvasBar = async (title: string, xValues: Array<string>, yValues: Array<number>) => {
   const configuration = {
       type: 'bar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: xValues,
           datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
+              label: title,
+              data: yValues,
+              backgroundColor: 'rgba(93, 188, 210, 0.5)',
+              borderColor: 'rgba(93, 188, 210, 1)',
               borderWidth: 1
           }]
       },
       options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true,
-                      callback: (value: string) => '$' + value
-                  }
-              }]
+        legend: {
+          labels: {
+            boxWidth: 0
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
   };
-
   //const image = await canvasRenderService.renderToBuffer(configuration);
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
   //const stream = canvasRenderService.renderToStream(configuration);
-
   return dataUrl;
 };
 
+// https://www.chartjs.org/docs/latest/charts/
+export const makeCanvasLine = async (title: string, xValues: Array<string>, yValues: Array<number>) => {    
+  const configuration = {
+      type: 'line',
+      data: {
+          labels: xValues,
+          datasets: [{
+              label: title,
+              data: yValues,
+              fill: false,
+              pointBackgroundColor: 'rgba(93, 188, 210, 1)',
+              borderColor: [
+                  'rgba(93, 188, 210, 1)',
+              ]
+          }],
+      },
+      options: {
+        legend: {
+          labels: {
+            boxWidth: 0
+          }
+        }
+      }
+  };
+  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  return dataUrl;
+};
+
+export const makeCanvasDoughnut = async () => {
+  const configuration = {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [10, 20, 30, 40],
+        backgroundColor: [
+          'rgba(255,0,0,1)',
+          'rgba(0,255,0,1)',
+          'rgba(0,0,255,1)',
+          'rgba(255,255,0,1)',
+        ],
+      }],
+      labels: [
+        '1st',
+        '2nd',
+        '3rd',
+        '4th',
+      ]
+    }
+  };
+  const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  return dataUrl;
+};
 
 
 

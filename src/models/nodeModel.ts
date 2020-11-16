@@ -10,6 +10,7 @@ export interface INode extends Document {
   status: string;
   sensors: string[];
   sensorData: { timestamp: string, value: number, sensorID: string }[];
+  function: string;
   slug: string;
 }
 
@@ -41,6 +42,7 @@ const nodeSchema = new mongoose.Schema({
     value: Number,
     sensorID: String
   }],
+  function: String,
   slug: String,
 });
 
