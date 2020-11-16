@@ -85,7 +85,8 @@ export const getFunctionality = async (req: Request, res: Response) => {
         body: {
           setup: func.setup,
           loop: func.loop,
-          restart: func.restart
+          reboot: func.reboot,
+          sleep: false // TODO: Wus fix
         }
       });
     });
