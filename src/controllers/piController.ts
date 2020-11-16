@@ -3,7 +3,6 @@ import { INode, Node } from "../models/nodeModel";
 import { User } from "../models/userModel";
 export const initNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
-  console.log(node);
   if (!node) {
     // TODO: Add proper handling
     res.sendStatus(404).send('Sorry mate - thats not a node 👎');
