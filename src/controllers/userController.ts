@@ -76,8 +76,9 @@ export const updateSettings = async (req: Request, res: Response) => {
   if (!req.user) {
     throw new Error("this is bad");
   }
+  
   let user = req.user as IUser;
-
+  
   const updates = {
     name: req.body.name || user.name,
     email: req.body.newEmail || user.email,
@@ -85,7 +86,6 @@ export const updateSettings = async (req: Request, res: Response) => {
     // TODO: Fix password, can't get user.password because it is a hash 
   };
 
-  //const user = req.user as IUser;
   await User.findOneAndUpdate(
     { _id: user._id },
     { $set: updates },
