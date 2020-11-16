@@ -48,6 +48,26 @@ export const updateFilters = async (req: Request, res: Response) => {
   res.redirect('back');
 };
 
+export const addFunctionality = async (req: Request, res: Response) => {
+  if (!req.user) {
+    throw new Error("this is bad");
+  }
+  let user = req.user as IUser;
+
+  const updates = {
+    setup: req.body.setup, 
+    loop: req.body.loop // TODO: remember to add "|| user.functionality.setup" and loop 
+  }; 
+
+  await User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+  req.flash('success', 'Updated functionality available for your nodes! 🥳');
+  res.redirect('back');
+};
+
 export const settings = (_req: Request, res: Response) => {
   res.render('settings', { pageTitle: 'Settings', path: '/settings' });
 };
