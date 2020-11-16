@@ -9,27 +9,32 @@ export interface INode extends Document {
   isMaster: boolean;
   status: string;
   sensors: string[];
+  sensorData: { timestamp: string, value: number, sensorID: string }[];
+  function: string;
   slug: string;
 }
 
 const nodeSchema = new mongoose.Schema({
   nodeID: {
     type: String,
-    required: 'A node must have an ID',
     unique: true
   },
   name: {
     type: String,
-    required: 'A node must have a name',
     default: 'New Node',
     trim: true
   },
   isMaster: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   status: {
     type: String,
     default: 'Is this thing on?'
+  },
+  updateStatus: {
+    type: String,
+    default: 'Updated'
   },
   sensors: [String], // TODO: Change to type of sensors
   sensorData: [{
@@ -37,6 +42,7 @@ const nodeSchema = new mongoose.Schema({
     value: Number,
     sensorID: String
   }],
+  function: String,
   slug: String,
 });
 

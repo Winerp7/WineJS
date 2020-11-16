@@ -4,6 +4,7 @@ import * as userController from '../controllers/userController';
 import * as landingpageController from '../controllers/landingpageController';
 import * as nodeController from '../controllers/nodeController';
 import * as authController from '../controllers/authController';
+import * as piController from '../controllers/piController';
 import { catchErrors } from '../util/errorHandlers';
 
 
@@ -30,6 +31,12 @@ router.get('/nodes',
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
+
+router.post('/pi/updateSensorData/:id', piController.updateSensorData);
+router.post('/pi/updateStatus/:id', catchErrors(piController.updateStatus));
+router.post('/pi/updateLoad', catchErrors(piController.updateLoad));
+router.post('/pi/initNode', piController.initNode);
+router.get('/pi/getFunctionality', catchErrors(piController.getFunctionality));
 
 router.get('/', landingpageController.landingpage);
 
