@@ -10,6 +10,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   functionality: { _id: string, name: string, setup: string, loop: string, description: string, restart: boolean }[];
+  filter: string[];
   //password: string;
 }
 
@@ -34,6 +35,9 @@ const userSchema = new mongoose.Schema({
     description: String,
     restart: Boolean
   }],
+  filter: {
+    type: [String],
+  },
   // password: {
   //   type: String,
   //   required: 'Please enter a password'
