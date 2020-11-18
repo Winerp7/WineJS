@@ -22,7 +22,7 @@ router.post('/register',
   authController.login
 );
 
-router.get('/functionality', authController.isLoggedIn, nodeController.getNodes);
+router.get('/functionality', authController.isLoggedIn, nodeController.fetchNodes, userController.directFunctionality);
 router.post('/functionality', catchErrors(userController.addFunctionality)); 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
 router.post('/add-node', catchErrors(nodeController.createNode));

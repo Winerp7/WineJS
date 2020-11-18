@@ -2,7 +2,13 @@ import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
+import { ensure } from './piController';
 
+export const directFunctionality = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+
+  res.render('functionality', {pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality, nodes: req.nodes}); 
+}
 
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: string[] = [];
@@ -53,10 +59,10 @@ export const addFunctionality = async (req: Request, res: Response) => {
     throw new Error("this is bad");
   }
   let user = req.user as IUser;
+  let func = ensure(user.functionality.find(func => func._id == "1"));
 
   const updates = {
-    setup: req.body.setup, 
-    loop: req.body.loop // TODO: remember to add "|| user.functionality.setup" and loop 
+  
   }; 
 
   await User.findOneAndUpdate(

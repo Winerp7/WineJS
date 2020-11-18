@@ -1,6 +1,11 @@
 extends _layout
 
+include mixins/_funcCard
+
 block content
-    div(class="mt-2 text-xs mx-4")
-        p(class="") setup() functionality
-        input(type="text" name="setup" id="setup" class="pl-1 w-full rounded border border-gray-700 focus:outline-none")
+	div(class="flex justify-center")
+		h2(class="text-3xl text-gray-900 mb-4 place-self-center") Functionality
+	// TODO: Make "add functionaluty" button 
+	div(class="flex flex-row flex-wrap items-center justify-evenly")
+		each func in funcs
+			+funcCard(func)
