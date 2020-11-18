@@ -4,8 +4,9 @@ mixin funcCard(func = {})
       | #{func.name}
     div(class="flex flex-row")
       div(class="w-64")
-      div(class="w-32")
-    div(class="flex flex-col items-center justify-center mb-4")
+      div(class="w-64")
+      div(class="w-48")
+    div(class="flex flex-row items-center justify-center mb-4")
       div(class="flex flex-col items-center mb-2 w-64 h-48")
         p(class="text-gray-700") Setup()
         p(class="text-xs overflow-auto") #{func.setup}
