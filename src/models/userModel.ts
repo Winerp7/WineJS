@@ -1,4 +1,4 @@
-import mongoose, { Document, PassportLocalSchema } from 'mongoose';
+import mongoose, { PassportLocalSchema, PassportLocalDocument } from 'mongoose';
 mongoose.Promise = global.Promise; // test if this can be deletede and no false positives from mongo
 import md5 from 'md5';
 import validator from 'validator';
@@ -6,12 +6,13 @@ import passportLocalMongoose from 'passport-local-mongoose';
 const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 
 // Add the fns from mongoose document, so *this* has access to *isModified* fn
-export interface IUser extends Document {
+export interface IUser extends PassportLocalDocument{
   name: string;
   email: string;
   functionality: { _id: string, name: string, setup: string, loop: string, description: string, reboot: boolean }[];
   filter: string[];
-  //password: string;
+  resetPasswordToken: string | undefined; // TODO: maybe find a better solution than undefined. Used in authController
+  resetPasswordExpires: Date | number | undefined; // TODO: maybe find a better solution than undefined. Used in authController
 }
 
 const userSchema = new mongoose.Schema({
@@ -27,7 +28,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true, // Makes it easier to compare two emails if they are all lowercase
     trim: true, // Remove all white space in either end e.g. '   bent@gmail.com      '
     validate: [validator.isEmail, 'Invalid Email Address'], // Checks that email has @ and other requirements for being an email
-  }, 
+  },
   functionality: [{
     name: String,
     setup: String,
@@ -38,10 +39,11 @@ const userSchema = new mongoose.Schema({
   filter: {
     type: [String],
   },
-  // password: {
-  //   type: String,
-  //   required: 'Please enter a password'
-  // }
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  password: {
+    type: String,
+  }
 });
 
 // for shitz and gigglez

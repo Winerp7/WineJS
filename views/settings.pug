@@ -22,7 +22,7 @@ block content
               img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Change name
-            form(action="/settings" method="POST")
+            form(action="/settings/name" method="POST")
               div(class="mt-2 text-xs mx-4")
                 | Name
               div(class="mt-1 text-xs mx-4")
@@ -53,7 +53,7 @@ block content
               img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Change mail
-            form(action="/settings" method="POST")
+            form(action="/settings/email" method="POST")
               div(class="mt-2 text-xs mx-4")
                 | Current mail
               div(class="mt-1 text-xs mx-4")
@@ -85,7 +85,7 @@ block content
               img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-8") Change password
-            form(action="/settings" method="POST")
+            form(action="/settings/password" method="POST")
               div(class="mt-2 text-xs mx-4")
                 | Current password
               div(class="mt-1 text-xs mx-4")
