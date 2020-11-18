@@ -1,8 +1,8 @@
 mixin nodeCard(node = {})
   form(action=`/nodes/${node._id}/edit` method="GET" class="flex flex-col mx-12 rounded-3xl text-xs my-4 py-6 bg-gray-100 shadow-md w-auto")
-    div(class="place-self-center text-lg mb-4") 
+    div(class="place-self-center text-lg mb-4 border-b px-4 ") 
       if (node.isMaster)
-        | Master node
+        p(class="border-gray-900") Master node
       else 
         p(class="text-gray-600") Slave node
     div(class="flex flex-row")
