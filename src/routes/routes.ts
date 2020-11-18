@@ -29,6 +29,7 @@ router.post('/account/reset/:token',
   authController.confirmResetPassword,
   catchErrors(authController.updateResetPassword)
 );
+router.get('/reset-password', userController.directResetPassword); 
 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
 router.post('/add-node', catchErrors(nodeController.createNode));
