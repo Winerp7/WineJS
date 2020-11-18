@@ -3,9 +3,6 @@ import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
-export const directResetPassword = async (_req: Request, res: Response) => {
-  res.render('reset-password', {path: '/reset-password'})
-};
 
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: string[] = [];
@@ -82,9 +79,9 @@ export const validateRegister = (req: Request, res: Response, next: NextFunction
     req.flash('error', errors.map((err: any) => err.msg));
     // TODO: use req.body to populate the modal again, so the user don't have to refill the fields
     res.render('landingpage', { title: 'Register', body: req.body, flashes: req.flash(), showModal: 'flex' });
-    return; // stop the fn from running
+    return;
   }
-  next(); // there were no errors, going next to register
+  next(); // there were no errors, going next to register 🚶‍♂️🚶‍♂️
 };
 
 export const register = async (req: Request, _res: Response, next: NextFunction) => {
@@ -103,7 +100,7 @@ export const updateSettings = async (req: Request, res: Response) => {
   if (!req.user) {
     req.flash('error', 'Sorry an error occured - you seemed to not be logged in');
     res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
-    return; // stop the fn from running
+    return;
   }
   let user = req.user as IUser;
 
@@ -214,7 +211,5 @@ export const resetPassword = async (req: Request, res: Response) => {
     req.flash('error', 'Password reset token is invalid or has expired');
     return res.redirect('/');
   }
-  // TODO: Need nico to make a reset page with two input in a form:
-  // TODO: Fields should be Password and a confirm password
   res.render('reset-password', { title: 'Reset your Password' });
 };

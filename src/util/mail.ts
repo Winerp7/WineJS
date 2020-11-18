@@ -2,12 +2,13 @@ import nodemailer from 'nodemailer';
 import pug from 'pug';
 import juice from 'juice';
 import htmlToText from 'html-to-text';
+import { IUser } from '../models/userModel';
 
 
 const transport = nodemailer.createTransport({
   // 500 mails a month to test
   //host: process.env.MAIL_HOST, 
-  //port: Number(process.env.MAIL_PORT), // Port has to be a number
+  //port: Number(process.env.MAIL_PORT),
   service: 'SendGrid',
   auth: {
     user: process.env.SENDGRID_USER,
@@ -15,22 +16,21 @@ const transport = nodemailer.createTransport({
   }
 });
 
-// ? A test function to see if email gets sent
-// transport.sendMail({
-//   to: 'sejereje@email.com',
-//   from: 'matti@test.com',
-//   subject: "Just trying things out",
-//   html: 'Hey I <strong>rock</strong> your world',
-//   text: 'Hey you **rock**'
-// });;
+type Options = {
+  user: IUser,
+  subject: string,
+  resetURL: string,
+  filename: string
+}
 
-const generateHTML = (filename: any, options = {}) => {
+// TODO: change options to type Options
+const generateHTML = (filename: string, options = {}) => {
   const html = pug.renderFile(`${__dirname}/../../views/email/${filename}.pug`, options);
   const inlined = juice(html); // Inlines all the css so it's readable in most email clients, specially the old ones
   return inlined;
 };
 
-export const send = async (options: any) => {
+export const send = async (options: Options) => {
   const html = generateHTML(options.filename, options);
   const text = htmlToText.fromString(html); // For all our sweet professors that reads their email in Emacs
 
@@ -43,5 +43,4 @@ export const send = async (options: any) => {
   };
 
   return transport.sendMail(mailOptions);
-  //const send = promisify(transport.sendMail.bind(transport));
 };

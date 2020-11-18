@@ -29,8 +29,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   res.redirect('/'); //TODO: maybe add so the login modal is open upon redirect
 };
 
-// ! *************** Test when nico has made forgot email thingy
-
+// Handle the reset password form and send email with reset link
 export const forgotPassword = async (req: Request, res: Response) => {
   // See if user with that email exists
   const user = await User.findOne({ email: req.body.email });
@@ -98,7 +97,5 @@ export const updateResetPassword = async (req: Request, res: Response) => {
     req.flash('success', '💃 Wuhu! Your password has been reset! You are now logged in!');
     return res.redirect('/');
   });
-
-  // TODO:  Still need to add the send mail part. Think nodemailer is the to go here
 
 };
