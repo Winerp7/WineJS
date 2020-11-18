@@ -52,76 +52,6 @@ export const settings = (_req: Request, res: Response) => {
   res.render('settings', { pageTitle: 'Settings', path: '/settings' });
 };
 
-export const updateSettings = async (req: Request, res: Response, next: NextFunction) => {
-  // TODO: better error handling - maybe just send flash message instead of throwing error
-  if (!req.user) {
-    throw new Error("Can't update settings when there is no user 🤷‍♂️");
-    // TODO: Proper error handling
-  }
-
-  let user = req.user as IUser;
-
-  // const updates = {
-  //   name: req.body.name || user.name,
-  //   email: req.body.newEmail || user.email
-  //   //password: 'sabj17' // TODO: remember to do some validation on pw1 og pw2
-  //   // TODO: Fix password, can't get user.password because it is a hash 
-  // };
-
-
-  const updates = {}
-  req.body.name && Object.assign(updates, {name: req.body.name})
-  // TODO: Email validation
-  req.body.newEmail && Object.assign(updates, {email: req.body.newEmail})
-  // TODO: password validation
-
-  const updatedUser = await User.findOneAndUpdate(
-    { _id: user._id },
-    { $set: updates },
-    { new: true, runValidators: true, context: 'query' },
-    // function (err, users) {
-    //   if (err) {
-    //     console.log('Could not find a user - sorry ', err);
-    //   }
-    //   if (user) {
-    //     req.login(user, function (err) {
-    //       if (err) { return console.log("🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿", err); }
-    //       if (req.session) {
-    //         console.log("After relogin: " + req.session.passport.user);
-    //       }
-      
-    //       req.flash('success', 'Updated the profile!');
-    //       return res.redirect('back');
-    //     });
-    //   }
-    // }
-  );
-  
-  if (!updatedUser) {
-    req.flash('error', 'Sorry could not find your user in the databse');
-    throw new Error // TODO: change to next, or other error handling
-  }
-  // ! Delete when done
-  // if (req.session) {
-  //   console.log("Before relogin: " + req.session.passport.user);
-  // }
-
-  // if you change the email relogin the user and avoid the auto logout
-  req.login(updatedUser, function (err) {
-    if (err) { return console.log("🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿", err); } //TODO: make proper error message
-    if (req.session) {
-    //  console.log("After relogin: " + req.session.passport.user);
-    }
-    req.flash('success', 'Updated the profile!');
-    return res.redirect('back');
-  });
-  
-
-  //req.flash('success', 'Updated profile! 🥳');
-  //res.redirect('back');
-
-};
-
 export const validateRegister = (req: Request, res: Response, next: NextFunction) => {
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply a name 🙂').notEmpty();
@@ -151,7 +81,7 @@ export const validateRegister = (req: Request, res: Response, next: NextFunction
     res.render('landingpage', { title: 'Register', body: req.body, flashes: req.flash(), showModal: 'flex' });
     return; // stop the fn from running
   }
-  next(); // there were no errors
+  next(); // there were no errors, going next to register
 };
 
 export const register = async (req: Request, _res: Response, next: NextFunction) => {
@@ -159,4 +89,115 @@ export const register = async (req: Request, _res: Response, next: NextFunction)
   const register = promisify(User.register.bind(User));
   await register(user, req.body.password);
   next(); // pass to authController.login
+};
+
+// TODO: make a validator.ts file to clean up this function.
+// TODO: each setting could have been its own midleware but that would result in a lot of boilerplate
+export const updateSettings = async (req: Request, res: Response) => {
+  const updates = {};
+
+  // Type guard that ensures a user is logged in
+  if (!req.user) {
+    req.flash('error', 'Sorry an error occured - you seemed to not be logged in');
+    res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+    return; // stop the fn from running
+  }
+  let user = req.user as IUser;
+
+  if (req.path === '/settings/name') {
+    req.checkBody('name', 'Do you not have a name? 🙂').notEmpty();
+  }
+
+  if (req.path === '/settings/email') {
+    req.checkBody('email', 'You must supply an email 💌 ').notEmpty().isEmail().equals(user.email);
+    req.checkBody('newEmail', 'You must supply a new email 💌 ').notEmpty().isEmail();
+    req.sanitizeBody('newEmail').normalizeEmail({
+      gmail_remove_dots: false
+    });
+  }
+
+  if (req.path === '/settings/password') {
+    req.checkBody('password', 'Password Cannot be Blank').notEmpty();
+    req.checkBody('newPasswordOne', 'Confirmed Password Cannot be Blank').notEmpty();
+    req.checkBody('newPasswordTwo', 'Confirmed Password Cannot be Blank').notEmpty();
+    req.checkBody('newPasswordOne', 'Woops! Your password do not match').equals(req.body.newPasswordTwo);
+  }
+
+  // Will contain an array of the errors from all the above sanitization
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('error', errors.map((err: any) => err.msg));
+    res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+    return; // stop the fn from running
+  }
+
+  // Checks if a user exist with their email, if yes then change the password
+  if (req.path === '/settings/password') {
+    const foundUser = await User.findOne({ email: user.email });
+    if (!foundUser) {
+      req.flash('error', 'Cannot find a user with your email, please try changing your password again later');
+      res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+      return; // stop the fn from running
+    }
+    await foundUser.changePassword(req.body.password, req.body.newPasswordOne);
+  }
+
+  // Checks if the email already exists in the DB
+  if (req.path === '/settings/email') {
+    const foundUser = await User.findOne({ email: req.body.newEmail });
+    if (foundUser) {
+      console.log('*********************************************');
+      req.flash('error', 'A user already has that delightful email ⛔');
+      return res.redirect('/settings');
+    }
+  }
+
+  // Adds name or email to the *updates* object
+  req.body.name && Object.assign(updates, { name: req.body.name });
+  req.body.newEmail && Object.assign(updates, { email: req.body.newEmail });
+
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+
+  // No updates has been made for either name or email
+  // But it should since it passed validation
+  if (!updatedUser) {
+    req.flash('error', 'Sorry could not find your user in the databse');
+    res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+    return; // stop the fn from running
+  }
+
+  // if you change the email relogin the user and avoid the auto logout
+  req.login(updatedUser, function (err) {
+    if (err) {
+      console.log("🍿🍿🍿🍿🍿🍿🍿🍿🍿🍿", err);
+      req.flash('error', 'Something went wrong when signing you in with your new email');
+      res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+      return;
+    } else {
+      req.flash('success', 'Updated the profile!');
+      return res.redirect('back');
+    }
+  });
+};
+
+// If token is valid direct the user to the *reset PW* form
+export const resetPassword = async (req: Request, res: Response) => {
+  // Checks if a user exists with the token from the URL and that it is not expired
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token,
+    // ! This might cause issues since resetPasswordExpires is a number in the IUser IF
+    resetPasswordExpires: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    req.flash('error', 'Password reset token is invalid or has expired');
+    return res.redirect('/');
+  }
+  // TODO: Need nico to make a reset page with two input in a form:
+  // TODO: Fields should be Password and a confirm password
+  res.render('reset', { title: 'Reset your Password' });
 };

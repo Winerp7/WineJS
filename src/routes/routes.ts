@@ -8,11 +8,11 @@ import * as piController from '../controllers/piController';
 import { catchErrors } from '../util/errorHandlers';
 
 
-router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard)); 
+router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
 router.post('/dashboard', catchErrors(userController.updateFilters));
-router.get('/settings', authController.isLoggedIn, userController.settings);
-router.post('/settings', catchErrors(userController.updateSettings));
 
+router.get('/settings', authController.isLoggedIn, userController.settings);
+router.post('/settings/:userSetting', catchErrors(userController.updateSettings));
 
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
@@ -20,6 +20,13 @@ router.post('/register',
   userController.validateRegister,
   userController.register,
   authController.login
+);
+
+router.post('/account/forgotPassword', catchErrors(authController.forgotPassword));
+router.get('/account/reset/:token', catchErrors(userController.resetPassword));
+router.post('/account/reset/:token',
+  authController.confirmResetPassword,
+  catchErrors(authController.updateResetPassword)
 );
 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
