@@ -9,6 +9,9 @@ export const directFunctionality = async (req: Request, res: Response) => {
 
   res.render('functionality', {pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality, nodes: req.nodes}); 
 }
+export const directResetPassword = async (_req: Request, res: Response) => {
+  res.render('reset-password', {path: '/reset-password'})
+};
 
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: string[] = [];
@@ -207,6 +210,20 @@ export const updateSettings = async (req: Request, res: Response) => {
       req.flash('success', 'Updated the profile!');
       return res.redirect('back');
     }
+  });
+};
+
+export const deleteAccount = async (req: Request, res: Response) => {
+  const user = req.user as IUser;
+
+  await User.deleteOne({ email: user.email }, function (err) {
+    if (err) {
+      req.flash('error', 'Sorry something went wrong when trying to delete your account');
+      res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+      return;
+    };
+    req.flash('success', 'You account is now deleted! 👋👋👋');
+    return res.redirect('/');
   });
 };
 

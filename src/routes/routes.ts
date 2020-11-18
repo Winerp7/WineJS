@@ -24,12 +24,14 @@ router.post('/register',
 
 router.get('/functionality', authController.isLoggedIn, nodeController.fetchNodes, userController.directFunctionality);
 router.post('/functionality', catchErrors(userController.addFunctionality)); 
+router.get('/account/delete', catchErrors(userController.deleteAccount))
 router.post('/account/forgotPassword', catchErrors(authController.forgotPassword));
 router.get('/account/reset/:token', catchErrors(userController.resetPassword));
 router.post('/account/reset/:token',
   authController.confirmResetPassword,
   catchErrors(authController.updateResetPassword)
 );
+router.get('/reset-password', userController.directResetPassword); 
 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
 router.post('/add-node', catchErrors(nodeController.createNode));
