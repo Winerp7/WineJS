@@ -9,7 +9,7 @@ const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 export interface IUser extends PassportLocalDocument{
   name: string;
   email: string;
-  functionality: { _id: string, name: string, setup: string, loop: string, description: string, restart: boolean; }[];
+  functionality: { _id: string, name: string, setup: string, loop: string, description: string, reboot: boolean }[];
   filter: string[];
   resetPasswordToken: string | undefined; // TODO: maybe find a better solution than undefined. Used in authController
   resetPasswordExpires: Date | number | undefined; // TODO: maybe find a better solution than undefined. Used in authController

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { INode, Node } from "../models/nodeModel";
 import { User } from "../models/userModel";
+
 export const initNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
   if (!node) {
@@ -13,18 +14,18 @@ export const initNode = async (req: Request, res: Response) => {
 
 // Updates sensor data in the DB
 export const updateSensorData = async (req: Request, res: Response) => {
-  const node = await Node.findOneAndUpdate(
-    { _id: req.params.id },
-    { $push: { sensorData: req.body.sensorData } },
-    { new: true }
-  ).exec();
-
-  if (!node) {
-    // TODO: Add proper handling
-    res.sendStatus(404).send('Sorry mate - no such node 👎');
-  } else {
-    res.status(200).send('The node has been updated 👯‍♀️');
+  for (let id in req.body){
+    const node = await Node.findOneAndUpdate(
+      { _id: id },
+      { $push: { sensorData: req.body[id] } },
+      { new: true }
+    ).exec();
+    if (!node) {
+      // TODO: Add proper handling
+      res.sendStatus(404).send('Sorry mate - no such node 👎');
+    }
   }
+  res.status(200).send('The nodes has been updated 👯‍♀️');
 };
 
 // Updates a node's status and updateStatus property
@@ -84,7 +85,8 @@ export const getFunctionality = async (req: Request, res: Response) => {
         body: {
           setup: func.setup,
           loop: func.loop,
-          restart: func.restart
+          reboot: func.reboot,
+          sleep: false // TODO: Wus fix
         }
       });
     });
