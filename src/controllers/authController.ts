@@ -2,6 +2,8 @@ import { Response, Request, NextFunction } from 'express';
 import passport from "passport";
 import { User } from "../models/userModel";
 import crypto from "crypto";
+import * as mail from "../util/mail";
+
 
 
 export const login = passport.authenticate('local', {
@@ -30,6 +32,8 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 // ! *************** Test when nico has made forgot email thingy
 
 export const forgotPassword = async (req: Request, res: Response) => {
+  console.log('This is forgot password 🔥🔥🔥🔥🔥🔥🔥');
+  console.log('Body: ', req.body);
   // See if user with that email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
@@ -46,12 +50,19 @@ export const forgotPassword = async (req: Request, res: Response) => {
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
   await user.save();
 
+  console.log("This is right before sending mail: 😊😊😊😊😊😊😊😊");
+
   // Create link with the token
   const resetURL = `http://${req.headers.host}account/reset/${user.resetPasswordToken}`;
-  console.log('resetURL:  ', resetURL);
+  mail.send({
+    user,
+    subject: 'Password Reset',
+    resetURL,
+    filename: 'password-reset'
+  });
 
   req.flash('success', 'You have been emailed a password reset link - the link is active for 1 hour');
-  res.redirect('/');
+  res.redirect('/'); //  Redirect to login page
 
 };
 
