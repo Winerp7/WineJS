@@ -216,5 +216,5 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
   // TODO: Need nico to make a reset page with two input in a form:
   // TODO: Fields should be Password and a confirm password
-  res.render('reset', { title: 'Reset your Password' });
+  res.render('reset-password', { title: 'Reset your Password' });
 };

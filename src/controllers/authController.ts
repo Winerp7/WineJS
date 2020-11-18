@@ -32,8 +32,6 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 // ! *************** Test when nico has made forgot email thingy
 
 export const forgotPassword = async (req: Request, res: Response) => {
-  console.log('This is forgot password 🔥🔥🔥🔥🔥🔥🔥');
-  console.log('Body: ', req.body);
   // See if user with that email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
@@ -50,10 +48,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
   await user.save();
 
-  console.log("This is right before sending mail: 😊😊😊😊😊😊😊😊");
-
   // Create link with the token
-  const resetURL = `http://${req.headers.host}account/reset/${user.resetPasswordToken}`;
+  const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
   mail.send({
     user,
     subject: 'Password Reset',
@@ -61,15 +57,14 @@ export const forgotPassword = async (req: Request, res: Response) => {
     filename: 'password-reset'
   });
 
-  req.flash('success', 'You have been emailed a password reset link - the link is active for 1 hour');
+  req.flash('success', 'You have been emailed a password reset link - the link is active for 1 hour. NB: It is probably in your spam folder 🙂');
   res.redirect('/'); //  Redirect to login page
-
 };
 
 // Validate the user entered the correct password in both:
 // Password and confirm-password field
 export const confirmResetPassword = (req: Request, res: Response, next: NextFunction) => {
-  if (req.body.password === req.body.newPassword) {
+  if (req.body.passwordReset === req.body.passwordResetConfirm) {
     next(); // Keep it going! 🏃‍♂️🏃‍♂️🏃‍♂️
     return;
   }
@@ -90,7 +85,7 @@ export const updateResetPassword = async (req: Request, res: Response) => {
     return res.redirect('/');
   }
 
-  await user.setPassword(req.body.password);
+  await user.setPassword(req.body.passwordReset);
   user.resetPasswordToken = undefined; // Deletes the token from DB
   user.resetPasswordExpires = undefined; // Deletes the expire time from DB
   const updatedUser = await user.save();
