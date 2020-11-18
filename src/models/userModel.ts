@@ -1,4 +1,4 @@
-import mongoose, { Document, PassportLocalSchema, PassportLocalDocument } from 'mongoose';
+import mongoose, { PassportLocalSchema, PassportLocalDocument } from 'mongoose';
 mongoose.Promise = global.Promise; // test if this can be deletede and no false positives from mongo
 import md5 from 'md5';
 import validator from 'validator';
