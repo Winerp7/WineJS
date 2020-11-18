@@ -13,9 +13,6 @@ export interface IUser extends PassportLocalDocument{
   filter: string[];
   resetPasswordToken: string | undefined; // TODO: maybe find a better solution than undefined. Used in authController
   resetPasswordExpires: Date | number | undefined; // TODO: maybe find a better solution than undefined. Used in authController
-  //password: string;
-  //changePassword (oldPassword: string, newPassword: string): Promise<PassportLocalDocument>
-  //setPassword(password: string): Promise<PassportLocalDocument>;
 }
 
 const userSchema = new mongoose.Schema({
