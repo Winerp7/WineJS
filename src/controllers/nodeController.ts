@@ -2,13 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { Node } from "../models/nodeModel";
 
 export const addNode = (req: Request, res: Response) => {
-  req.flash('success', 'some shit');
+  req.flash('success', 'some shit'); // Maybe remove? 
   res.render('edit-node', { title: 'Add Node', path: '/add-device' });
 };
 
 export const createNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
   req.flash('success', `Successfully Created ${node.name}.`);
+  // TODO This probably shouldn't redirect to landingpage? Maybe to 'view devices'-page instead
   res.redirect('/');
 };
 

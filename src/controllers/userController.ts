@@ -7,8 +7,19 @@ import { ensure } from './piController';
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
 
-  res.render('functionality', {pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality, nodes: req.nodes}); 
+  res.render('functionality', {pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality}); 
+}; 
+
+export const addFunctionality = async (_req: Request, res: Response) => {
+  res.render('add-functionality', {pageTitle: 'Add functionality', path: '/add-functionality'}); 
+}; 
+
+export const editFunctionality = async (_req: Request, res: Response) => {
+  // TODO implement such that this renders add functionality and sends the specific func with it
+
+  res.render('add-functionality', {pageTitle: "Edit functionality", path: '/add-functionality'}); 
 }
+
 export const directResetPassword = async (_req: Request, res: Response) => {
   res.render('reset-password', {path: '/reset-password'})
 };
@@ -54,26 +65,6 @@ export const updateFilters = async (req: Request, res: Response) => {
     { new: true, runValidators: true, context: 'query' }
   );
   req.flash('success', 'Updated filters! 🥳');
-  res.redirect('back');
-};
-
-export const addFunctionality = async (req: Request, res: Response) => {
-  if (!req.user) {
-    throw new Error("this is bad");
-  }
-  let user = req.user as IUser;
-  let func = ensure(user.functionality.find(func => func._id == "1"));
-
-  const updates = {
-  
-  }; 
-
-  await User.findOneAndUpdate(
-    { _id: user._id },
-    { $set: updates },
-    { new: true, runValidators: true, context: 'query' }
-  );
-  req.flash('success', 'Updated functionality available for your nodes! 🥳');
   res.redirect('back');
 };
 
