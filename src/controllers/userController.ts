@@ -184,6 +184,20 @@ export const updateSettings = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteAccount = async (req: Request, res: Response) => {
+  const user = req.user as IUser;
+
+  await User.deleteOne({ email: user.email }, function (err) {
+    if (err) {
+      req.flash('error', 'Sorry something went wrong when trying to delete your account');
+      res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
+      return;
+    };
+    req.flash('success', 'You account is now deleted! 👋👋👋');
+    return res.redirect('/');
+  });
+};
+
 // If token is valid direct the user to the *reset PW* form
 export const resetPassword = async (req: Request, res: Response) => {
   // Checks if a user exists with the token from the URL and that it is not expired
