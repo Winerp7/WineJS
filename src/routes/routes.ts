@@ -22,6 +22,7 @@ router.post('/register',
   authController.login
 );
 
+router.get('/account/delete', catchErrors(userController.deleteAccount))
 router.post('/account/forgotPassword', catchErrors(authController.forgotPassword));
 router.get('/account/reset/:token', catchErrors(userController.resetPassword));
 router.post('/account/reset/:token',

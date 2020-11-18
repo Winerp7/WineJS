@@ -105,8 +105,9 @@ block content
                 <a id="cancelPassBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
         // Modal ends here
         div(class="mt-5 flex justify-center text-sm")
-          button(id="deleteAccountBtn" class="focus:outline-none px-4 py-1 bg-red-500 border rounded-lg text-gray-100 hover:border-red-500 hover:bg-indigo-100 hover:text-red-500")
-            | Delete account
+          form(action="/account/delete" method="GET")
+            button(id="deleteAccountBtn" class="focus:outline-none px-4 py-1 bg-red-500 border rounded-lg text-gray-100 hover:border-red-500 hover:bg-indigo-100 hover:text-red-500")
+              | Delete account
   
 block scripts 
   script.
