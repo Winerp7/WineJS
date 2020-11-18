@@ -3,6 +3,9 @@ import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
+export const directResetPassword = async (_req: Request, res: Response) => {
+  res.render('reset-password', {path: '/reset-password'})
+};
 
 export const directDashboard = async (req: Request, res: Response) => {
   let graphs: string[] = [];
