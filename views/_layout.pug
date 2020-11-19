@@ -23,38 +23,20 @@ html
       else
         include _header-landing
 
-
     // Messages to be used for confirmation of user actions, e.g. when signing up
     // the user should receive message in browser saying "Succesfully created user X" 
     block messages
-      div(id="top" class="flex flex-col items-center pt-2 absolute right-1/2")
-        div(id="hideMe" class="flex flex-col border rounded-lg shadow-lg px-24 py-6")
-          div(class="flex flex-row")
-            span(class="")
-              | Lorem ipsum dolor sit amet
-            button(onClick="this.parentElement.parentElement.remove()")
-              <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
-              //<svg id="closeModal" class="float-right text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
-        //div(id="hideMe" class="flex flex-col items-center")
-          div(id="hideMe" class="flex flex-row px-24 py-6 border rounded-lg bg-white shadow-md absolute")
-            | fjfjfjfjfffff
-            div(class="float-right")
-              button.flash__remove(onClick="this.parentElement.remove()")
-                <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
-        //if locals.flashes
-          .flash-inner.inner--flashes
-            .flash-messages
-              - const categories = Object.keys(locals.flashes)
-              each category in categories
-                each message in flashes[category]
-                  
-                      
-                  //.flash(class=`flash--${category}`)
-                    p.flash__text!= message
-                    <svg id="closeModal" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    button.flash__remove(onClick="this.parentElement.remove()")
-                      <svg id="closeModal" class="self-end ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
-          
+      if locals.flashes
+        - const categories = Object.keys(locals.flashes)
+        each category in categories
+          each message in flashes[category] 
+            div(id="hideMe" class="flex flex-col m-0 justify-center items-center shadow-lg rounded-lg bg-white absolute inset-x-0 max-w-sm h-16 mt-12 mx-auto")
+              div(class="ml-auto mr-1")
+                button(onClick="this.parentElement.parentElement.remove()" class="") 
+                  <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
+              div(class="text-md mb-4")
+                | #{message}
+
     main(class="flex-grow min-w-full min-h-full")
       // To edit size of "view" alter the mx and my parameters
       div(class="mx-20 my-12 px-8")
