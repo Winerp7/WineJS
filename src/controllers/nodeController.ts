@@ -3,7 +3,7 @@ import { Node } from "../models/nodeModel";
 
 export const addNode = (req: Request, res: Response) => {
   req.flash('success', 'some shit'); // Maybe remove? 
-  res.render('edit-node', { title: 'Add Node', path: '/add-device' });
+  res.render('add-node', { title: 'Add Node', path: '/add-device' });
 };
 
 export const createNode = async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ export const editNode = async (req: Request, res: Response) => {
   if (!node) {
     console.log('here should be a proper error 🙂');
   } else {
-    res.render('edit-node', { title: `Edit ${node.name}`, node: node });
+    res.render('add-node', { title: `Edit ${node.name}`, node: node });
   }
 };
 
