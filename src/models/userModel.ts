@@ -5,7 +5,6 @@ import validator from 'validator';
 import passportLocalMongoose from 'passport-local-mongoose';
 const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 
-// Add the fns from mongoose document, so *this* has access to *isModified* fn
 export interface IUser extends PassportLocalDocument{
   name: string;
   email: string;

@@ -2,6 +2,8 @@ import { Response, Request, NextFunction } from 'express';
 import passport from "passport";
 import { User } from "../models/userModel";
 import crypto from "crypto";
+import * as mail from "../util/mail";
+
 
 
 export const login = passport.authenticate('local', {
@@ -27,16 +29,14 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   res.redirect('/'); //TODO: maybe add so the login modal is open upon redirect
 };
 
-// ! *************** Test when nico has made forgot email thingy
-
+// Handle the reset password form and send email with reset link
 export const forgotPassword = async (req: Request, res: Response) => {
   // See if user with that email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    // ? Should we give error or just say that we sent an email?
-    // This is usually bad practice because you could keep entering emails
-    // to see which emails is registered in our system. BUT do we care?
-    // Alternative: 'Success', 'A password reset has been mailed to you' 🤷‍♂️
+    // We are aware that this is bad practice because
+    // you could keep entering emails to see which emails is registered in our system.
+    // Early stage it's more helpful for the user to be informed that they entered a wrong email
     req.flash('error', 'Sorry but no account with that email exists 🙇‍♂️');
     return res.redirect('/');
   }
@@ -46,19 +46,25 @@ export const forgotPassword = async (req: Request, res: Response) => {
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
   await user.save();
 
+  console.log("Getting here 1");
   // Create link with the token
-  const resetURL = `http://${req.headers.host}account/reset/${user.resetPasswordToken}`;
-  console.log('resetURL:  ', resetURL);
+  const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+  mail.send({
+    user,
+    subject: 'Password Reset',
+    resetURL,
+    filename: 'password-reset'
+  });
 
-  req.flash('success', 'You have been emailed a password reset link - the link is active for 1 hour');
-  res.redirect('/');
-
+  console.log("Getting here 1");
+  req.flash('success', 'You have been emailed a password reset link - the link is active for 1 hour. NB: It is probably in your spam folder 🙂');
+  res.redirect('/'); //  Redirect to login page
 };
 
 // Validate the user entered the correct password in both:
 // Password and confirm-password field
 export const confirmResetPassword = (req: Request, res: Response, next: NextFunction) => {
-  if (req.body.password === req.body.newPassword) {
+  if (req.body.passwordReset === req.body.passwordResetConfirm) {
     next(); // Keep it going! 🏃‍♂️🏃‍♂️🏃‍♂️
     return;
   }
@@ -70,7 +76,6 @@ export const confirmResetPassword = (req: Request, res: Response, next: NextFunc
 export const updateResetPassword = async (req: Request, res: Response) => {
   let user = await User.findOne({
     resetPasswordToken: req.params.token,
-    // ! This might cause issues since resetPasswordExpires is a number in the IUser IF
     resetPasswordExpires: { $gt: Date.now() }
   });
 
@@ -79,7 +84,7 @@ export const updateResetPassword = async (req: Request, res: Response) => {
     return res.redirect('/');
   }
 
-  await user.setPassword(req.body.password);
+  await user.setPassword(req.body.passwordReset);
   user.resetPasswordToken = undefined; // Deletes the token from DB
   user.resetPasswordExpires = undefined; // Deletes the expire time from DB
   const updatedUser = await user.save();
@@ -92,7 +97,5 @@ export const updateResetPassword = async (req: Request, res: Response) => {
     req.flash('success', '💃 Wuhu! Your password has been reset! You are now logged in!');
     return res.redirect('/');
   });
-
-  // TODO:  Still need to add the send mail part. Think nodemailer is the to go here
 
 };
