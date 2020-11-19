@@ -2,7 +2,6 @@ import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
-import { ensure } from './piController';
 
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
@@ -14,7 +13,7 @@ export const addFunctionality = async (_req: Request, res: Response) => {
   res.render('add-functionality', {pageTitle: 'Add functionality', path: '/add-functionality'}); 
 }; 
 
-export const editFunctionality = async (_req: Request, res: Response) => {
+export const editFunctionality = async (req: Request, res: Response) => {
   // TODO implement such that this renders add functionality and sends the specific func with it
 
   res.render('add-functionality', {pageTitle: "Edit functionality", path: '/add-functionality'}); 
@@ -44,6 +43,7 @@ export const directDashboard = async (req: Request, res: Response) => {
 };
 
 export const updateFilters = async (req: Request, res: Response) => {
+  // TODO proper error handling (either redirect back or success + flash message)
   if (!req.user) {
     throw new Error("this is bad");
   }
