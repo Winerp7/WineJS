@@ -203,7 +203,6 @@ export const resetPassword = async (req: Request, res: Response) => {
   // Checks if a user exists with the token from the URL and that it is not expired
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
-    // ! This might cause issues since resetPasswordExpires is a number in the IUser IF
     resetPasswordExpires: { $gt: Date.now() }
   });
 

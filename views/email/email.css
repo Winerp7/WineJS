@@ -19,8 +19,6 @@ body {
 
 table {
   border-collapse: separate;
-  mso-table-lspace: 0pt;
-  mso-table-rspace: 0pt;
   width: 100%; }
   table td {
     font-family: sans-serif;
@@ -57,7 +55,7 @@ table {
 ------------------------------------- */
 .main {
   background: #fff;
-  border-top:20px solid #fff200;
+  border-top:20px solid #38B2AC;
   width: 100%; }
 
 .wrapper {
@@ -112,7 +110,7 @@ ol {
     margin-left: 5px; }
 
 a {
-  color: #fff200;
+  color: #38B2AC;
   text-decoration: underline; }
 
 /* -------------------------------------
@@ -131,10 +129,10 @@ a {
     text-align: center; }
   .btn a {
     background-color: #ffffff;
-    border: solid 1px #fff200;
+    border: solid 1px #38B2AC;
     border-radius: 5px;
     box-sizing: border-box;
-    color: #fff200;
+    color: #38B2AC;
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
@@ -145,11 +143,11 @@ a {
     text-transform: capitalize; }
 
 .btn-primary table td {
-  background-color: #fff200; }
+  background-color: #38B2AC; }
 
 .btn-primary a {
-  background-color: #fff200;
-  border-color: #fff200;
+  background-color: #38B2AC;
+  border-color: #38B2AC;
   color: #3a3a3a; }
 
 /* -------------------------------------
@@ -187,7 +185,6 @@ a {
   max-width: 0;
   opacity: 0;
   overflow: hidden;
-  mso-hide: all;
   visibility: hidden;
   width: 0; }
 

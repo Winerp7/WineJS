@@ -6,9 +6,6 @@ import { IUser } from '../models/userModel';
 
 
 const transport = nodemailer.createTransport({
-  // 500 mails a month to test
-  //host: process.env.MAIL_HOST, 
-  //port: Number(process.env.MAIL_PORT),
   service: 'SendGrid',
   auth: {
     user: process.env.SENDGRID_USER,
@@ -20,11 +17,11 @@ type Options = {
   user: IUser,
   subject: string,
   resetURL: string,
-  filename: string
-}
+  filename: string;
+};
 
-// TODO: change options to type Options
-const generateHTML = (filename: string, options = {}) => {
+// Render the HTML from password-reset.pug *into* the email that is being sent
+const generateHTML = (filename: string, options: Options) => {
   const html = pug.renderFile(`${__dirname}/../../views/email/${filename}.pug`, options);
   const inlined = juice(html); // Inlines all the css so it's readable in most email clients, specially the old ones
   return inlined;
