@@ -8,7 +8,7 @@ import * as mail from "../util/mail";
 
 export const login = passport.authenticate('local', {
   failureRedirect: '/', // TODO: make such that the login modal is open when redirecting back
-  failureFlash: 'reset it.',
+  failureFlash: 'Sorry, email or password invalid. Try again or click "Lost your password?" when logging in to reset your password',
   successRedirect: '/dashboard',
   successFlash: 'Well done! You are now logged in 👏👏 '
 });
