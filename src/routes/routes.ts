@@ -22,6 +22,10 @@ router.post('/register',
   authController.login
 );
 
+router.get('/functionality', authController.isLoggedIn, userController.directFunctionality);
+router.get('/functionality/add', authController.isLoggedIn, userController.addFunctionality);
+router.get('/functionality/:id/edit', authController.isLoggedIn, userController.editFunctionality); 
+
 router.get('/account/delete', catchErrors(userController.deleteAccount))
 router.post('/account/forgotPassword', catchErrors(authController.forgotPassword));
 router.get('/account/reset/:token', catchErrors(userController.resetPassword));

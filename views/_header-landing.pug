@@ -143,6 +143,11 @@ script.
       overlay.classList.toggle('hidden'); 
     }
 
+    const toggleNewPasswordModal2 = () => {
+      toggleNewPasswordModal(); 
+      toggleModal(); 
+    }
+
     login.addEventListener('click', toggleModal);
     closeLogin.addEventListener('click', toggleModal);
     login2.addEventListener('click', toggleModal2);
@@ -152,6 +157,6 @@ script.
     signup2.addEventListener('click', toggleSignUpModal2);
 
     newPassword.addEventListener('click', toggleNewPasswordModal);
-    closeNewPassword.addEventListener('click', toggleNewPasswordModal);
+    closeNewPassword.addEventListener('click', toggleNewPasswordModal2);
     cancelNewPassword.addEventListener('click', toggleNewPasswordModal);
   })

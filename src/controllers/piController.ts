@@ -98,7 +98,7 @@ export const getFunctionality = async (req: Request, res: Response) => {
 };
 
 // Throws a TypeError if the functionID does not exist in the user
-function ensure<T>(argument: T | undefined | null, message: string = 'This functionID does not exist'): T {
+export function ensure<T>(argument: T | undefined | null, message: string = 'This functionID does not exist'): T {
   if (argument === undefined || argument === null) {
     throw new TypeError(message);
   }
