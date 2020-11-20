@@ -31,7 +31,7 @@ html
       each category in categories
         each message in flashes[category] 
           div(id="hideMe" class="absolute p-5 shadow-lg rounded-lg bg-white center-notification")
-            div(class="cross-notification")
+            div(class="top-0 right-0 absolute")
               button(onClick="this.parentElement.parentElement.remove()" class="") 
                 <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> 
             | #{message}

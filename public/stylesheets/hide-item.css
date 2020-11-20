@@ -9,24 +9,17 @@
     left: 50%;
 }
 
-.cross-notification{
-    position: absolute;
-    top: 0;
-    right:0;
-}
-
-
 /*
   Making items dissapear, just use id="hideMe". Currently used in blockmessages in _layout.pug
 */
 #hideMe {
-    -moz-animation: cssAnimation 0s ease-in 4s forwards;
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
     /* Firefox */
-    -webkit-animation: cssAnimation 0s ease-in 4s forwards;
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
     /* Safari and Chrome */
-    -o-animation: cssAnimation 0s ease-in 4s forwards;
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
     /* Opera */
-    animation: cssAnimation 0s ease-in 4s forwards;
+    animation: cssAnimation 0s ease-in 5s forwards;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 }
