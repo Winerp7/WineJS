@@ -10,7 +10,7 @@ html
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    link(rel="stylesheet", href="/stylesheets/flash-messages.css")
+    link(rel="stylesheet", href="/stylesheets/hide-item.css")
     link(rel='stylesheet', href='/stylesheets/styles.css')
     title #{pageTitle}
     
@@ -26,16 +26,16 @@ html
     // Messages to be used for confirmation of user actions, e.g. when signing up
     // the user should receive message in browser saying "Succesfully created user X" 
     block messages
-      if locals.flashes
-        .flash-inner.inner--flashes
-          .flash-messages
-            - const categories = Object.keys(locals.flashes)
-            each category in categories
-              each message in flashes[category]
-                .flash(class=`flash--${category}`)
-                  p.flash__text!= message
-                  button.flash__remove(onClick="this.parentElement.remove()") &times;
-    
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category] 
+          div(id="hideMe" class="absolute p-5 shadow-lg rounded-lg bg-white center-notification")
+            div(class="top-0 right-0 absolute")
+              button(onClick="this.parentElement.parentElement.remove()" class="") 
+                <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> 
+            | #{message}
+
     main(class="flex-grow min-w-full min-h-full")
       // To edit size of "view" alter the mx and my parameters
       div(class="mx-20 my-12 px-8")
@@ -43,6 +43,7 @@ html
           | This is our block content, and all HTML code should be put into a content
           | block like this one. <br> <br>
           | It can then be designed however needed on each view. 
+      
   
     div(class="w-full bg-white")
       div(class="flex flex-wrap text-center justify-align")
@@ -62,3 +63,4 @@ html
               | +45 00 00 00 00
     
     block scripts
+

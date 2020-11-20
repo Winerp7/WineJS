@@ -1,0 +1,52 @@
+
+/*
+    These centering is used for the notification in _layout.pug, since tailwind aint wokring properly
+    So going old fasion.
+*/
+.center-notification{
+    transform: translate(-50%, -50%);
+    top: 15%;
+    left: 50%;
+}
+
+/*
+  Making items dissapear, just use id="hideMe". Currently used in blockmessages in _layout.pug
+*/
+#hideMe {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        background: none;
+        border: 0;
+        width:0;
+        height:0;
+        padding:0;
+        overflow:hidden;
+        px:0;
+        py:0;
+        
+    }
+}
+@-webkit-keyframes cssAnimation {
+    to {
+        padding:0;
+        background: none;
+        border: 0;
+        width:0;
+        height:0;
+        visibility:hidden;
+        px:0;
+        py:0;
+    }
+}
+    
