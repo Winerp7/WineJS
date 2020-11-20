@@ -3,7 +3,7 @@ import passport from "passport";
 
 export const login = passport.authenticate('local', {
   failureRedirect: '/', // TODO: make such that the login modal is open when redirecting back
-  failureFlash: 'Yikes some 💩  You Failed to Login',
+  failureFlash: 'reset it.',
   successRedirect: '/dashboard',
   successFlash: 'Well done! You are now logged in 👏👏 '
 });

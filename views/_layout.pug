@@ -10,7 +10,7 @@ html
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    link(rel="stylesheet", href="/stylesheets/flash-messages.css")
+    link(rel="stylesheet", href="/stylesheets/hide-item.css")
     link(rel='stylesheet', href='/stylesheets/styles.css')
     title #{pageTitle}
     
@@ -26,16 +26,15 @@ html
     // Messages to be used for confirmation of user actions, e.g. when signing up
     // the user should receive message in browser saying "Succesfully created user X" 
     block messages
-      if locals.flashes
-        - const categories = Object.keys(locals.flashes)
-        each category in categories
-          each message in flashes[category] 
-            div(id="hideMe" class="flex flex-col m-0 justify-center items-center shadow-lg rounded-lg bg-white absolute inset-x-0 max-w-sm h-16 mt-12 mx-auto")
-              div(class="ml-auto mr-1")
-                button(onClick="this.parentElement.parentElement.remove()" class="") 
-                  <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>                    
-              div(class="text-md mb-4")
-                | #{message}
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category] 
+          div(class="absolute p-5 shadow-lg rounded-lg bg-white center-notification")
+            div(class="cross-notification")
+              button(onClick="this.parentElement.parentElement.remove()" class="") 
+                <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> 
+            | #{message}
 
     main(class="flex-grow min-w-full min-h-full")
       // To edit size of "view" alter the mx and my parameters
