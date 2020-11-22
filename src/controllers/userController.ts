@@ -6,21 +6,21 @@ import { promisify } from 'es6-promisify';
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
 
-  res.render('functionality', {pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality}); 
-}; 
+  res.render('functionality', { pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality });
+};
 
 export const addFunctionality = async (_req: Request, res: Response) => {
-  res.render('add-functionality', {pageTitle: 'Add functionality', path: '/add-functionality'}); 
-}; 
+  res.render('add-functionality', { pageTitle: 'Add functionality', path: '/add-functionality' });
+};
 
 export const editFunctionality = async (_req: Request, res: Response) => {
   // TODO implement such that this renders add functionality and sends the specific func with it
 
-  res.render('add-functionality', {pageTitle: "Edit functionality", path: '/add-functionality'}); 
-}
+  res.render('add-functionality', { pageTitle: "Edit functionality", path: '/add-functionality' });
+};
 
 export const directResetPassword = async (_req: Request, res: Response) => {
-  res.render('reset-password', {path: '/reset-password'})
+  res.render('reset-password', { path: '/reset-password' });
 };
 
 export const directDashboard = async (req: Request, res: Response) => {
@@ -71,6 +71,22 @@ export const updateFilters = async (req: Request, res: Response) => {
 export const settings = (_req: Request, res: Response) => {
   res.render('settings', { pageTitle: 'Settings', path: '/settings' });
 };
+
+// ! This is a test to see if we can get functions without making it it's own document
+
+export const getOneFunctions = async (req: Request, res: Response) => {
+  // @ts-ignore
+  const fns = await User.findOneFunctionality('sut min roev', req.user as IUser);
+  res.json(fns);
+};
+
+export const getAllFunctions = async (req: Request, res: Response) => {
+  // @ts-ignore
+  const fns = await User.findAllFunctionality(req.user as IUser);
+  res.json(fns);
+};
+
+// ! **********************************************************************************
 
 export const validateRegister = (req: Request, res: Response, next: NextFunction) => {
   req.sanitizeBody('name');

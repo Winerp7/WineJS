@@ -4,6 +4,7 @@ import slug from 'slugify';
 
 // Add the fns from mongoose document, so *this* has access to *isModified* fn
 export interface INode extends Document {
+  [x: string]: any;
   nodeID: string;
   name: string;
   isMaster: boolean;
@@ -44,6 +45,11 @@ const nodeSchema = new mongoose.Schema({
   }],
   function: String,
   slug: String,
+  owner: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: 'You must supply a user'
+  }
 });
 
 nodeSchema.pre('save', function (this: INode, next) {

@@ -25,6 +25,7 @@ router.post('/register',
 router.get('/functionality', authController.isLoggedIn, userController.directFunctionality);
 router.get('/functionality/add', authController.isLoggedIn, userController.addFunctionality);
 router.get('/functionality/:id/edit', authController.isLoggedIn, userController.editFunctionality); 
+router.get('/getFunc', catchErrors(userController.getOneFunctions))
 
 router.get('/account/delete', catchErrors(userController.deleteAccount))
 router.post('/account/forgotPassword', catchErrors(authController.forgotPassword));
