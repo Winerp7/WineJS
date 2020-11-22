@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Node, INode } from "../models/nodeModel";
+import { Node} from "../models/nodeModel";
 import { IUser } from '../models/userModel';
 
 export const addNode = (req: Request, res: Response) => {
@@ -42,7 +42,6 @@ export const editNode = async (req: Request, res: Response) => {
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
-  console.log(req.body);
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one
     runValidators: true // runs the validators to ensure there is stil name etc.
