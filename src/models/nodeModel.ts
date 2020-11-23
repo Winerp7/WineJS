@@ -10,7 +10,7 @@ export interface INode extends Document {
   isMaster: boolean;
   status: string;
   sensors: string[];
-  sensorData: { timestamp: string, value: number, sensorID: string }[];
+  sensorData: { time: string, value: number, sensor: string }[];
   function: string;
   slug: string;
 }
@@ -39,9 +39,9 @@ const nodeSchema = new mongoose.Schema({
   },
   sensors: [String], // TODO: Change to type of sensors
   sensorData: [{
-    timestamp: String,
+    time: String,
     value: Number,
-    sensorID: String
+    sensor: String
   }],
   function: String,
   slug: String,
