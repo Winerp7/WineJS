@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import flash from 'connect-flash';
 import passport from 'passport';
+import { promisify } from 'es6-promisify';
 
 
 // Imports of our files
@@ -16,7 +17,6 @@ import * as errorHandlers from './util/errorHandlers';
 import * as helpers from './util/helpers';
 import { router } from './routes/routes';
 import './util/passport'; // invokes the code in passport.ts
-import { promisify } from 'es6-promisify';
 
 
 // Init app

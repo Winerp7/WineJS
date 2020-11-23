@@ -5,10 +5,10 @@ import validator from 'validator';
 import passportLocalMongoose from 'passport-local-mongoose';
 const mongodbErrorHandler: any = require('mongoose-mongodb-errors');
 
-export interface IUser extends PassportLocalDocument{
+export interface IUser extends PassportLocalDocument {
   name: string;
   email: string;
-  functionality: { _id: string, name: string, setup: string, loop: string, description: string, reboot: boolean }[];
+  functionality: { _id: string, name: string, setup: string, loop: string, description: string, reboot: boolean; }[];
   filter: string[];
   resetPasswordToken: string | undefined; // TODO: maybe find a better solution than undefined. Used in authController
   resetPasswordExpires: Date | number | undefined; // TODO: maybe find a better solution than undefined. Used in authController
@@ -44,6 +44,23 @@ const userSchema = new mongoose.Schema({
     type: String,
   }
 });
+
+userSchema.statics.findOneFunctionality = function (funcName: string, user: IUser) {
+  return this.aggregate([
+    { $match: { email: user.email } },
+    { $unwind: '$functionality' },
+    { $match: { "functionality.name": funcName } },
+    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality object
+  ]);
+};
+
+userSchema.statics.findAllFunctionality = function (user: IUser) {
+  return this.aggregate([
+    { $match: { email: user.email } },
+    { $unwind: '$functionality' },
+    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality objects
+  ]);
+};
 
 // for shitz and gigglez
 // has to use function() otherwise this is not bound to user
