@@ -23,9 +23,10 @@ const validatePassword = (req: Request, _res: Response) => {
   return;
 };
 
-const validateRules = (req: Request, res: Response) => {
+// Will contain an array of the errors from the validation/sanitization fns
+// valName, valEmail, valPassword
+const handleValidationErrors = (req: Request, res: Response) => {
   const errors = req.validationErrors();
-  // Will contain an array of the errors from all the above sanitization
   if (errors) {
     req.flash('error', errors.map((err: any) => err.msg));
     res.render('settings', { title: 'Settings', body: req.body, flashes: req.flash() });
@@ -46,7 +47,7 @@ export const validateSettings = (req: Request, res: Response, next: NextFunction
     validatePassword(req, res);
   }
 
-  validateRules(req, res);
-  next();
+  handleValidationErrors(req, res);
+  next(); // No errors, proceed to userController.updateSettings
 };
 
