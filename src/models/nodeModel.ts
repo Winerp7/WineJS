@@ -52,6 +52,14 @@ const nodeSchema = new mongoose.Schema({
   }
 });
 
+nodeSchema.statics.findSensorDataByNodeID = function (sensorID: string) {
+  return this.aggregate([
+    { $unwind: '$sensorData' },
+    { $match: { "sensorData.sensorID": sensorID } },
+    { $project: { sensorData: 0 } } // Remove everything but the functionality object
+  ]);
+};
+
 nodeSchema.pre('save', function (this: INode, next) {
   if (!this.isModified('name')) {
     next();
