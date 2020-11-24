@@ -5,13 +5,14 @@
 // https://github.com/Automattic/node-canvas#canvastobuffer
 import { CanvasRenderService } from 'chartjs-node-canvas';
 
-const width = 250;
-const height = 250;
+const width = 300;
+const height = 300;
 // TODO: give ChartJS the correct type
 const chartCallback = (ChartJS: any) => {
 
     // Global config example: https://www.chartjs.org/docs/latest/configuration/
     ChartJS.defaults.global.elements.rectangle.borderWidth = 2;
+    ChartJS.defaults.global.defaultFontFamily = ""; // TODO Desperate attempt at making text appear
     // Global plugin example: https://www.chartjs.org/docs/latest/developers/plugins.html
     ChartJS.plugins.register({
         // plugin implementation
@@ -110,30 +111,3 @@ export const makeCanvasDoughnut = async () => {
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
   return dataUrl;
 };
-
-
-
-
-// nico example
-// https://github.com/Automattic/node-canvas#loadimage
-import { createCanvas } from 'canvas';
-export const draw = async () => {
-  const canvas = createCanvas(200, 200)
-  const ctx = canvas.getContext('2d'); 
-  ctx.font = '30px Impact';
-  ctx.rotate(0.1);
-  ctx.fillText('Awesome!', 50, 100);
-
-  let text = ctx.measureText('Awesome!');
-  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-  ctx.beginPath();
-  ctx.lineTo(50, 102);
-  ctx.lineTo(50 + text.width, 102);
-  ctx.stroke();
-
-  // TODO: Make ctx to the correct type
-  let dataUrl = canvas.toDataURL(ctx as any)
-
-  return dataUrl;
-};
-

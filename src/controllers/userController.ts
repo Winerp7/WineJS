@@ -29,46 +29,43 @@ export const directResetPassword = async (_req: Request, res: Response) => {
 // TODO Do something about axis text being too long and thus shrinking the graph (currently timestamp is long)
 export const directDashboard = async (req: Request, res: Response) => {
   let user = req.user as IUser;
-  let sensorIDs: string[] = [];
-  let sensorData: INode["sensorData"] = [];
+  let sensorIDs: string[] = []; // All sensorIDs to be in the filters
   let graphs: string[] = [];
 
-  // Get sensorID's and sensorData
-  //! smarter way than this cancer
   if (req.nodes != null) {
+    // Iterate though the user's nodes
     for (let nIndex: number = 0; nIndex < req.nodes.length; nIndex++) {
-      for (let sIndex: number = 0; sIndex < req.nodes[nIndex].sensorData.length; sIndex++) {
-        let sensorID: string = req.nodes[nIndex].sensorData[sIndex].sensorID;
-        if (!sensorIDs.includes(sensorID))
-          sensorIDs.push(sensorID);
-        sensorData.push(req.nodes[nIndex].sensorData[sIndex]);
-      }
-    }
-  }
-  
-  // Generate graphs
-  if (sensorIDs.length > 0) {
-    // sensorIDs.forEach() doesn't seem to allow for await.
-    for (let idIndex: number = 0; idIndex < sensorIDs.length; idIndex++) {
-      let id: string = sensorIDs[idIndex];
-      // If the user has selected the sensor with 'id' in their filter
-      if (user.filter.includes(id)) {
-        let timestamps: string[] = [];
-        let values: number[] = [];
-
-        // Retrieve values and timestamps from sensorData
-        for (let dataIndex: number = 0; dataIndex < sensorData.length; dataIndex++) {
-          if (sensorData[dataIndex].sensorID === id) {
-            timestamps.push(sensorData[dataIndex].timestamp);
-            values.push(sensorData[dataIndex].value);
-          }
+      let nodeSensorIDs: string[] = []; // The sensorIDs on the current node
+      // Collect the sensorIDs on the current node
+      for (let sdIndex: number = 0; sdIndex < req.nodes[nIndex].sensorData.length; sdIndex++) {
+        if (!nodeSensorIDs.includes(req.nodes[nIndex].sensorData[sdIndex].sensorID)) {
+          nodeSensorIDs.push(req.nodes[nIndex].sensorData[sdIndex].sensorID);
+          sensorIDs.push(req.nodes[nIndex].sensorData[sdIndex].sensorID);
         }
+      }
+      // Iterate through each sensorID on the current node
+      for (let idIndex: number = 0; idIndex < nodeSensorIDs.length; idIndex++) {
+        let id: string = nodeSensorIDs[idIndex];
+        // If the user has selected the sensor with 'id' in their filter
+        if (user.filter.includes(id)) {
+          let timestamps: string[] = [];  // Holds all timestamps from the sensor
+          let values: number[] = [];      // Holds all values from the sensor
 
-        graphs.push(await makeCanvasLine(
-          id,
-          timestamps,
-          values,
-        ));
+          // Retrieve values and timestamps from sensorData
+          for (let dataIndex: number = 0; dataIndex < req.nodes[nIndex].sensorData.length ; dataIndex++) {
+            if (req.nodes[nIndex].sensorData[dataIndex].sensorID === id) {
+              timestamps.push(req.nodes[nIndex].sensorData[dataIndex].timestamp);
+              values.push(req.nodes[nIndex].sensorData[dataIndex].value);
+            }
+          }
+
+          // Generate the graph for the sensor
+          graphs.push(await makeCanvasLine(
+            id,
+            timestamps,
+            values,
+          ));
+        }
       }
     }
   }
