@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
+import { INode } from "../models/nodeModel";
 
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
@@ -23,23 +24,55 @@ export const directResetPassword = async (_req: Request, res: Response) => {
   res.render('reset-password', { path: '/reset-password' });
 };
 
+// TODO Fix text on server
+// TODO Show relevant information above graphs (currently showing sensor ID)
+// TODO Do something about axis text being too long and thus shrinking the graph (currently timestamp is long)
 export const directDashboard = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+  let sensorIDs: string[] = [];
+  let sensorData: INode["sensorData"] = [];
   let graphs: string[] = [];
 
-  // Generate graphs
-  // TODO Should be based on the user's filters & should graph sensors, not nodes.
-  if (req.nodes) {
-    // async/await doesn't seem to work with forEach =(
-    for (let index: number = 0; index < req.nodes.length; index++) {
-      graphs.push(await makeCanvasLine(
-        req.nodes[index].name,
-        ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
-        [5, -2, 1, 0, 4, -1],
-      ));
+  // Get sensorID's and sensorData
+  //! smarter way than this cancer
+  if (req.nodes != null) {
+    for (let nIndex: number = 0; nIndex < req.nodes.length; nIndex++) {
+      for (let sIndex: number = 0; sIndex < req.nodes[nIndex].sensorData.length; sIndex++) {
+        let sensorID: string = req.nodes[nIndex].sensorData[sIndex].sensorID;
+        if (!sensorIDs.includes(sensorID))
+          sensorIDs.push(sensorID);
+        sensorData.push(req.nodes[nIndex].sensorData[sIndex]);
+      }
     }
   }
-  let user = req.user as IUser;
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: user.filter });
+  
+  // Generate graphs
+  if (sensorIDs.length > 0) {
+    // sensorIDs.forEach() doesn't seem to allow for await.
+    for (let idIndex: number = 0; idIndex < sensorIDs.length; idIndex++) {
+      let id: string = sensorIDs[idIndex];
+      // If the user has selected the sensor with 'id' in their filter
+      if (user.filter.includes(id)) {
+        let timestamps: string[] = [];
+        let values: number[] = [];
+
+        // Retrieve values and timestamps from sensorData
+        for (let dataIndex: number = 0; dataIndex < sensorData.length; dataIndex++) {
+          if (sensorData[dataIndex].sensorID === id) {
+            timestamps.push(sensorData[dataIndex].timestamp);
+            values.push(sensorData[dataIndex].value);
+          }
+        }
+
+        graphs.push(await makeCanvasLine(
+          id,
+          timestamps,
+          values,
+        ));
+      }
+    }
+  }
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, userFilter: user.filter, filters: sensorIDs });
 };
 
 export const updateFilters = async (req: Request, res: Response) => {

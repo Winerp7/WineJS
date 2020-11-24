@@ -11,32 +11,14 @@ block content
       // And the dropdown would get very long if there's a lot of sensors
       // Maybe change this? Dunno if necessary.
       form(action="/dashboard" method="POST")
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="temperature")
-          label(for="checkbox1" class="px-2")
-            | Temperature
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="humidity")
-          label(for="checkbox2" class="px-2")
-            | Humidity
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="sunlight")
-          label(for="checkbox3" class="px-2")
-            | Sunlight
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="checkbox4")
-          label(for="checkbox4" class="px-2")
-            | Sensor 1
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="checkbox5")
-          label(for="checkbox5" class="px-2")
-            | Sensor ..
-        div(class="hover:bg-indigo-100 rounded px-2 py-1")
-          input(type="checkbox" name="checkbox6")
-          label(for="checkbox6" class="px-2")
-            | Sensor n
+        for filter in filters
+          div(class="hover:bg-indigo-100 rounded px-2 py-1")
+            input(type="checkbox" name=`${filter}`)
+            label(for=`${filter}` class="px-2")
+              | #{filter}
         button(type="submit" class="focus:outline-none mt-2 border border-teal-300 hover:border-teal-300 bg-teal-300 hover:bg-gray-100 rounded px-2 py-1 block w-full")
           | Save
+
   //- Graphs are displayed here
   div(class="justify-center flex flex-wrap")
     each graph in graphs
@@ -82,8 +64,8 @@ block content
       })
 
       // Check the checkboxes if the user already has them filtered
-      const filter = "#{filter}"; // Makes a string of the filters, separated by commas
-      const splitFilter = filter.split(','); // Splits the string into an array
+      const userFilter = "#{userFilter}"; // Makes a string of the user's filters, separated by commas
+      const splitFilter = userFilter.split(','); // Splits the string into an array
       //TODO: The filters cannot contain commas when doing this. 
       const checkboxes = document.querySelectorAll('input[type=checkbox]'); // Gets all checkboxes
 
