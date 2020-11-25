@@ -27,11 +27,11 @@ nav(class="flex flex-row items-center justify-between bg-teal-500 text-teal-200 
 
   div(class="text-teal-200 w-40")
     div(class="flex justify-end")
-      a(id="accountBtn" class="cursor-pointer text-sm hover:bg-teal-300 hover:text-white cursor-pointer rounded-full flex items-end")
+      a(id="accountBtn" class="mr-2 cursor-pointer text-sm hover:bg-teal-300 hover:text-white cursor-pointer rounded-full flex items-end")
         img(class="w-auto h-12 rounded-full border border-teal-500 hover:border-teal-400" src=user.gravatar)
 
       // ************* Dropdown menu starts here ****************
-      div(class="hidden absolute text-gray-900 bg-gray-100 flex flex-col rounded-lg mt-12 text-sm p-2" id="dropdownAccount")
+      div(class="hidden absolute text-gray-900 bg-gray-100 flex flex-col rounded-lg mt-12 mr-2 text-sm p-2" id="dropdownAccount")
           a(href="/settings" class="px-2 py-1 hover:bg-indigo-100 rounded mt-0")
             | Settings
           a(href="/logout" class="px-2 py-1 hover:bg-indigo-100 rounded text-indigo-500")
