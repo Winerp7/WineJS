@@ -12,7 +12,7 @@ const chartCallback = (ChartJS: any) => {
 
     // Global config example: https://www.chartjs.org/docs/latest/configuration/
     ChartJS.defaults.global.elements.rectangle.borderWidth = 2;
-    ChartJS.defaults.global.defaultFontFamily = ""; // TODO Desperate attempt at making text appear
+    ChartJS.defaults.global.defaultFontFamily = "Sans"; // TODO Desperate attempt at making text appear
     // Global plugin example: https://www.chartjs.org/docs/latest/developers/plugins.html
     ChartJS.plugins.register({
         // plugin implementation

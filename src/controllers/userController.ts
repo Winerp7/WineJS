@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
-import { INode } from "../models/nodeModel";
+import { INode, Node } from "../models/nodeModel";
 
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
@@ -26,8 +26,49 @@ export const directResetPassword = async (_req: Request, res: Response) => {
 
 // TODO Fix text on server
 // TODO Show relevant information above graphs (currently showing sensor ID)
-// TODO Do something about axis text being too long and thus shrinking the graph (currently timestamp is long)
 export const directDashboard = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+  let filter: string[] = []; // All sensorIDs to be in the filters
+  let graphs: string[] = [];
+
+  if (req.nodes != null) {
+    // Iterate through the user's nodes
+    for (let nodeIndex: number = 0; nodeIndex < req.nodes.length; nodeIndex++) {
+      // Iterate through the current node's sensors
+      for (let sensorIndex: number = 0; sensorIndex < req.nodes[nodeIndex].sensors.length; sensorIndex++) {
+        let sensorID: string = req.nodes[nodeIndex].sensors[sensorIndex].sensorID;
+        let sensorName: string = req.nodes[nodeIndex].sensors[sensorIndex].name;
+        filter.push(sensorName);
+
+        // If the user has selected the sensor with 'id' in their filter
+        if (user.filter.includes(sensorName)) {
+          let timestamps: string[] = [];  // Holds all timestamps from the sensor
+          let values: number[] = [];      // Holds all values from the sensor
+          // @ts-ignore
+          const sensorDataList = await Node.findSensorDataBySensorID(sensorID, user) as INode;
+          // Retrieve values and timestamps from sensorData
+          for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
+            // Remove date and decimals for better readability
+            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
+            timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
+            timestamps.push(timestamp);
+            values.push(sensorDataList[dataIndex].sensorData.value);
+          }
+
+          // Generate the graph for the sensor
+          graphs.push(await makeCanvasLine(
+            sensorName,
+            timestamps,
+            values,
+          ));
+        }
+      }
+    }
+  }
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, userFilter: user.filter, filters: filter });
+};
+
+export const directDashboardWorks = async (req: Request, res: Response) => {
   let user = req.user as IUser;
   let sensorIDs: string[] = []; // All sensorIDs to be in the filters
   let graphs: string[] = [];
@@ -45,23 +86,25 @@ export const directDashboard = async (req: Request, res: Response) => {
       }
       // Iterate through each sensorID on the current node
       for (let idIndex: number = 0; idIndex < nodeSensorIDs.length; idIndex++) {
-        let id: string = nodeSensorIDs[idIndex];
+        let sensorID: string = nodeSensorIDs[idIndex];
         // If the user has selected the sensor with 'id' in their filter
-        if (user.filter.includes(id)) {
+        if (user.filter.includes(sensorID)) {
           let timestamps: string[] = [];  // Holds all timestamps from the sensor
           let values: number[] = [];      // Holds all values from the sensor
-
+          // @ts-ignore
+          const sensorDataList = await Node.findSensorDataBySensorID(sensorID) as INode;
           // Retrieve values and timestamps from sensorData
-          for (let dataIndex: number = 0; dataIndex < req.nodes[nIndex].sensorData.length ; dataIndex++) {
-            if (req.nodes[nIndex].sensorData[dataIndex].sensorID === id) {
-              timestamps.push(req.nodes[nIndex].sensorData[dataIndex].timestamp);
-              values.push(req.nodes[nIndex].sensorData[dataIndex].value);
-            }
+          for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
+            // Remove date and decimals for better readability
+            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
+            timestamp = timestamp.split(/T|\./)[1];
+            timestamps.push(timestamp);
+            values.push(sensorDataList[dataIndex].sensorData.value);
           }
 
           // Generate the graph for the sensor
           graphs.push(await makeCanvasLine(
-            id,
+            sensorID,
             timestamps,
             values,
           ));
