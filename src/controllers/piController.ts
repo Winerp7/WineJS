@@ -81,9 +81,8 @@ export const getFunctionality = async (req: Request, res: Response) => {
     // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
     let nodeUpdates: object[] = [];
     nodes.forEach(async (node: INode) => {
-      const func = functionality.find((func: {functionality: {_id: string}}) => func.functionality._id == node.function).functionality;
+      const func = functionality.find((f: {functionality: {_id: string}}) => f.functionality._id == node.function).functionality;
       
-      console.log("func", func)
       nodeUpdates.push({
         nodeID: node.nodeID,
         body: {
