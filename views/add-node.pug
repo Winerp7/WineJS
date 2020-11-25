@@ -1,6 +1,116 @@
 extends _layout
-include mixins/_nodeForm
 
 block content
-  +nodeForm(node)
-  
+  div(class="flex flex-col items-center justify-center")
+    div(class="text-gray-900 font-light text-5xl items-center text-center")
+      | Configure network devices
+      p(class="mt-2 text-lg text-gray-600")
+        | Add the devices you need to configure your network, you will need at least 1 master node to initiate the mesh network. 
+    div(id="sectionSplitter" class="w-full border-b mb-10 mt-10") 
+    div(class="flex flex-col lg:flex-row justify-around items-center text-xl w-full lg:space-x-12")
+      div(id="masterSection" class="width-1/2  text-center")
+        div(class="font-light text-2xl mb-2 font-normal")
+          | Master nodes
+        div(id="infoMaster" class="text-md font-light mb-4 max-w-xl")
+          | To configure a master node, click the 'Add master node' button. This will install a master image (a file for installing the OS and libraries needed) that should be copied to an SD-card, before inserting the SD-card to the device. When a master node is active under your <a href="/nodes" class="text-gray-500 hover:underline">devices</a>, the slave nodes can be connected to the network. 
+        div(class="flex justify-center text-3xl mb-6 mt-8")
+          button(id="addMasterBtn" class="shadow-lg focus:outline-none px-8 py-3 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Add master node
+      
+        // *********   Add master node modal   ************
+
+        div(id="addMaster" class="flex hidden z-10 bg-gray-900 bg-opacity-75 absolute inset-0 justify-center items-center")
+          div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+            div(class="flex text-white")
+              <svg id="closeModalMaster" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            div(class="flex justify-center")
+              img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+            div(class="flex justify-center items-center")
+              h4(class="text-2xl font-light px-10") Configure master node
+            form(action="" method="POST")
+              div(class="mt-4 text-sm mx-4")
+                | WiFi name
+              div(class="mt-1 text-sm mx-4")
+                input(type="name" name="namemaster" id="wifinamemaster" class="w-full rounded border border-gray-700 pl-1 py-1 focus:outline-none" placeholder="myWiFi" required)
+              div(class="mt-4 text-sm mx-4")
+                | WiFi password
+              div(class="mt-1 text-sm mx-4")
+                input(type="name" name="passwordmaster" id="wifipasswordmaster" class="focus:outline-none w-full rounded border border-gray-700 py-1 pl-1" placeholder="myWiFiPassword" required)
+              div(class="mt-6 flex justify-center text-2xl")
+                button(type="submit" id="configureMaster" class="shadow px-5 py-1 bg-indigo-300 border border-indigo-300 rounded-lg text-gray-100 hover:border-indigo-300 hover:bg-gray-200 hover:text-indigo-300 focus:outline-none")
+                  | Configure
+            div(class="text-xs flex justify-center mt-4 mb-2")
+              p Clicking configure will download the image file. 
+      
+        // *********   Modal ends here   ************
+
+      div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-0")
+      div(id="slaveSection" class="width-1/2  text-center")
+        div(class="font-light text-2xl mb-2 font-normal")
+          | Slave nodes
+        div(id="infoSlave" class="text-md font-light mb-4 max-w-xl")
+          | To configure a slave node, click the 'Add slave node' button. This will install a slave image (a file for installing the OS and libraries needed) that should be copied to an SD-card, before inserting the SD-card to the device. When a slave node is active under your <a href="/nodes" class="text-gray-500 hover:underline">devices</a>, you can add a <a href="/functionality" class="text-gray-500 hover:underline">functionality</a> to it. The slave nodes automatically connect to the network.
+        div(class="flex justify-center text-3xl mb-6 mt-8")
+          button(id="addSlaveBtn" class="shadow-lg focus:outline-none px-8 py-3 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Add slave node
+
+        // *********   Add master node modal   ************
+
+        div(id="addSlave" class="flex hidden z-10 bg-gray-900 bg-opacity-75 absolute inset-0 justify-center items-center")
+          div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+            div(class="flex text-white")
+              <svg id="closeModalSlave" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            div(class="flex justify-center")
+              img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+            div(class="flex justify-center items-center")
+              h4(class="text-2xl font-light px-10") Configure slave node
+            form(action="" method="POST")
+              div(class="mt-4 text-sm mx-4")
+                | WiFi name
+              div(class="mt-1 text-sm mx-4")
+                input(type="name" name="nameslave" id="wifinameslave" class="w-full rounded border border-gray-700 pl-1 py-1 focus:outline-none" placeholder="myWiFi" required)
+              div(class="mt-4 text-sm mx-4")
+                | WiFi password
+              div(class="mt-1 text-sm mx-4")
+                input(type="name" name="passwordslave" id="wifipasswordslave" class="focus:outline-none w-full rounded border border-gray-700 py-1 pl-1" placeholder="myWiFiPassword" required)
+              div(class="mt-6 flex justify-center text-2xl")
+                button(type="submit" id="configureSlave" class="shadow px-5 py-1 bg-indigo-300 border border-indigo-300 rounded-lg text-gray-100 hover:border-indigo-300 hover:bg-gray-200 hover:text-indigo-300 focus:outline-none")
+                  | Configure
+            div(class="text-xs flex justify-center mt-4 mb-2")
+              p Clicking configure will download the image file. 
+      
+        // *********   Modal ends here   ************
+
+block scripts 
+  script. 
+    window.addEventListener('DOMContentLoaded', () => {
+      const body = document.querySelector('#body');
+      
+      const modalMaster = document.querySelector('#addMaster');
+      const modalSlave = document.querySelector('#addSlave');
+
+      const modalMasterBtn = document.querySelector('#addMasterBtn');
+      const modalSlaveBtn = document.querySelector('#addSlaveBtn');
+
+      const configureMasterBtn = document.querySelector('#configureMaster');
+      const configureSlaveBtn = document.querySelector('#configureSlave');
+
+      const closeModalMaster = document.querySelector('#closeModalMaster');
+      const closeModalSlave = document.querySelector('#closeModalSlave');
+
+      // "toggle" checks if the element has class hidden and flex, if not, it adds, if it does, it removes
+      const toggleMasterModal = () => {
+        modalMaster.classList.toggle('hidden');
+        body.classList.toggle('overflow-hidden');
+      }
+
+      const toggleSlaveModal = () => {
+        modalSlave.classList.toggle('hidden');
+        body.classList.toggle('overflow-hidden');
+      }
+
+      modalMasterBtn.addEventListener('click', toggleMasterModal);
+      modalSlaveBtn.addEventListener('click', toggleSlaveModal); 
+      closeModalMaster.addEventListener('click', toggleMasterModal);
+      closeModalSlave.addEventListener('click', toggleSlaveModal); 
+    })
