@@ -49,7 +49,7 @@ userSchema.statics.findOneFunctionality = function (funcName: string, user: IUse
   return this.aggregate([
     { $match: { email: user.email } },
     { $unwind: '$functionality' },
-    { $match: { "functionality.name": funcName } },
+    { $match: { "functionality.name": funcName} },
     { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality object
   ]);
 };
@@ -59,6 +59,16 @@ userSchema.statics.findAllFunctionality = function (user: IUser) {
     { $match: { email: user.email } },
     { $unwind: '$functionality' },
     { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality objects
+  ]);
+};
+
+userSchema.statics.findSomeFunctionality = function (nodes: [{ nodeID: string, function: string }], user: IUser) {
+  let funcIDs = nodes.map(a => mongoose.Types.ObjectId(a.function));
+  return this.aggregate([
+    { $match: { email: user.email } },
+    { $unwind: '$functionality' },
+    { $match: { "functionality._id": { $in: funcIDs}} },
+    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality object
   ]);
 };
 
