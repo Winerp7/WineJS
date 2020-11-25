@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     setup: String,
     loop: String,
     description: String,
-    restart: Boolean
+    reboot: Boolean
   }],
   filter: {
     type: [String],
