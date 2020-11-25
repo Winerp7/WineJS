@@ -10,14 +10,9 @@ export interface INode extends Document {
   name: string;
   isMaster: boolean;
   status: string;
-<<<<<<< HEAD
   //sensors: string[];
   sensors: { name: string, sensorID: string }[];
   sensorData: { timestamp: string, value: number, sensorID: string }[];
-=======
-  sensors: string[];
-  sensorData: { time: string, value: number, sensor: string }[];
->>>>>>> master
   function: string;
   slug: string;
 }
