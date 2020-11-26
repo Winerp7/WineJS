@@ -95,6 +95,8 @@ export const testGraph = async () => {
   };
 
   const dataUrl = await canvasRenderService.renderToDataURL(configuration);
+  const image = await canvasRenderService.renderToBuffer(configuration);
+  console.log(image);
 
   return dataUrl;
   
