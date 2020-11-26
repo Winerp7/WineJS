@@ -87,11 +87,17 @@ export const testGraph = async () => {
         }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+      legend: {
+        labels: {
+          boxWidth: 0,
+          fontFamily: 'Arial'
         }
+      },
+      scales: {
+          y: {
+              beginAtZero: true
+          }
+      }
     }
   };
 
@@ -126,7 +132,6 @@ export const makeCanvasLine = async (title: string, xValues: Array<string>, yVal
         legend: {
           labels: {
             boxWidth: 0,
-            fontFamily: 'Arial'
           }
         }
       }
