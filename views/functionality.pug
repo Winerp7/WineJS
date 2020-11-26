@@ -3,9 +3,12 @@ extends _layout
 include mixins/_funcCard
 
 block content
-	div(class="flex justify-center")
-		h2(class="text-3xl text-gray-900 place-self-center") Functionality
-	// TODO: Make "add functionaluty" button 
-	div(class="flex flex-row flex-wrap items-center justify-evenly")
-		each func in funcs
-			+funcCard(func)
+  div(class="text-gray-900 font-light text-5xl items-center text-center")
+    | My node functionalities
+    p(class="mt-2 text-lg text-gray-600")
+      | Scroll to see all of your functionalities for <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>. Each functionality can be deleted or edited by clicking the buttons.  
+  div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
+  // TODO: Make "add functionaluty" button 
+  div(class="flex flex-row flex-wrap items-center justify-evenly")
+    each func in funcs
+      +funcCard(func)

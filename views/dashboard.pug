@@ -22,6 +22,12 @@ block content
   div(class="justify-center flex flex-wrap")
     each graph in graphs
       img(src="data:image/jpg;base64" + graph class="mx-6 my-2")
+  
+  
+  
+  div
+    img(src="data:image/jpg;base64" + tGraph)
+
       
   //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
   a(class="text-3xl") Devices

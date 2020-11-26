@@ -68,53 +68,6 @@ export const directDashboard = async (req: Request, res: Response) => {
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, userFilter: user.filter, filters: filter });
 };
 
-export const directDashboardWorks = async (req: Request, res: Response) => {
-  let user = req.user as IUser;
-  let sensorIDs: string[] = []; // All sensorIDs to be in the filters
-  let graphs: string[] = [];
-
-  if (req.nodes != null) {
-    // Iterate though the user's nodes
-    for (let nIndex: number = 0; nIndex < req.nodes.length; nIndex++) {
-      let nodeSensorIDs: string[] = []; // The sensorIDs on the current node
-      // Collect the sensorIDs on the current node
-      for (let sdIndex: number = 0; sdIndex < req.nodes[nIndex].sensorData.length; sdIndex++) {
-        if (!nodeSensorIDs.includes(req.nodes[nIndex].sensorData[sdIndex].sensorID)) {
-          nodeSensorIDs.push(req.nodes[nIndex].sensorData[sdIndex].sensorID);
-          sensorIDs.push(req.nodes[nIndex].sensorData[sdIndex].sensorID);
-        }
-      }
-      // Iterate through each sensorID on the current node
-      for (let idIndex: number = 0; idIndex < nodeSensorIDs.length; idIndex++) {
-        let sensorID: string = nodeSensorIDs[idIndex];
-        // If the user has selected the sensor with 'id' in their filter
-        if (user.filter.includes(sensorID)) {
-          let timestamps: string[] = [];  // Holds all timestamps from the sensor
-          let values: number[] = [];      // Holds all values from the sensor
-          // @ts-ignore
-          const sensorDataList = await Node.findSensorDataBySensorID(sensorID) as INode;
-          // Retrieve values and timestamps from sensorData
-          for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
-            // Remove date and decimals for better readability
-            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
-            timestamp = timestamp.split(/T|\./)[1];
-            timestamps.push(timestamp);
-            values.push(sensorDataList[dataIndex].sensorData.value);
-          }
-
-          // Generate the graph for the sensor
-          graphs.push(await makeCanvasLine(
-            sensorID,
-            timestamps,
-            values,
-          ));
-        }
-      }
-    }
-  }
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, userFilter: user.filter, filters: sensorIDs });
-};
-
 export const updateFilters = async (req: Request, res: Response) => {
   // TODO proper error handling (either redirect back or success + flash message)
   if (!req.user) {
