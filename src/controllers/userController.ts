@@ -9,6 +9,11 @@ export const directFunctionality = async (req: Request, res: Response) => {
   res.render('functionality', { pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality });
 };
 
+export const directEditDevice = async (_req: Request, res: Response) => {
+
+  res.render('edit-device', { pageTitle: 'EditDevice', path: '/edit-device'});
+};
+
 export const addFunctionality = async (_req: Request, res: Response) => {
   res.render('add-functionality', { pageTitle: 'Add functionality', path: '/add-functionality' });
 };
