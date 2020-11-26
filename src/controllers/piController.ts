@@ -1,8 +1,23 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { INode, Node } from "../models/nodeModel";
 import { User } from "../models/userModel";
 
+// When a node is first connected to the network, it will make a initNode request
 export const initNode = async (req: Request, res: Response) => {
+  const owner = mongoose.Types.ObjectId(req.query.id as string);
+  console.log("owner init", owner)
+
+  // If the node already exists then dont do anything
+  // TODO: if master inits and exists get all functionality
+  const existingNode = await Node.findOne({ nodeID: req.body.nodeID });
+  if (existingNode) {
+    res.status(200).send('Already exists');
+    return;
+  }
+
+  // If it is a new node, then create a new node in the database
+  req.body.owner = owner;
   const node = await (new Node(req.body)).save();
   if (!node) {
     // TODO: Add proper handling
@@ -14,41 +29,25 @@ export const initNode = async (req: Request, res: Response) => {
 
 // Updates sensor data in the DB
 export const updateSensorData = async (req: Request, res: Response) => {
-  for (let id in req.body){
-    const node = await Node.findOneAndUpdate(
-      { _id: id },
-      { $push: { sensorData: req.body[id] } },
-      { new: true }
-    ).exec();
-    if (!node) {
-      // TODO: Add proper handling
-      res.sendStatus(404).send('Sorry mate - no such node 👎');
-    }
-  }
-  res.status(200).send('The nodes has been updated 👯‍♀️');
-};
+  const owner = mongoose.Types.ObjectId(req.query.id as string);
 
-// Updates a node's status and updateStatus property
-// If a node is *not* found it will create a new node
-// TODO: This might not be needed since we have updateLoad 👋👋👋👋👋👋
-export const updateStatus = async (req: Request, res: Response) => {
-  const node = await Node.findOneAndUpdate(
-    { nodeID: req.params.id },
-    { $set: { status: req.body.status, updateStatus: req.body.updateStatus } },
-    { upsert: true }
-  );
-
-  if (!node) {
-    res.status(200).send('A new node has been created 👀');
-  } else {
-    res.status(200).send('The node has been updated 👯‍♀');
+  let bulk = Node.collection.initializeUnorderedBulkOp();
+  for (let nodeID in req.body) {
+    bulk.find({nodeID: nodeID, owner: owner})
+      .update({ $push: { sensorData: {$each: req.body[nodeID] } }});
   }
+  bulk.execute();
+
+  res.status(200).send('The data has been added 👯‍♀️');
 };
 
 // Update sensor data for all nodes at once
 export const updateLoad = async (req: Request, res: Response) => {
-  let bulk = Node.collection.initializeUnorderedBulkOp();
+  const owner = mongoose.Types.ObjectId(req.query.id as string);
+  console.log("owner", owner)
+  
 
+  let bulk = Node.collection.initializeUnorderedBulkOp();
   req.body.nodes.forEach((node: { nodeID: string, status: string, updateStatus: string; }) => {
     bulk.find({ nodeID: node.nodeID })
       .upsert()
@@ -63,37 +62,42 @@ export const updateLoad = async (req: Request, res: Response) => {
 
 // Returns the functionality for all nodes that are *Pending* for an update
 export const getFunctionality = async (req: Request, res: Response) => {
-  let email = req.body.email;
+  let owner = mongoose.Types.ObjectId(req.query.id as string);
+  console.log("owner getFunc", owner)
 
   // Retrieves all nodes that are *Pending* for a new update  
-  const nodes = await Node.find({ updateStatus: 'Pending'}, 'nodeID function -_id').exec();
+  const nodes = await Node.find({ owner: owner, updateStatus: 'Pending'}, 'nodeID function -_id').exec();
   if(nodes.length === 0){
     res.status(200).send('No nodes waiting to update');
     return;
   }
 
-  // Finds the user based on email
-  // TODO: Needs to be done differently
-  const user = await User.findOne({ email: email});
+  // Finds the user based on _id
+  const user = await User.findOne({ _id: owner});
   if(user != null){
-    let nodeUpdates: object[] = [];
+    // @ts-ignore
+    const functionality = await User.findSomeFunctionality(nodes, user);
+
     // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
+    let nodeUpdates: object[] = [];
     nodes.forEach(async (node: INode) => {
-      let func = ensure(user.functionality.find(func => func._id == node.function));
+      const func = functionality.find((f: {functionality: {_id: string}}) => f.functionality._id == node.function).functionality;
+      
       nodeUpdates.push({
         nodeID: node.nodeID,
         body: {
           setup: func.setup,
           loop: func.loop,
-          reboot: func.reboot,
+          reboot: false,
           sleep: false // TODO: Wus fix
         }
       });
     });
-    res.status(200).send(nodeUpdates);
+
+    res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
   } else {
     // TODO: Needs to be changed to match the way we are gonna identify the user
-    res.status(404).send(`There is no such user: ${email}`);
+    res.status(404).send(`There is no such user: ${owner}`);
   }
 };
 
