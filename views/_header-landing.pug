@@ -1,12 +1,12 @@
 nav(class="flex flex-row bg-teal-500 p-4 px-6 shadow-lg")
   div(class="flex-shrink-0 text-white mr-4")
-    img.h-10.w-auto.mr-2(src='/images/logo-white.png' alt='Wine logo')
+    img.h-16.w-auto.mr-2(src='/images/logo-white.png' alt='Wine logo')
   div(class="w-full block flex items-center justify-between")
-    div(class="text-sm")
-      a(href="/" class="block hover:text-white ml-6" class=(path === '/' ? 'text-white' : 'text-teal-200'))
+    div(class="text-lg")
+      a(href="/" class="block hover:text-white ml-8" class=(path === '/' ? 'text-white' : 'text-teal-200'))
         | Homepage
     div(class="flex items-center")
-      a(id="signInBtn" class="cursor-pointer text-sm block text-teal-200 hover:text-white mx-6")
+      a(id="signInBtn" class="cursor-pointer text-lg block text-teal-200 hover:text-white mx-8")
         | Log in
 
       // *********   Login   ************
@@ -61,7 +61,7 @@ nav(class="flex flex-row bg-teal-500 p-4 px-6 shadow-lg")
             div(class="text-xs flex justify-center mt-2 mb-2")
               <a id="cancelNewPasswordBtn" class="cursor-pointer text-indigo-300 hover:underline">Cancel</a>
       // Modal ends here
-      a(id="signUpBtn" class="cursor-pointer inline-block text-sm px-4 py-2 leading-none border rounded-lg text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white")
+      a(id="signUpBtn" class="mr-4 cursor-pointer inline-block text-lg px-4 py-2 leading-none border rounded-lg text-teal-200 border-teal-200 hover:border-transparent hover:text-teal-500 hover:bg-white")
         | Register
 
       // *********   Register   ************
