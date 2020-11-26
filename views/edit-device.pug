@@ -23,17 +23,23 @@ block content
         div(class="ml-4 w-32 text-gray-700")
           | Functionality:
         div(id="devicesBtn1" class="w-64 py-2 border rounded-md flex hover:bg-gray-300 cursor-pointer")
-          span(class="ml-2 w-64") sadasd
+          span(class="ml-2 w-64") Avaliable functionality
           div(id="arrowDown1" class="mr-2")
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
           div(id="arrowUp1" class="mr-2 hidden")
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-          div(class="p-2 mt-10 absolute hidden border rounded-lg flex flex-col bg-gray-100" id="dropdownDevices1")
-            div(class="flex flex-row items-center")
-              div(class="text-gray-700")
-                | Temperature
-              div(class="ml-12 py-2 border rounded-lg text-xs p-2 bg-red-400")
-                | Selected
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>    
+            // Dropdown start here
+      div(class="ml-32")
+        div(class="ml-4 h-64 overflow-auto p-2 absolute hidden border rounded-lg flex flex-shrink-0 flex-col bg-gray-100" id="dropdownDevices1")
+          // Should contain mixins
+          div(class="flex items-center")
+            div(class="text-gray-700 mr-4 ")
+              | Temperature
+            div(id="selectedBtn1" class="ml-auto py-2 rounded-lg text-xs p-2 bg-red-400 hover:font-semibold cursor-pointer")
+              | Selected
+          
+            
+          
 block scripts
   script.
     window.addEventListener('DOMContentLoaded', () => {
@@ -43,7 +49,7 @@ block scripts
       const arrowDown = document.querySelector('#arrowDown1'); 
       const menuBtn = document.querySelector('#devicesBtn1'); 
       const dropdownDev = document.querySelector('#dropdownDevices1');
-      const selectedBtn = document.querySelector('#')
+      const selectedBtn = document.querySelector('#selectedBtn1')
 
       menuBtn.addEventListener('click', () => {
         dropdownDev.classList.toggle('hidden');
