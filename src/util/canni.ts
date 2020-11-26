@@ -77,7 +77,8 @@ export const makeCanvasLine = async (title: string, xValues: Array<string>, yVal
       options: {
         legend: {
           labels: {
-            boxWidth: 0
+            boxWidth: 0,
+            fontFamily: 'Arial'
           }
         }
       }
