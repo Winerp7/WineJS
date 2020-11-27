@@ -18,8 +18,9 @@ block content
             a(class="text-xs text-gray-700") #{user.name}
           div(class="pl-20 mt-2 text-gray-700 mr-4")
             <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        // Modal begins here
-        div(id="modalName" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        
+        // **************** Name modal begins here ****************
+        div(id="modalName" class="h-full overflow-auto fixed bg-gray-900 bg-opacity-75 hidden inset-0 flex flex-col justify-center items-center")
           div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
             div(class="flex text-white")
               <svg id="closeModalName" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -37,7 +38,8 @@ block content
                   | Save
               div(class="text-xs flex justify-center mt-2 mb-2")
                 <a id="cancelNameBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
-        // Modal ends here
+        
+        // **************** Name modal ends here ****************
 
       div(class="flex flex-col login-settings my-6")
         a(class="text-gray-900 text-2xl font-light mx-4") Login
@@ -49,8 +51,10 @@ block content
             a(class="text-xs text-gray-700") #{user.email}
           div(class="pl-20 mt-2 text-gray-700")
             <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        // Modal begins here
-        div(id="modalEmail" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        
+        // **************** Email modal begins here ****************
+
+        div(id="modalEmail" class="h-full overflow-auto fixed bg-gray-900 bg-opacity-75 hidden inset-0 flex flex-col justify-center items-center")
           div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
             div(class="flex text-white")
               <svg id="closeModalEmail" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -72,7 +76,8 @@ block content
                   | Save
               div(class="text-xs flex justify-center mt-2 mb-2")
                 <a id="cancelEmailBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
-        // Modal ends here
+
+        // **************** Email modal ends here ****************
         
         div(id="editPassword" class="flex flex-row py-2 hover:bg-gray-300 cursor-pointer")
           div(class="w-32")
@@ -81,8 +86,10 @@ block content
             a(class="text-xs text-gray-700") **********
           div(class="pl-20 mt-2 text-gray-700")
             <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        // Modal begins here
-        div(id="modalPass" class="bg-gray-900 bg-opacity-75 absolute hidden inset-0 flex flex-col justify-center items-center")
+        
+        // **************** Password modal begins here ****************
+
+        div(id="modalPass" class="h-full overflow-auto fixed bg-gray-900 bg-opacity-75 hidden inset-0 flex flex-col justify-center items-center")
           div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
             div(class="flex text-white")
               <svg id="closeModalPass" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -108,7 +115,9 @@ block content
                   | Save
               div(class="text-xs flex justify-center mt-2 mb-2")
                 <a id="cancelPassBtn" class="cursor-pointer text-indigo-400 hover:font-semibold">Cancel</a>
-        // Modal ends here
+        
+        // **************** Password modal ends here ****************
+        
         div(class="mt-5 flex justify-center text-sm")
           form(action="/account/delete" method="GET")
             button(id="deleteAccountBtn" class="focus:outline-none px-4 py-1 bg-red-500 border rounded-lg text-gray-100 hover:border-red-500 hover:bg-indigo-100 hover:text-red-500")
