@@ -41,7 +41,7 @@ export const updateSensorData = async (req: Request, res: Response) => {
 };
 
 // Update status for all nodes at once
-export const updateLoad = async (req: Request, res: Response) => {
+export const updateNodes = async (req: Request, res: Response) => {
   const owner = objectId(req.query.id as string);
 
   let bulk = Node.collection.initializeUnorderedBulkOp();
