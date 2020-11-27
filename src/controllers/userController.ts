@@ -3,15 +3,16 @@ import { IUser, User } from "../models/userModel";
 import { makeCanvasLine } from '../util/canni';
 import { promisify } from 'es6-promisify';
 
+export const directEditDevice = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+
+  res.render('edit-device', { pageTitle: 'EditDevice', path: '/edit-device', funcs: user.functionality});
+};
+
 export const directFunctionality = async (req: Request, res: Response) => {
   let user = req.user as IUser;
 
   res.render('functionality', { pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality });
-};
-
-export const directEditDevice = async (_req: Request, res: Response) => {
-
-  res.render('edit-device', { pageTitle: 'EditDevice', path: '/edit-device'});
 };
 
 export const addFunctionality = async (_req: Request, res: Response) => {
