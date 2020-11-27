@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvasLine, testGraph } from '../util/canni';
+import { makeCanvasLine} from '../util/canni';
 import { promisify } from 'es6-promisify';
 
 export const directFunctionality = async (req: Request, res: Response) => {
