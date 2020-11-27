@@ -10,11 +10,11 @@ block content
       //- TODO The dropdown would get very long if there are a lot of sensors
       //- TODO Maybe fix this? Dunno if necessary.
       form(action="/dashboard" method="POST")
-        for filter in filters
+        for fil in filter
           div(class="hover:bg-indigo-100 rounded px-2 py-1")
-            input(type="checkbox" name=`${filter}`)
-            label(for=`${filter}` class="px-2")
-              | #{filter}
+            input(type="checkbox" name=`${fil}`)
+            label(for=`${fil}` class="px-2")
+              | #{fil}
         button(type="submit" class="focus:outline-none mt-2 border border-teal-300 hover:border-teal-300 bg-teal-300 hover:bg-gray-100 rounded px-2 py-1 block w-full")
           | Save
 
