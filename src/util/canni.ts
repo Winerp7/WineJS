@@ -58,6 +58,7 @@ export const makeCanvasBar = async (title: string, xValues: Array<string>, yValu
   return dataUrl;
 };
 
+
 // https://www.chartjs.org/docs/latest/charts/
 export const makeCanvasLine = async (title: string, xValues: Array<string>, yValues: Array<number>) => {    
   const configuration = {
@@ -77,7 +78,8 @@ export const makeCanvasLine = async (title: string, xValues: Array<string>, yVal
       options: {
         legend: {
           labels: {
-            boxWidth: 0
+            boxWidth: 0,
+            fontFamily: 'Arial'
           }
         }
       }
