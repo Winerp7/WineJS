@@ -5,12 +5,11 @@ import { User } from "../models/userModel";
 
 // When a node is first connected to the network, it will make a initNode request
 export const initNode = async (req: Request, res: Response) => {
-  const owner = mongoose.Types.ObjectId(req.query.id as string);
-  console.log("owner init", owner)
+  const owner = objectId(req.query.id as string);
 
   // If the node already exists then dont do anything
   // TODO: if master inits and exists get all functionality
-  const existingNode = await Node.findOne({ nodeID: req.body.nodeID });
+  const existingNode = await Node.findOne({ nodeID: req.body.nodeID, owner: owner });
   if (existingNode) {
     res.status(200).send('Already exists');
     return;
@@ -29,7 +28,7 @@ export const initNode = async (req: Request, res: Response) => {
 
 // Updates sensor data in the DB
 export const updateSensorData = async (req: Request, res: Response) => {
-  const owner = mongoose.Types.ObjectId(req.query.id as string);
+  const owner = objectId(req.query.id as string);
 
   let bulk = Node.collection.initializeUnorderedBulkOp();
   for (let nodeID in req.body) {
@@ -37,20 +36,17 @@ export const updateSensorData = async (req: Request, res: Response) => {
       .update({ $push: { sensorData: {$each: req.body[nodeID] } }});
   }
   bulk.execute();
-
+ 
   res.status(200).send('The data has been added 👯‍♀️');
 };
 
-// Update sensor data for all nodes at once
+// Update status for all nodes at once
 export const updateLoad = async (req: Request, res: Response) => {
-  const owner = mongoose.Types.ObjectId(req.query.id as string);
-  console.log("owner", owner)
-  
+  const owner = objectId(req.query.id as string);
 
   let bulk = Node.collection.initializeUnorderedBulkOp();
-  req.body.nodes.forEach((node: { nodeID: string, status: string, updateStatus: string; }) => {
-    bulk.find({ nodeID: node.nodeID })
-      .upsert()
+  req.body.forEach((node: { nodeID: string, status: string, updateStatus: string; }) => {
+    bulk.find({ nodeID: node.nodeID, owner: owner })
       .update({ $set: { status: node.status, updateStatus: node.updateStatus } });
   });
   // TODO: Error handling here
@@ -62,8 +58,7 @@ export const updateLoad = async (req: Request, res: Response) => {
 
 // Returns the functionality for all nodes that are *Pending* for an update
 export const getFunctionality = async (req: Request, res: Response) => {
-  let owner = mongoose.Types.ObjectId(req.query.id as string);
-  console.log("owner getFunc", owner)
+  const owner = objectId(req.query.id as string);
 
   // Retrieves all nodes that are *Pending* for a new update  
   const nodes = await Node.find({ owner: owner, updateStatus: 'Pending'}, 'nodeID function -_id').exec();
@@ -72,39 +67,29 @@ export const getFunctionality = async (req: Request, res: Response) => {
     return;
   }
 
-  // Finds the user based on _id
-  const user = await User.findOne({ _id: owner});
-  if(user != null){
-    // @ts-ignore
-    const functionality = await User.findSomeFunctionality(nodes, user);
+  // Finds all the functionality for the nodes
+  // @ts-ignore
+  const allFuncs = await User.findSomeFunctionality(nodes, owner);
 
-    // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
-    let nodeUpdates: object[] = [];
-    nodes.forEach(async (node: INode) => {
-      const func = functionality.find((f: {functionality: {_id: string}}) => f.functionality._id == node.function).functionality;
-      
-      nodeUpdates.push({
-        nodeID: node.nodeID,
-        body: {
-          setup: func.setup,
-          loop: func.loop,
-          reboot: false,
-          sleep: false // TODO: Wus fix
-        }
-      });
+  // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
+  let nodeUpdates: {nodeID: string, body: {setup: string, loop: string, reboot: boolean, sleep: boolean}}[] = [];
+  nodes.forEach(async (node: INode) => {
+    const func = allFuncs.find((f: {functionality: {_id: string}}) => f.functionality._id == node.function).functionality;  
+    
+    nodeUpdates.push({
+      nodeID: node.nodeID,
+      body: {
+        setup: func.setup,
+        loop: func.loop,
+        reboot: false,
+        sleep: false // TODO: Wus fix
+      }
     });
+  });
 
-    res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
-  } else {
-    // TODO: Needs to be changed to match the way we are gonna identify the user
-    res.status(404).send(`There is no such user: ${owner}`);
-  }
+  res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
 };
 
-// Throws a TypeError if the functionID does not exist in the user
-export function ensure<T>(argument: T | undefined | null, message: string = 'This functionID does not exist'): T {
-  if (argument === undefined || argument === null) {
-    throw new TypeError(message);
-  }
-  return argument;
+function objectId(s: string){
+  return mongoose.Types.ObjectId(s);
 }
