@@ -48,7 +48,7 @@ router.get('/nodes',
 );
 
 router.post('/pi/updateSensorData', piController.updateSensorData);
-router.post('/pi/updateLoad', catchErrors(piController.updateLoad));
+router.post('/pi/updateNodes', catchErrors(piController.updateNodes));
 router.post('/pi/initNode', piController.initNode);
 router.get('/pi/getFunctionality', catchErrors(piController.getFunctionality));
 
