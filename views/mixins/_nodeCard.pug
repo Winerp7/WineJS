@@ -23,7 +23,7 @@ mixin nodeCard(node = {})
           p(class="text-gray-700") Sensors
             each sensor in node.sensors
               div(class="flex flex-col items-center justify-center text-lg")
-                | #{sensor}
+                | #{sensor.name}
     div(class="flex flex-row items-center justify-center")
       button(id="activeBtn" class="mr-2 mt-2 text-sm place-self-center px-5 py-1 bg-red-500 border border-red-500 rounded-lg text-gray-100 hover:border-red-500 hover:bg-gray-100 hover:text-red-500 focus:outline-none") 
         // add if statement to determine if button should be "deactivate" or "activate"

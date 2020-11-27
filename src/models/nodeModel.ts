@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 //mongoose.Promise = global.Promise; // test if this can be deletede and no false positives from mongo
 import slug from 'slugify';
+import { IUser } from './userModel';
 
 // Add the fns from mongoose document, so *this* has access to *isModified* fn
 export interface INode extends Document {
@@ -9,8 +10,9 @@ export interface INode extends Document {
   name: string;
   isMaster: boolean;
   status: string;
-  sensors: string[];
-  sensorData: { time: string, value: number, sensor: string }[];
+  //sensors: string[];
+  sensors: { name: string, sensorID: string }[];
+  sensorData: { timestamp: string, value: number, sensorID: string }[];
   function: string;
   slug: string;
 }
@@ -37,7 +39,11 @@ const nodeSchema = new mongoose.Schema({
     type: String,
     default: 'Updated'
   },
-  sensors: [String], // TODO: Change to type of sensors
+  //sensors: [String], // TODO: Change to type of sensors
+  sensors: [{
+    name: String,
+    sensorID: String
+  }],
   sensorData: [{
     time: String,
     value: Number,
@@ -51,6 +57,15 @@ const nodeSchema = new mongoose.Schema({
     required: 'You must supply a user'
   }
 });
+
+nodeSchema.statics.findSensorDataBySensorID = function (sensorID: string, user: IUser) {
+  return this.aggregate([
+    { $match: { "owner": user._id } },
+    { $unwind: '$sensorData' },
+    { $match: { "sensorData.sensorID": sensorID } },
+    { $project: { _id: false, "sensorData": 1 } } // Remove everything but the functionality object
+  ]);
+};
 
 nodeSchema.pre('save', function (this: INode, next) {
   if (!this.isModified('name')) {
