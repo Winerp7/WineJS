@@ -39,9 +39,8 @@ export const directDashboard = async (req: Request, res: Response) => {
     }
   }
 
-  const tGraph = await testGraph();
   let user = req.user as IUser;
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: user.filter, tGraph });
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: user.filter});
 };
 
 export const updateFilters = async (req: Request, res: Response) => {
