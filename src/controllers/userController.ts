@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvasLine, testGraph} from '../util/canni';
+import { makeLine} from '../util/canni';
 import { promisify } from 'es6-promisify';
 import { INode, Node } from "../models/nodeModel";
 
@@ -55,7 +55,7 @@ export const directDashboard = async (req: Request, res: Response) => {
           }
 
           // Generate the graph for the sensor
-          graphs.push(await makeCanvasLine(
+          graphs.push(await makeLine(
             sensorName,
             timestamps,
             values,
@@ -64,9 +64,7 @@ export const directDashboard = async (req: Request, res: Response) => {
       }
     }
   }
-  let test: string  = await testGraph();
-  console.log(test);
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter, testGraph: test});
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter });
 };
 
 export const updateFilters = async (req: Request, res: Response) => {
