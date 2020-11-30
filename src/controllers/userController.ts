@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvasLine} from '../util/canni';
+import { makeCanvasLine, testGraph} from '../util/canni';
 import { promisify } from 'es6-promisify';
 import { INode, Node } from "../models/nodeModel";
 
@@ -64,7 +64,9 @@ export const directDashboard = async (req: Request, res: Response) => {
       }
     }
   }
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter});
+  let test: string  = await testGraph();
+  console.log(test);
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter, testGraph: test});
 };
 
 export const updateFilters = async (req: Request, res: Response) => {

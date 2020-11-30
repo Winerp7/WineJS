@@ -4,6 +4,8 @@
 // https://github.com/SeanSobey/ChartjsNodeCanvas/blob/master/API.md
 // https://github.com/Automattic/node-canvas#canvastobuffer
 import { CanvasRenderService } from 'chartjs-node-canvas';
+const co = require('co');
+const generate = require('node-chartist');
 
 const width = 300;
 const height = 300;
@@ -24,6 +26,55 @@ const chartCallback = (ChartJS: any) => {
 };
 const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
 
+export const testGraph = async () => {
+  // options object
+  co(function * () {
+    const options = {
+      width: 400,
+      height: 200,
+      axisX: { title: 'X Axis (units)' },
+      axisY: { title: 'Y Axis (units)' }
+    };
+  
+    const line = yield generate('line', options, {
+      labels: ['a', 'b', 'c', 'd', 'e'],
+      series: [
+        {name: 'Series 1', value: [1, 2, 3, 4, 5]},
+        {name: 'Series 2', value: [3, 4, 5, 6, 7]}
+      ]
+    });
+    return line;
+  });
+};
+
+export const testGraph2 = async () => {
+  // options object
+  const options = {width: 400, height: 400};
+  const data = {
+    labels: ['a','b','c','d','e'],
+    series: [
+      [1, 2, 3, 4, 5],
+      [3, 4, 5, 6, 7]
+    ]
+  };
+  return await generate('line', options, data); //=> chart HTML
+};
+
+export const testGraph3 = async () => {
+  return await new chartist.Line('.ct-chart', {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    series: [
+      [12, 9, 7, 8, 5],
+      [2, 1, 3.5, 7, 3],
+      [1, 3, 4, 5, 6]
+    ]
+  }, {
+    fullWidth: true,
+    chartPadding: {
+      right: 40
+    }
+  });
+};
 
 export const makeCanvasBar = async (title: string, xValues: Array<string>, yValues: Array<number>) => {
   const configuration = {
