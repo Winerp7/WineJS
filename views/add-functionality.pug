@@ -1,41 +1,77 @@
 extends _layout 
 
 block content 
-	// The form should have 'action=`/functionality/${func._id}/edit` method="GET"' before its class
 	div(class="text-gray-900 font-light text-5xl items-center text-center")
-		| Add node functionality
+		| #{title}
 		div(class="mt-2 text-lg text-gray-600")
-			| Add a functionality by specifying its name, setup() code and loop() code. The code should be written in Python. 
-			| When a functionality is added to a slave node, the master node pushes the code to the specific slave node. 
-			| You can use the predefined functions <a class="italic">upload(dict)</a> and <a class="italic">wait(int)</a>. 
-			| <a class="font-normal text-semibold text-gray-900">Note: This feature should only be used by super-users.</a>
+			if (!functionality)
+				| Add a functionality by specifying its name, setup() code and loop() code. The code should be written in Python. 
+				| When a functionality is added to a slave node, the master node pushes the code to the specific slave node. 
+				| You can use the predefined functions <a class="italic">upload(dict)</a> and <a class="italic">wait(int)</a>. 
+				| <a class="font-normal text-semibold text-gray-900">Note: This feature should only be used by super-users.</a>
+			else 
+				| Edit a functionality by changing its name, setup() code and/or loop() code. The code should be written in Python. 
+				| You can use the predefined functions <a class="italic">upload(dict)</a> and <a class="italic">wait(int)</a>. 
+				| <a class="font-normal text-semibold text-gray-900">Note: This feature should only be used by super-users.</a>
 	div(id="sectionSplitter" class="w-full border-b mb-8 mt-8")
-	div(class="flex flex-col justify-center items-center")
-		div(class="flex flex-col font-light text-2xl mb-2 font-normal items-center")
-			| Name of functionality
-			div(id="infoName" class="text-lg font-light mb-4 max-w-xl")
-				| Input the name of your new functionality. 
-			input(type="name" name="newFuncName" class="text-center shadow px-1 py-2 bg-gray-100 focus:outline-none rounded-lg text-xl mb-4" placeholder="Name")
-	div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-2")
-	div(class="flex flex-col lg:flex-row justify-around items-center text-xl w-full lg:space-x-12")
-		div(id="setupSection" class="width-1/2  text-center")
-			div(class="font-light text-2xl mb-2 font-normal")
-				| Setup() function
-			div(id="infoMaster" class="text-md font-light mb-4 max-w-xl")
-				| Input your setup code for the node. The code should be written in Python. 
-			div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
-				textarea(id="setupFunc" class="text-sm overflow-auto text-gray-900 border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none" placeholder="some code;")
-		div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-0")
-		div(id="loopSection" class="width-1/2  text-center")
-			div(class="font-light text-2xl mb-2 font-normal")
-				| Loop() function
-			div(id="infoSlave" class="text-md font-light mb-4 max-w-xl")
-				| Input your loop code for the node. The code should be written in Python. 
-			div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
-				textarea(id="loopFunc" class="text-sm text-gray-900 overflow-auto border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none" placeholder="some code;")
-	form(class="flex flex-col items-center justify-center mt-4")
-		button(type="submit" class="shadow text-3xl place-self-center px-8 py-1 bg-teal-300 border border-teal-300 rounded-lg text-indigo-100 hover:border-teal-300 hover:bg-indigo-100 hover:text-teal-300 focus:outline-none") 
-			| Add functionality
+	if (!functionality)
+		form(action="/functionality/add" method="POST")
+			div(class="flex flex-col justify-center items-center")
+				div(class="flex flex-col font-light text-2xl mb-2 font-normal items-center")
+					| Name of functionality
+					div(id="infoName" class="text-lg font-light mb-4 max-w-xl")
+						| Input the name of your new functionality. 
+					input(type="name" name="name" class="text-center shadow px-1 py-2 bg-gray-100 focus:outline-none rounded-lg text-xl mb-4" placeholder="Name")
+			div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-2")
+			div(class="flex flex-col lg:flex-row justify-around items-center text-xl w-full lg:space-x-12")
+				div(id="setupSection" class="width-1/2  text-center")
+					div(class="font-light text-2xl mb-2 font-normal")
+						| Setup() function
+					div(id="infoMaster" class="text-md font-light mb-4 max-w-xl")
+						| Input your setup code for the functionality. The code should be written in Python. 
+					div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
+						textarea(name="setup" id="setupFunc" class="text-sm overflow-auto text-gray-900 border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none" placeholder="some code;")
+				div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-0")
+				div(id="loopSection" class="width-1/2  text-center")
+					div(class="font-light text-2xl mb-2 font-normal")
+						| Loop() function
+					div(id="infoSlave" class="text-md font-light mb-4 max-w-xl")
+						| Input your loop code for the functionality. The code should be written in Python. 
+					div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
+						textarea(name="loop" id="loopFunc" class="text-sm text-gray-900 overflow-auto border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none" placeholder="some code;")
+			div(class="flex flex-col items-center justify-center mt-4")
+				button(type="submit" class="shadow text-3xl place-self-center px-8 py-1 bg-teal-300 border border-teal-300 rounded-lg text-indigo-100 hover:border-teal-300 hover:bg-indigo-100 hover:text-teal-300 focus:outline-none") 
+					| Add functionality
+	else 
+		form(action=`/functionality/${functionality._id}` method="POST")
+			div(class="flex flex-col justify-center items-center")
+				div(class="flex flex-col font-light text-2xl mb-2 font-normal items-center")
+					| Name of functionality
+					div(id="infoName" class="text-lg font-light mb-4 max-w-xl")
+						| Edit the name of the functionality. 
+					input(value=`${functionality.name}` type="name" name="name" class="text-center shadow px-1 py-2 bg-gray-100 focus:outline-none rounded-lg text-xl mb-4")
+			div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-2")
+			div(class="flex flex-col lg:flex-row justify-around items-center text-xl w-full lg:space-x-12")
+				div(id="setupSection" class="width-1/2  text-center")
+					div(class="font-light text-2xl mb-2 font-normal")
+						| Setup() function
+					div(id="infoMaster" class="text-md font-light mb-4 max-w-xl")
+						| Edit the setup code for the functionality. The code should be written in Python. 
+					div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
+						textarea( name="setup" id="setupFunc" class="text-sm overflow-auto text-gray-900 border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none")
+							| #{functionality.setup}
+				div(id="sectionSplitter" class="w-full lg:w-0 border-t mt-4 pt-6 lg:border-none lg:pt-0 lg:mt-0")
+				div(id="loopSection" class="width-1/2  text-center")
+					div(class="font-light text-2xl mb-2 font-normal")
+						| Loop() function
+					div(id="infoSlave" class="text-md font-light mb-4 max-w-xl")
+						|Edit the loop code for the functionality. The code should be written in Python. 
+					div(class="flex justify-center text-3xl mb-6 mt-8 h-48")
+						textarea(name="loop" id="loopFunc" class="text-sm text-gray-900 overflow-auto border-2 border-gray-700 rounded-xl p-2 bg-indigo-100 w-full h-full focus:outline-none")
+							| #{functionality.loop}
+			div(class="flex flex-col items-center justify-center mt-4")
+				button(type="submit" class="shadow text-3xl place-self-center px-8 py-1 bg-teal-300 border border-teal-300 rounded-lg text-indigo-100 hover:border-teal-300 hover:bg-indigo-100 hover:text-teal-300 focus:outline-none") 
+					| Edit functionality
 	
 	// *********   Confirm functionality modal (For adding a functionality from 'edit-node' page)   ************
 	

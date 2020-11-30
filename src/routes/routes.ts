@@ -5,6 +5,7 @@ import * as landingpageController from '../controllers/landingpageController';
 import * as nodeController from '../controllers/nodeController';
 import * as authController from '../controllers/authController';
 import * as piController from '../controllers/piController';
+import * as funcController from '../controllers/functionalityController';
 import { catchErrors } from '../util/errorHandlers';
 import { validateSettings } from '../util/validator';
 
@@ -23,9 +24,11 @@ router.post('/register',
   authController.login
 );
 
-router.get('/functionality', authController.isLoggedIn, userController.directFunctionality);
-router.get('/functionality/add', authController.isLoggedIn, userController.addFunctionality);
-router.get('/functionality/:id/edit', authController.isLoggedIn, userController.editFunctionality);
+router.get('/functionality', authController.isLoggedIn, catchErrors(funcController.fetchFunctionality), funcController.getFunctionality);
+router.get('/functionality/add', authController.isLoggedIn, funcController.addFunctionality);
+router.post('/functionality/add', authController.isLoggedIn, catchErrors(funcController.createFunctionality));
+router.get('/functionality/:id/edit', authController.isLoggedIn, funcController.editFunctionality);
+router.post('/functionality/:id', catchErrors(funcController.updateFunctionality)); 
 // ! Are we keeping this?
 router.get('/getFunc', catchErrors(userController.getOneFunctions));
 
