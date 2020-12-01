@@ -28,13 +28,6 @@ const userSchema = new mongoose.Schema({
     trim: true, // Remove all white space in either end e.g. '   bent@gmail.com      '
     validate: [validator.isEmail, 'Invalid Email Address'], // Checks that email has @ and other requirements for being an email
   },
-  functionality: [{
-    name: String,
-    setup: String,
-    loop: String,
-    description: String,
-    reboot: Boolean
-  }],
   filter: {
     type: [String],
   },
@@ -44,33 +37,6 @@ const userSchema = new mongoose.Schema({
     type: String,
   }
 });
-
-userSchema.statics.findOneFunctionality = function (funcName: string, user: IUser) {
-  return this.aggregate([
-    { $match: { email: user.email } },
-    { $unwind: '$functionality' },
-    { $match: { "functionality.name": funcName} },
-    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality object
-  ]);
-};
-
-userSchema.statics.findAllFunctionality = function (user: IUser) {
-  return this.aggregate([
-    { $match: { email: user.email } },
-    { $unwind: '$functionality' },
-    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality objects
-  ]);
-};
-
-userSchema.statics.findSomeFunctionality = function (nodes: [{ nodeID: string, function: string }], owner: mongoose.Types.ObjectId) {
-  let funcIDs = nodes.map(a => mongoose.Types.ObjectId(a.function));
-  return this.aggregate([
-    { $match: { _id: owner } },
-    { $unwind: '$functionality' },
-    { $match: { "functionality._id": { $in: funcIDs}} },
-    { $project: { _id: 0, functionality: 1 } } // Remove everything but the functionality object
-  ]);
-};
 
 // for shitz and gigglez
 // has to use function() otherwise this is not bound to user

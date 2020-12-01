@@ -5,5 +5,6 @@
 declare namespace Express {
   interface Request {
     nodes?: import("../../models/nodeModel").INode[];
+    functionalities?: import("../../models/functionalityModel").IFunctionality[]; 
   }
 }

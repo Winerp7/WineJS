@@ -4,22 +4,6 @@ import { makeLine} from '../util/canni';
 import { promisify } from 'es6-promisify';
 import { INode, Node } from "../models/nodeModel";
 
-export const directFunctionality = async (req: Request, res: Response) => {
-  let user = req.user as IUser;
-
-  res.render('functionality', { pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality });
-};
-
-export const addFunctionality = async (_req: Request, res: Response) => {
-  res.render('add-functionality', { pageTitle: 'Add functionality', path: '/add-functionality' });
-};
-
-export const editFunctionality = async (_req: Request, res: Response) => {
-  // TODO implement such that this renders add functionality and sends the specific func with it
-
-  res.render('add-functionality', { pageTitle: "Edit functionality", path: '/add-functionality' });
-};
-
 export const directResetPassword = async (_req: Request, res: Response) => {
   res.render('reset-password', { path: '/reset-password' });
 };

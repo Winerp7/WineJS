@@ -15,6 +15,7 @@ export interface INode extends Document {
   sensorData: { timestamp: string, value: number, sensorID: string }[];
   function: string;
   slug: string;
+  owner: mongoose.Types.ObjectId; 
 }
 
 const nodeSchema = new mongoose.Schema({
@@ -49,7 +50,7 @@ const nodeSchema = new mongoose.Schema({
     value: Number,
     sensor: String
   }],
-  function: String,
+  function: mongoose.Types.ObjectId,
   slug: String,
   owner: {
     type: mongoose.Types.ObjectId,
