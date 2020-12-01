@@ -62,8 +62,10 @@ export const updateFunctionality = async (req: Request, res: Response) => {
     // Validation
     const foundFuncName = await Functionality.findOne({ name: req.body.name });
     if (foundFuncName) {
-        req.flash('error', 'A functionality already exists with that delightful name ⛔');
-        return res.redirect(`/functionality/${req.params.id}/edit`);
+        if (foundFuncName._id != req.params.id) {
+            req.flash('error', 'A functionality already exists with that delightful name ⛔');
+            return res.redirect(`/functionality/${req.params.id}/edit`);
+        }
     }
 
     const functionality = await Functionality.findOneAndUpdate({ _id: req.params.id }, req.body, {
