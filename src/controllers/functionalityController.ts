@@ -10,7 +10,6 @@ export const addFunctionality = (_req: Request, res: Response) => {
 
 // For POST request: Creates a functionality with the specified input in the DB 
 export const createFunctionality = async (req: Request, res: Response) => {
-    console.log(req.body);  
     let user = req.user as IUser;
     req.body.owner = user._id;
 
@@ -29,7 +28,7 @@ export const createFunctionality = async (req: Request, res: Response) => {
     res.redirect('/functionality');
 }; 
 
-// Middleware function for collection all functionalities of a user and appending them to the body, should be 
+// Middleware function to fetch functionalities of a user from DB and appending them to the body, should be 
 // called before a 'res.render'-call in order to fetch functionalities 
 export const fetchFunctionality = async (req: Request, _res: Response, next: NextFunction) => {
     const user = req.user as IUser;
