@@ -28,7 +28,9 @@ router.get('/functionality', authController.isLoggedIn, catchErrors(funcControll
 router.get('/functionality/add', authController.isLoggedIn, funcController.addFunctionality);
 router.post('/functionality/add', authController.isLoggedIn, catchErrors(funcController.createFunctionality));
 router.get('/functionality/:id/edit', authController.isLoggedIn, funcController.editFunctionality);
-router.post('/functionality/:id', catchErrors(funcController.updateFunctionality)); 
+router.post('/functionality/:id', authController.isLoggedIn, catchErrors(funcController.updateFunctionality)); 
+router.get('/functionality/delete/:id', authController.isLoggedIn, catchErrors(funcController.deleteFunctionality));
+
 // ! Are we keeping this?
 router.get('/getFunc', catchErrors(userController.getOneFunctions));
 

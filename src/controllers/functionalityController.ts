@@ -79,4 +79,14 @@ export const updateFunctionality = async (req: Request, res: Response) => {
       res.redirect(`/functionality`);
     }
 };
-  
+
+export const deleteFunctionality = async (req: Request, res: Response) => {
+    await Functionality.findOneAndDelete({ _id: req.params.id }, function (err) {
+        if (err) {
+            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality!');
+            res.redirect('/functionality');
+        }
+        req.flash('success', `The functionality was deleted! 👋`);
+        return res.redirect('/functionality');
+    });
+};
