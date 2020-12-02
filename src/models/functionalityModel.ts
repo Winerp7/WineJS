@@ -5,7 +5,7 @@ export interface IFunctionality extends Document {
     setup: string;
     loop: string; 
     description: string; 
-    reboot: Boolean; 
+    reboot: boolean; 
     owner: mongoose.Types.ObjectId; 
   }
 
@@ -39,7 +39,16 @@ const functionalitySchema = new mongoose.Schema({
     }
 });
 
+functionalitySchema.statics.findFuncsForNodes = function (nodes: [{nodeID: string, function: object}], owner: mongoose.Types.ObjectId) {
+    const funcIDs = nodes.map(a => a.function);
+    return this.aggregate([
+      { $match: { "_id": { $in: funcIDs}, "owner": owner } },
+      { $project: { _id: 1, setup: 1, loop: 1, reboot: 1 } }
+    ]);
+  };
+
 // 'Functionality' is the table that it should use/create in the DB
 const Functionality = mongoose.model<IFunctionality>('Functionality', functionalitySchema);
+
 
 export { Functionality };

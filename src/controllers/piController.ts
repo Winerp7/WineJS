@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { INode, Node } from "../models/nodeModel";
-import { User } from "../models/userModel";
+import { Functionality } from "../models/functionalityModel";
 
 // When a node is first connected to the network, it will make a initNode request
 export const initNode = async (req: Request, res: Response) => {
@@ -67,26 +67,26 @@ export const getFunctionality = async (req: Request, res: Response) => {
     return;
   }
 
-  // Finds all the functionality for the nodes
-  // @ts-ignore
-  const allFuncs = await User.findSomeFunctionality(nodes, owner);
+  //Finds all functionality, which needs to be sent to the master node
+  //@ts-ignore
+  const allFuncs = await Functionality.findFuncsForNodes(nodes, owner);
 
   // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
   let nodeUpdates: {nodeID: string, body: {setup: string, loop: string, reboot: boolean, sleep: boolean}}[] = [];
+
   nodes.forEach(async (node: INode) => {
-    const func = allFuncs.find((f: {functionality: {_id: string}}) => f.functionality._id == node.function).functionality;  
-    
+    // Finds the specific func for a node
+    const func = allFuncs.find((f: {_id: string, setup: string, loop: string, reboot: boolean}) => f._id == String(node.function));
     nodeUpdates.push({
       nodeID: node.nodeID,
       body: {
         setup: func.setup,
         loop: func.loop,
-        reboot: false,
+        reboot: func.reboot,
         sleep: false // TODO: Wus fix
       }
     });
   });
-
   res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
 };
 
