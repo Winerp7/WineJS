@@ -1,6 +1,11 @@
 extends _layout
 
 block content
+  div(class="text-gray-900 font-light text-5xl items-center text-center")
+    | Dashboard
+    p(class="mt-2 text-lg text-gray-600")
+      | Scroll to see all of your functionalities for <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>. Each functionality can be deleted or edited by clicking the buttons.  
+  div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
   div(class="flex")
     button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
       | Filter graphs
@@ -50,7 +55,8 @@ block content
               span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
           td(class="border px-4 py-2")
             each sensor in node.sensors
-              | #{sensor.name}
+              <a href="/download/#{node.nodeID}/#{sensor}">#{sensor}</a>
+              br
               // TODO: Needs prettyprinting
             
 
