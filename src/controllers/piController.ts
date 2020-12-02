@@ -30,13 +30,14 @@ export const initNode = async (req: Request, res: Response) => {
 export const updateSensorData = async (req: Request, res: Response) => {
   const owner = objectId(req.query.id as string);
 
+  const body = convertSensorData(req.body);
   let bulk = Node.collection.initializeUnorderedBulkOp();
-  for (let nodeID in req.body) {
-    bulk.find({nodeID: nodeID, owner: owner})
-      .update({ $push: { sensorData: {$each: req.body[nodeID] } }});
-  }
+  body.forEach((node: {nodeID: string, data: {sensor: string, value: number, time: string}[]}) => {
+    bulk.find({nodeID: node.nodeID, owner: owner})
+      .update({ $push: { sensorData: {$each: node.data } }});
+  });
   bulk.execute();
- 
+
   res.status(200).send('The data has been added 👯‍♀️');
 };
 
@@ -92,4 +93,22 @@ export const getFunctionality = async (req: Request, res: Response) => {
 
 function objectId(s: string){
   return mongoose.Types.ObjectId(s);
+}
+
+// TODO: Thats an any
+function convertSensorData(body: any){
+  let newBody = []
+  for(let nodeID in body){
+    let nodeBody = body[nodeID];
+    let sensorData = [];
+    for (let data in nodeBody){
+      let sensor = ''; let value = 0; let time = ''
+      Object.keys(nodeBody[data]).forEach((field: string) => {
+        if(field != 'time'){ sensor = field; value = nodeBody[data][sensor]} else { time = nodeBody[data]['time']}
+      });
+      sensorData.push({sensor: sensor, value: value, time: time})
+    }
+    newBody.push({nodeID: nodeID, data: sensorData})
+  }
+  return newBody;
 }
