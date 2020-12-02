@@ -5,6 +5,7 @@ import * as landingpageController from '../controllers/landingpageController';
 import * as nodeController from '../controllers/nodeController';
 import * as authController from '../controllers/authController';
 import * as piController from '../controllers/piController';
+import * as funcController from '../controllers/functionalityController';
 import { catchErrors } from '../util/errorHandlers';
 import { validateSettings } from '../util/validator';
 
@@ -23,11 +24,13 @@ router.post('/register',
   authController.login
 );
 
-//router.get('/edit-device', authController.isLoggedIn, userController.directEditDevice);
+router.get('/functionality', authController.isLoggedIn, catchErrors(funcController.fetchFunctionality), funcController.getFunctionality);
+router.get('/functionality/add', authController.isLoggedIn, funcController.addFunctionality);
+router.post('/functionality/add', authController.isLoggedIn, catchErrors(funcController.createFunctionality));
+router.get('/functionality/:id/edit', authController.isLoggedIn, funcController.editFunctionality);
+router.post('/functionality/:id', authController.isLoggedIn, catchErrors(funcController.updateFunctionality)); 
+router.get('/functionality/delete/:id', authController.isLoggedIn, catchErrors(funcController.deleteFunctionality));
 
-router.get('/functionality', authController.isLoggedIn, userController.directFunctionality);
-router.get('/functionality/add', authController.isLoggedIn, userController.addFunctionality);
-router.get('/functionality/:id/edit', authController.isLoggedIn, userController.editFunctionality);
 // ! Are we keeping this?
 router.get('/getFunc', catchErrors(userController.getOneFunctions));
 
@@ -50,8 +53,7 @@ router.get('/nodes',
 );
 
 router.post('/pi/updateSensorData', piController.updateSensorData);
-router.post('/pi/updateStatus/:id', catchErrors(piController.updateStatus));
-router.post('/pi/updateLoad', catchErrors(piController.updateLoad));
+router.post('/pi/updateNodes', catchErrors(piController.updateNodes));
 router.post('/pi/initNode', piController.initNode);
 router.get('/pi/getFunctionality', catchErrors(piController.getFunctionality));
 

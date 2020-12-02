@@ -17,6 +17,7 @@ export const createNode = async (req: Request, res: Response) => {
   res.redirect('/');
 };
 
+// Middleware function for fetching all nodes of a user and appending them to the body
 export const fetchNodes = async (req: Request, _res: Response, next: NextFunction) => {
   const user = req.user as IUser;
   const nodes = await Node.find();

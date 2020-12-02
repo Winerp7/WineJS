@@ -1,51 +1,54 @@
 import { Response, Request, NextFunction } from 'express';
 import { IUser, User } from "../models/userModel";
-import { makeCanvasLine } from '../util/canni';
+import { makeLine} from '../util/canni';
 import { promisify } from 'es6-promisify';
-
-export const directEditDevice = async (req: Request, res: Response) => {
-  let user = req.user as IUser;
-
-  res.render('edit-device', { pageTitle: 'EditDevice', path: '/edit-device', funcs: user.functionality});
-};
-
-export const directFunctionality = async (req: Request, res: Response) => {
-  let user = req.user as IUser;
-
-  res.render('functionality', { pageTitle: 'Functionality', path: '/functionality', funcs: user.functionality });
-};
-
-export const addFunctionality = async (_req: Request, res: Response) => {
-  res.render('add-functionality', { pageTitle: 'Add functionality', path: '/add-functionality' });
-};
-
-export const editFunctionality = async (_req: Request, res: Response) => {
-  // TODO implement such that this renders add functionality and sends the specific func with it
-
-  res.render('add-functionality', { pageTitle: "Edit functionality", path: '/add-functionality' });
-};
+import { INode, Node } from "../models/nodeModel";
 
 export const directResetPassword = async (_req: Request, res: Response) => {
   res.render('reset-password', { path: '/reset-password' });
 };
 
+// TODO Fix text on server
 export const directDashboard = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+  let filter: string[] = []; // All sensor names to be in the filters
   let graphs: string[] = [];
 
-  // Generate graphs
-  // TODO Should be based on the user's filters & should graph sensors, not nodes.
-  if (req.nodes) {
-    // async/await doesn't seem to work with forEach =(
-    for (let index: number = 0; index < req.nodes.length; index++) {
-      graphs.push(await makeCanvasLine(
-        req.nodes[index].name,
-        ['Sensor 1', 'Sensor 3', 'Sensor 4', 'Sensor 7', 'Sensor 9', 'Sensor 10'],
-        [5, -2, 1, 0, 4, -1],
-      ));
+  if (req.nodes != null) {
+    // Iterate through the user's nodes
+    for (let nodeIndex: number = 0; nodeIndex < req.nodes.length; nodeIndex++) {
+      // Iterate through the current node's sensors
+      for (let sensorIndex: number = 0; sensorIndex < req.nodes[nodeIndex].sensors.length; sensorIndex++) {
+        let sensorID: string = req.nodes[nodeIndex].sensors[sensorIndex].sensorID;
+        let sensorName: string = req.nodes[nodeIndex].sensors[sensorIndex].name;
+        filter.push(sensorName);
+
+        // If the user has selected the sensor with 'id' in their filter
+        if (user.filter.includes(sensorName)) {
+          let timestamps: string[] = [];  // Holds all timestamps from the sensor
+          let values: number[] = [];      // Holds all values from the sensor
+          // @ts-ignore
+          const sensorDataList = await Node.findSensorDataBySensorID(sensorID, user) as INode;
+          // Retrieve values and timestamps from sensorData
+          for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
+            // Remove date and decimals for better readability
+            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
+            timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
+            timestamps.push(timestamp);
+            values.push(sensorDataList[dataIndex].sensorData.value);
+          }
+
+          // Generate the graph for the sensor
+          graphs.push(await makeLine(
+            sensorName,
+            timestamps,
+            values,
+          ));
+        }
+      }
     }
   }
-  let user = req.user as IUser;
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: user.filter });
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter });
 };
 
 export const updateFilters = async (req: Request, res: Response) => {

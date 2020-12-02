@@ -12,6 +12,7 @@ html
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     link(rel="stylesheet", href="/stylesheets/hide-item.css")
     link(rel='stylesheet', href='/stylesheets/styles.css')
+    link(rel='stylesheet', href='/stylesheets/chartist.css')
     title #{pageTitle}
     
     block styles
@@ -33,12 +34,12 @@ html
           div(id="hideMe" class="absolute p-5 shadow-lg rounded-lg bg-white center-notification")
             div(class="top-0 right-0 absolute")
               button(onClick="this.parentElement.parentElement.remove()" class="") 
-                <svg id="closeModal" class="text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> 
+                <svg id="closeModal" class="m-1 text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> 
             | #{message}
 
     main(class="flex-grow min-w-full min-h-full")
       // To edit size of "view" alter the mx and my parameters
-      div(class="mx-20 my-12 px-8")
+      div(class="mx-20 my-8 px-8")
         block content
           | This is our block content, and all HTML code should be put into a content
           | block like this one. <br> <br>
