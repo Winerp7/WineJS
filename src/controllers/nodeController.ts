@@ -33,15 +33,18 @@ export const getNodes = (req: Request, res: Response) => {
 // Finds a specific node based on its unique _id from mongoDB
 export const editNode = async (req: Request, res: Response) => {
   const node = await Node.findOne({ _id: req.params.id });
+  const user = req.user as IUser;
+
   if (!node) {
     console.log('here should be a proper error 🙂');
   } else {
-    res.render('add-node', { title: `Edit ${node.name}`, node: node });
+    res.render('edit-device', { title: `Edit ${node.name}`, node: node, funcs: user.functionality});
   }
 };
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
+  console.log(req.body);
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one
     runValidators: true // runs the validators to ensure there is stil name etc.

@@ -23,7 +23,7 @@ router.post('/register',
   authController.login
 );
 
-router.get('/edit-device', authController.isLoggedIn, userController.directEditDevice);
+//router.get('/edit-device', authController.isLoggedIn, userController.directEditDevice);
 
 router.get('/functionality', authController.isLoggedIn, userController.directFunctionality);
 router.get('/functionality/add', authController.isLoggedIn, userController.addFunctionality);
