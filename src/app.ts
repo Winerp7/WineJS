@@ -18,6 +18,8 @@ import * as helpers from './util/helpers';
 import { router } from './routes/routes';
 import './util/passport'; // invokes the code in passport.ts
 
+import './util/disk';
+
 
 // Init app
 const app = express();
