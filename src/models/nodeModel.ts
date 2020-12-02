@@ -13,7 +13,7 @@ export interface INode extends Document {
   //sensors: string[];
   sensors: { name: string, sensorID: string }[];
   sensorData: { timestamp: string, value: number, sensorID: string }[];
-  function: string;
+  function: mongoose.Types.ObjectId;
   slug: string;
   owner: mongoose.Types.ObjectId; 
 }
