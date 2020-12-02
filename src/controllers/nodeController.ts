@@ -34,12 +34,11 @@ export const getNodes = (req: Request, res: Response) => {
 // Finds a specific node based on its unique _id from mongoDB
 export const editNode = async (req: Request, res: Response) => {
   const node = await Node.findOne({ _id: req.params.id });
-  const user = req.user as IUser;
 
   if (!node) {
     console.log('here should be a proper error 🙂');
   } else {
-    res.render('edit-device', { title: `Edit ${node.name}`, node: node, funcs: user.functionality});
+    res.render('edit-device', { title: `Edit ${node.name}`, node: node, funcs: req.functionalities});
   }
 };
 
