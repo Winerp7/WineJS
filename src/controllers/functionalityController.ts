@@ -11,18 +11,21 @@ export const addFunctionality = (_req: Request, res: Response) => {
 // For POST request "/functionality/add": Creates a functionality with the specified input in the DB 
 export const createFunctionality = async (req: Request, res: Response) => {
     let user = req.user as IUser;
+    const functionalities = await Functionality.find();
+    // Only get the functionalities that belong to the user
+    req.functionalities = functionalities.filter(functionality => functionality.owner.equals(user._id));
     req.body.owner = user._id;
 
-    // Validation
-    const foundFuncName = await Functionality.findOne({ name: req.body.name });
-    if (foundFuncName) {
+    // Validation: Check if a functionality already exists with that name by adding the names to an array,
+    // and checking if the req.body.name is in this array
+    const functionalityNames: string[] = []
+    req.functionalities.forEach(fn => functionalityNames.push(fn.name));
+
+    if (functionalityNames.includes(req.body.name)) {
         req.flash('error', 'A functionality already exists with that delightful name ⛔');
         return res.redirect('/functionality/add');
     }
-
     const func = await (new Functionality(req.body)).save();
-
-    // ! Maybe do some rebooting here? Or actually: DO IT when functionality is added to node
 
     req.flash('success', `Successfully created functionality '${func.name}'.`);
     res.redirect('/functionality');
@@ -59,8 +62,10 @@ export const editFunctionality = async (req: Request, res: Response) => {
 
 // For POST request "/functionality/:id": Edits the specific functionality in the DB 
 export const updateFunctionality = async (req: Request, res: Response) => {
+    const user = req.user as IUser;
+
     // Validation
-    const foundFuncName = await Functionality.findOne({ name: req.body.name });
+    const foundFuncName = await Functionality.findOne({ name: req.body.name, owner: user._id});
     if (foundFuncName) {
         if (foundFuncName._id != req.params.id) {
             req.flash('error', 'A functionality already exists with that delightful name ⛔');
