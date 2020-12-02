@@ -55,9 +55,8 @@ export const updateNode = async (req: Request, res: Response) => {
     // TODO: Add proper handling
     console.log("The node do not exist 🔥");
   } else {
-    req.flash('success', `Successfully updated <strong>${node.name}</strong>. 
-    <a href="/nodes/${node.slug}">View Node --> </a>`);
-    res.redirect(`/nodes/${node._id}/edit`);
+    req.flash('success', `Successfully updated ${node.name}! 🔥`);
+    res.redirect(`/nodes`);
   }
 };
 
