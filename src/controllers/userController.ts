@@ -21,10 +21,11 @@ export const directDashboard = async (req: Request, res: Response) => {
       let nodeID: string = req.nodes[nodeIndex].nodeID;
       for (let sensorIndex: number = 0; sensorIndex < req.nodes[nodeIndex].sensors.length; sensorIndex++) {
         let sensorName: string = req.nodes[nodeIndex].sensors[sensorIndex];
-        filter.push(nodeID + ":" + sensorName);
+        let filterElement: string = nodeID + ": " + sensorName;
+        filter.push(filterElement);
 
         // If the user has selected the sensor with 'id' in their filter
-        if (user.filter.includes(nodeID + ":" + sensorName)) {
+        if (user.filter.includes(filterElement)) {
           let timestamps: string[] = [];  // Holds all timestamps from the sensor
           let values: number[] = [];      // Holds all values from the sensor
           // @ts-ignore
@@ -40,7 +41,7 @@ export const directDashboard = async (req: Request, res: Response) => {
 
           // Generate the graph for the sensor
           graphs.push(await makeLine(
-            sensorName,
+            filterElement,
             timestamps,
             values,
           ));

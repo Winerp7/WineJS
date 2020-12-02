@@ -4,7 +4,7 @@ block content
   div(class="text-gray-900 font-light text-5xl items-center text-center")
     | Dashboard
     p(class="mt-2 text-lg text-gray-600")
-      | Scroll to see all of your functionalities for <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>. Each functionality can be deleted or edited by clicking the buttons.  
+      | Scroll to see your sensor data displayed on graphs and an overview of <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>.
   div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
   div(class="flex")
     button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
@@ -26,7 +26,7 @@ block content
   //- Graphs are displayed here
   div(class="justify-center flex flex-wrap")
     each graph in graphs
-      div(class="pb-10")
+      div(class="pb-10 text-xs text-center")
         != graph
       
   //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
