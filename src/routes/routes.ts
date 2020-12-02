@@ -12,7 +12,7 @@ import { validateSettings } from '../util/validator';
 
 router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
 router.post('/dashboard', catchErrors(userController.updateFilters));
-router.get('/download/:nodeID/:sensor', authController.isLoggedIn, nodeController.downloadData);
+router.get('/download/:node/:sensor', authController.isLoggedIn, nodeController.downloadData);
 
 router.get('/settings', authController.isLoggedIn, userController.settings);
 router.post('/settings/:userSetting', validateSettings, catchErrors(userController.updateSettings));

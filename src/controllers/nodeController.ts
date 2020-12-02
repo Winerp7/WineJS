@@ -62,7 +62,7 @@ export const updateNode = async (req: Request, res: Response) => {
 export const downloadData = async (req: Request, res: Response) => {
   let user = req.user as IUser;
   // @ts-ignore
-  const sensorDataList = await Node.findSensorDataBySensorID(req.params.nodeID, req.params.sensor, user) as INode;
+  const sensorDataList = await Node.findSensorDataBySensorID(req.params.node, req.params.sensor, user) as INode;
 
   var fileContents = Buffer.from(JSON.stringify(sensorDataList), "ascii");
   var readStream = new Stream.PassThrough();

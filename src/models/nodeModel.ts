@@ -53,10 +53,10 @@ const nodeSchema = new mongoose.Schema({
   }
 });
 
-nodeSchema.statics.findSensorDataBySensorID = function (nodeID: string, sensor: string, user: IUser) {
+nodeSchema.statics.findSensorDataBySensorID = function (node: string, sensor: string, user: IUser) {
   return this.aggregate([
     { $match: { "owner": user._id } },
-    { $match: { "nodeID": nodeID } },
+    { $match: { "name": node } },
     { $unwind: '$sensorData' },
     { $match: { "sensorData.sensor": sensor } },
     { $project: { _id: false, "sensorData": 1 } } // Remove everything but the sensorData object

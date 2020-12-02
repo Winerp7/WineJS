@@ -18,10 +18,10 @@ export const directDashboard = async (req: Request, res: Response) => {
     // Iterate through the user's nodes
     for (let nodeIndex: number = 0; nodeIndex < req.nodes.length; nodeIndex++) {
       // Iterate through the current node's sensors
-      let nodeID: string = req.nodes[nodeIndex].nodeID;
+      let nodeName: string = req.nodes[nodeIndex].name;
       for (let sensorIndex: number = 0; sensorIndex < req.nodes[nodeIndex].sensors.length; sensorIndex++) {
         let sensorName: string = req.nodes[nodeIndex].sensors[sensorIndex];
-        let filterElement: string = nodeID + ": " + sensorName;
+        let filterElement: string = nodeName + ": " + sensorName;
         filter.push(filterElement);
 
         // If the user has selected the sensor with 'id' in their filter
@@ -29,7 +29,7 @@ export const directDashboard = async (req: Request, res: Response) => {
           let timestamps: string[] = [];  // Holds all timestamps from the sensor
           let values: number[] = [];      // Holds all values from the sensor
           // @ts-ignore
-          const sensorDataList = await Node.findSensorDataBySensorID(nodeID, sensorName, user) as INode;
+          const sensorDataList = await Node.findSensorDataBySensorID(nodeName, sensorName, user) as INode;
           // Retrieve values and timestamps from sensorData
           for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
             // Remove date and decimals for better readability
