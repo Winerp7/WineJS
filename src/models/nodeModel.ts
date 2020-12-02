@@ -10,9 +10,7 @@ export interface INode extends Document {
   name: string;
   isMaster: boolean;
   status: string;
-  //sensors: string[];
-  sensors: { name: string, sensorID: string }[];
-  sensorData: { timestamp: string, value: number, sensorID: string }[];
+  sensors: string[];
   function: mongoose.Types.ObjectId;
   slug: string;
   owner: mongoose.Types.ObjectId; 
@@ -40,11 +38,7 @@ const nodeSchema = new mongoose.Schema({
     type: String,
     default: 'Updated'
   },
-  //sensors: [String], // TODO: Change to type of sensors
-  sensors: [{
-    name: String,
-    sensorID: String
-  }],
+  sensors: [String], // TODO: Change to type of sensors
   sensorData: [{
     time: String,
     value: Number,
@@ -59,12 +53,13 @@ const nodeSchema = new mongoose.Schema({
   }
 });
 
-nodeSchema.statics.findSensorDataBySensorID = function (sensorID: string, user: IUser) {
+nodeSchema.statics.findSensorDataBySensorID = function (nodeID: string, sensor: string, user: IUser) {
   return this.aggregate([
     { $match: { "owner": user._id } },
+    { $match: { "nodeID": nodeID } },
     { $unwind: '$sensorData' },
-    { $match: { "sensorData.sensorID": sensorID } },
-    { $project: { _id: false, "sensorData": 1 } } // Remove everything but the functionality object
+    { $match: { "sensorData.sensor": sensor } },
+    { $project: { _id: false, "sensorData": 1 } } // Remove everything but the sensorData object
   ]);
 };
 

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Node} from "../models/nodeModel";
 import { IUser } from '../models/userModel';
+import { Stream } from 'stream';
 
 export const addNode = (req: Request, res: Response) => {
   req.flash('success', 'some shit'); // Maybe remove? 
@@ -56,4 +57,16 @@ export const updateNode = async (req: Request, res: Response) => {
     <a href="/nodes/${node.slug}">View Node --> </a>`);
     res.redirect(`/nodes/${node._id}/edit`);
   }
+};
+
+export const downloadData = async (req: Request, res: Response) => {
+  let user = req.user as IUser;
+  // @ts-ignore
+  const sensorDataList = await Node.findSensorDataBySensorID(req.params.nodeID, req.params.sensor, user) as INode;
+
+  var fileContents = Buffer.from(JSON.stringify(sensorDataList), "ascii");
+  var readStream = new Stream.PassThrough();
+  readStream.end(fileContents);
+  res.set('Content-disposition', 'attachment; filename=' + "SensorData.json");
+  readStream.pipe(res);
 };
