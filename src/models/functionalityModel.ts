@@ -12,7 +12,6 @@ export interface IFunctionality extends Document {
 const functionalitySchema = new mongoose.Schema({
     name: {
         type: String,
-        unique: true, 
         trim: true, 
         required: 'You must supply a name'
     },
