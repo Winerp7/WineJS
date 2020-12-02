@@ -65,12 +65,8 @@ export const downloadData = async (req: Request, res: Response) => {
   const sensorDataList = await Node.findSensorDataBySensorID(req.params.nodeID, req.params.sensor, user) as INode;
 
   var fileContents = Buffer.from(JSON.stringify(sensorDataList), "ascii");
-  
   var readStream = new Stream.PassThrough();
   readStream.end(fileContents);
-
   res.set('Content-disposition', 'attachment; filename=' + "SensorData.json");
-  res.set('Content-Type', 'text/plain');
-
   readStream.pipe(res);
 };

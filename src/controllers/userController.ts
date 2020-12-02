@@ -29,7 +29,6 @@ export const directDashboard = async (req: Request, res: Response) => {
           let values: number[] = [];      // Holds all values from the sensor
           // @ts-ignore
           const sensorDataList = await Node.findSensorDataBySensorID(nodeID, sensorName, user) as INode;
-          console.log(sensorDataList);
           // Retrieve values and timestamps from sensorData
           for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
             // Remove date and decimals for better readability
