@@ -33,8 +33,10 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
 
       - run: npm install
+        env:
+          MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
+
 
       - run: npm test
         env:
-          MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
           CI: true
