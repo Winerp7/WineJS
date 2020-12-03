@@ -1,6 +1,3 @@
 {
-  "baseUrl": "http://127.0.0.1:3000",
-  "env": {
-    "MONGO_CONNECTION_STRING": "mongodb+srv://jens:sabj17@winecluster.zj8vg.azure.mongodb.net/WebApp?retryWrites=true&w=majority"
-  }
+  "baseUrl": "http://127.0.0.1:3000"
 }
