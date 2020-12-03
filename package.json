@@ -10,7 +10,9 @@
     "dev": "concurrently npm:dev:*",
     "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css",
     "postinstall": "tsc",
-    "start": "node ./dist/bin/www"
+    "start": "node ./dist/bin/www",
+    "cy:run": "cypress run",
+    "test": " npm start & wait-on http://localhost:3000 npm run cy:run"
   },
   "dependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",
@@ -45,7 +47,8 @@
     "slugify": "^1.4.5",
     "tailwindcss": "^1.9.6",
     "typescript": "^4.0.5",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "wait-on": "^5.2.0"
   },
   "devDependencies": {
     "@types/connect-flash": "0.0.35",
@@ -66,6 +69,7 @@
     "@types/pug": "^2.0.4",
     "@types/validator": "^13.1.0",
     "concurrently": "^5.3.0",
+    "cypress": "^6.0.1",
     "nodemon": "^2.0.5"
   }
 }
