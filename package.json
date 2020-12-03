@@ -12,7 +12,8 @@
     "postinstall": "tsc",
     "start": "node ./dist/bin/www",
     "cy:run": "cypress run",
-    "test": " npm start & wait-on http://localhost:3000 npm run cy:run"
+    "test": "start-server-and-test start http://localhost:3000 npm run cy:run",
+    "failedbadly:test": " npm start & wait-on http://localhost:3000 npm run cy:run"
   },
   "dependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",
@@ -70,6 +71,7 @@
     "@types/validator": "^13.1.0",
     "concurrently": "^5.3.0",
     "cypress": "^6.0.1",
-    "nodemon": "^2.0.5"
+    "nodemon": "^2.0.5",
+    "start-server-and-test": "^1.11.6"
   }
 }
