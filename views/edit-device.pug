@@ -68,11 +68,15 @@ block content
 
             if (!node.isMaster)
                 div(id="deviceFunc" class="text-lg font-light border-b flex flex-row py-4 items-center")
-                    div(class="mx-4 w-64 text-gray-600")
+                    div(class="mx-4 w-64 mr-28 text-gray-600")
                         | Functionality
-                    div(id="nodeFunctionality" class="max-w-sm w-full overflow-x-auto")
+                    div(class="max-w-sm w-full overflow-x-auto")
                         if (!funcs.length)
-                            | No existing functionalities, create one...
+                            div(class="flex flex-row items-center overflow-x-auto")
+                                div(name="function" type="text" id="chosenFunc" class="w-64 mr-auto overflow-x-auto bg-transparent focus:outline-none font-light text-lg")  
+                                    | No existing functionalities
+                                a(href="/functionality/add" class="w-auto ml-24 flex text-center p-2 font-semibold rounded-lg text-xs bg-green-300 hover:bg-green-500 cursor-pointer")
+                                    | Add functionality
                         else 
                             div(id="funcsDropdownBar" class="border flex flex-row p-2 rounded-lg hover:bg-gray-200 cursor-pointer")
                                 - var isFound = false
@@ -83,9 +87,9 @@ block content
                                         - myFuncName = func.name
                                 
                                 if (isFound)
-                                    | #{myFuncName}
+                                    input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
                                 else 
-                                    | Choose an existing functionality...      
+                                    input(value="Choose an existing functionality..." name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
 
                                 <svg id="arrowDown" class="w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -94,22 +98,15 @@ block content
 
                         div(style="max-height: 12rem;" class="hidden max-w-sm w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
                             each func in funcs
-                                div(class="flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer")
+                                div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
+                                    | #{func.name}
                                     if (node.function && node.function.equals(func._id))
-                                        div(class="text-gray-700 mr-4")
-                                            | #{func.name}
                                         div(id="selectedBtn" class="mr-2 ml-auto")
-                                            <svg class="w-3 h-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    else 
-                                        div(class="text-gray-700 mr-4")
-                                            | #{func.name}
+                                    else
+                                        div(id="selectedBtn" class="hidden mr-2 ml-auto")
 
                         // ******** Functionalities dropdown ends here *********
 
-                    div(class="flex ml-auto items-center mx-auto text-gray-600")
-                        div(id="newFuncBtn" class="cursor-pointer text-gray-900 text-center px-4 p-2 font-normal rounded-lg text-sm bg-green-300 hover:bg-green-500")
-                            | Create functionality
-                
                 div(id="deviceSensors" class="text-lg font-light border-b flex flex-row py-4")
                     div(class="mx-4 w-64 text-gray-600")
                         | Sensors
@@ -127,10 +124,11 @@ block content
 
         button(type="submit" id="saveNewNodeBtn" class="mt-6 shadow text-2xl focus:outline-none px-8 py-2 bg-indigo-400 border border-indigo-400 rounded-xl text-indigo-100 hover:border-indigo-400 hover:bg-indigo-100 hover:text-indigo-400")
             | Save
-
+    
 block scripts
     script. 
         window.addEventListener('DOMContentLoaded', () => {
+            
             // Modal for name
             const nodeNameBar = document.querySelector('#deviceName');
             const nodeNameModal = document.querySelector('#modalDeviceName');
@@ -189,5 +187,22 @@ block scripts
             }
 
             funcsDropdownBar.addEventListener('click', toggleFunctionalityDropDown)
-            
-        }); 
+        
+            // Select functionality in dropdown
+            const chosenFunc = document.querySelector('#chosenFunc');
+
+            const chooseFunctionality = (value) => {
+                dropdownFuncs.classList.toggle('hidden');
+                arrowUp.classList.toggle('hidden');
+                arrowDown.classList.toggle('hidden');
+                funcsDropdownBar.classList.toggle('bg-gray-200');
+                chosenFunc.value = value;
+            }
+
+            const funcs = document.querySelectorAll("div.func"); // Gets all funcs
+            funcs.forEach(function(currentValue, currentIndex, listObj) {
+                currentValue.addEventListener('click', function() {
+                    chooseFunctionality(currentValue.innerText);
+                });
+            });
+        });

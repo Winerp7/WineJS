@@ -45,7 +45,12 @@ export const editNode = async (req: Request, res: Response) => {
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
+  if (req.body.function)
+    req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
+
   console.log(req.body);
+
+
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one
     runValidators: true // runs the validators to ensure there is stil name etc.
@@ -53,7 +58,7 @@ export const updateNode = async (req: Request, res: Response) => {
 
   if (!node) {
     // TODO: Add proper handling
-    console.log("The node do not exist 🔥");
+    console.log("The node does not exist 🔥");
   } else {
     req.flash('success', `Successfully updated ${node.name}! 🔥`);
     res.redirect(`/nodes`);
