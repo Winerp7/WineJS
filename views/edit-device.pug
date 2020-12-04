@@ -66,61 +66,57 @@ block content
 
             // *************** Modal change nodeID ends here *****************
 
+            
             if (!node.isMaster)
-                div(id="deviceFunc" class="text-lg font-light border-b flex flex-row py-4 items-center")
-                    div(class="mx-4 w-64 mr-28 text-gray-600")
-                        | Functionality
-                    div(class="max-w-sm w-full overflow-x-auto")
-                        if (!funcs.length)
-                            div(class="flex flex-row items-center overflow-x-auto")
-                                div(name="function" type="text" id="chosenFunc" class="w-64 mr-auto overflow-x-auto bg-transparent focus:outline-none font-light text-lg")  
-                                    | No existing functionalities
-                                a(href="/functionality/add" class="w-auto ml-24 flex text-center p-2 font-semibold rounded-lg text-xs bg-green-300 hover:bg-green-500 cursor-pointer")
-                                    | Add functionality
-                        else 
-                            div(id="funcsDropdownBar" class="border flex flex-row p-2 rounded-lg hover:bg-gray-200 cursor-pointer")
-                                - var isFound = false
-                                - var myFuncName
-                                each func in funcs 
-                                    if (node.function && node.function.equals(func._id))
-                                        - isFound = true
-                                        - myFuncName = func.name
-                                
-                                if (isFound)
-                                    input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
-                                else 
-                                    input(value="Choose an existing functionality..." name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
-
-                                <svg id="arrowDown" class="w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        
-                        // ******** Functionalities dropdown begins here *********
-
-                        div(style="max-height: 12rem;" class="hidden max-w-sm w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
-                            each func in funcs
-                                div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
-                                    | #{func.name}
-                                    if (node.function && node.function.equals(func._id))
-                                        div(id="selectedBtn" class="mr-2 ml-auto")
-                                    else
-                                        div(id="selectedBtn" class="hidden mr-2 ml-auto")
-
-                        // ******** Functionalities dropdown ends here *********
-
-                div(id="deviceSensors" class="text-lg font-light border-b flex flex-row py-4")
+                div(id="deviceFunc" class="text-lg font-light border-b flex flex-row py-2 items-center")
                     div(class="mx-4 w-64 text-gray-600")
-                        | Sensors
-                    div(id="nodeSensors" class="w-64 overflow-x-auto")
-                        if (!node.sensors.length)
-                            | No sensors
-                        else if (node.sensors.length === 1)
-                            | #{node.sensors.join(" ")}
-                        else if (node.sensors.length === 2)
-                            | #{node.sensors.join(" & ")}
-                        else 
-                            | #{node.sensors.join(", ")}
-                    div(class="flex ml-auto items-center mr-8 pr-1 text-gray-500 cursor-pointer")
-                        <svg class="w-auto h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      | Functionality
+                    if (!funcs.length)
+                      input(value="No existing functionalities..." type="text" readonly class="w-64 bg-transparent focus:outline-none font-light text-lg")  
+                    else
+                      - var isFound = false
+                      - var myFuncName
+                      each func in funcs 
+                        if (node.function && node.function.equals(func._id))
+                          - isFound = true
+                          - myFuncName = func.name
+                      
+                      div(class="flex flex-col max-w-xs w-full")
+                        div(class="flex flex-row p-2 max-w-xs w-full border rounded-lg cursor-pointer" id="funcsDropdownBar") 
+                          if (isFound)
+                            input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                          else
+                            input(id="chosenFunc" value="Choose an existing functionality..." name="function" type="text" readonly class="w-full cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                          <svg id="arrowDown" class="w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                          <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        // I'm not sure how else to do it without including a div here, the dropdown is absolute therefore wont follow
+                        // flex-col unless wrapped in another div  
+                        div()
+                          div(style="max-height: 12rem;" class="hidden max-w-sm w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
+                              each func in funcs
+                                  div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
+                                      | #{func.name}
+                    div(class="flex ml-auto mr-10")
+                      a(href="/functionality/add" class=" flex text-center p-2 font-semibold rounded-lg text-xs bg-green-300 hover:bg-green-500 cursor-pointer")
+                        | Add functionality
+                          
+
+
+
+            div(id="deviceSensors" class="text-lg font-light border-b flex flex-row items-center py-4")
+                div(class="mx-4 w-64 text-gray-600")
+                    | Sensors
+                div(id="nodeSensors" class="w-64 overflow-x-auto")
+                    if (!node.sensors.length)
+                        | No sensors
+                    else if (node.sensors.length === 1)
+                        | #{node.sensors.join(" ")}
+                    else if (node.sensors.length === 2)
+                        | #{node.sensors.join(" & ")}
+                    else 
+                        | #{node.sensors.join(", ")}
+                div(class="flex ml-auto items-center mr-8 pr-1 text-gray-500 cursor-pointer")
+                    <svg class="w-auto h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 
         button(type="submit" id="saveNewNodeBtn" class="mt-6 shadow text-2xl focus:outline-none px-8 py-2 bg-indigo-400 border border-indigo-400 rounded-xl text-indigo-100 hover:border-indigo-400 hover:bg-indigo-100 hover:text-indigo-400")
             | Save
