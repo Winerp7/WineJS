@@ -1,5 +1,7 @@
 extends _layout
 
+include mixins/_nodeRow
+
 block content
   div(class="text-gray-900 font-light text-5xl items-center text-center")
     | Dashboard
@@ -78,7 +80,9 @@ block content
         div(class="ml-2 w-32")
           | Functionality
       div(style="max-height: 12rem;" class="overflow-auto no-scrollbar")
-        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
+        each node in nodes
+          +nodeRow(node)
+        //div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
           div(class="ml-2 w-32 overflow-auto flex")
             | ghjghjghtestas
           div(class="ml-2 w-32 overflow-auto no-scrollbar")
@@ -89,56 +93,11 @@ block content
             | Humid,mamsms,sa
           div(class="ml-2 w-32 overflow-auto no-scrollbar")
             | Temeperaturet
-          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+          //form(action=`/add-node/${node._id || ''}` method="POST" class="card")
+          button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
             | Edit device
           button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
             | Download data
-        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
-          div(class="ml-2 w-32 overflow-auto flex")
-            | ghjghjghtestas
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | 123123
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Active
-          div(class="ml-2 w-48 overflow-auto no-scrollbar")
-            | Humid,mamsms,sa
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Temeperaturet
-          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Edit device
-          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Download data
-        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
-          div(class="ml-2 w-32 overflow-auto flex")
-            | ghjghjghtestas
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | 123123
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Active
-          div(class="ml-2 w-48 overflow-auto no-scrollbar")
-            | Humid,mamsms,sa
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Temeperaturet
-          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Edit device
-          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Download data
-        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
-          div(class="ml-2 w-32 overflow-auto flex")
-            | ghjghjghtestas
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | 123123
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Active
-          div(class="ml-2 w-48 overflow-auto no-scrollbar")
-            | Humid,mamsms,sa
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Temeperaturet
-          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Edit device
-          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Download data
-
 
 
 
