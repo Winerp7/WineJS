@@ -7,13 +7,11 @@ mixin nodeRow(node = {})
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       | #{node.status}
     div(class="ml-2 w-48 overflow-auto no-scrollbar")
-      each sensor in node.sensors
-        div(class="flex flex-col items-center justify-center text-lg")
-          | #{sensor}
+      | #{node.sensors}
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       | #{node.function}
-    //form(action=`/add-node/${node._id || ''}` method="POST" class="card")
-    button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-      | Edit device
+    form(action=`/nodes/${node._id}/edit` method="GET" class="card")
+      button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+        | Edit device
     button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
       | Download data
