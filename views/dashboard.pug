@@ -8,20 +8,20 @@ block content
     p(class="mt-2 text-lg text-gray-600")
       | Scroll to see your sensor data displayed on graphs and an overview of <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>.
   div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
-  div(class="flex")
+  div(class="flex flex-col items-center mb-4 ")
     button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
-      | Filter graphs
+      | Select graphs
       <svg class="fill-current h-4 w-4 mt-1 ml-1 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+      
     //- Dropdown menu starts here
     div(class="hidden z-0 absolute text-gray-900 bg-gray-100 flex flex-col rounded-lg mt-10 text-sm p-2 w-auto shadow-lg" id="dropdownGraphs")
-      //- TODO The dropdown would get very long if there are a lot of sensors
-      //- TODO Maybe fix this? Dunno if necessary.
       form(action="/dashboard" method="POST")
-        for fil in filter
-          div(class="hover:bg-indigo-100 rounded px-2 py-1")
-            input(type="checkbox" name=`${fil}`)
-            label(for=`${fil}` class="px-2")
-              | #{fil}
+        div(style="max-height: 12rem;" class="overflow-auto")
+          for fil in filter
+            div(class="hover:bg-indigo-100 rounded px-2 py-1")
+              input(type="checkbox" name=`${fil}`)
+              label(for=`${fil}` class="px-2")
+                | #{fil}
         button(type="submit" class="focus:outline-none mt-2 border border-teal-300 hover:border-teal-300 bg-teal-300 hover:bg-gray-100 rounded px-2 py-1 block w-full")
           | Save
 
@@ -30,38 +30,6 @@ block content
     each graph in graphs
       div(class="pb-10 text-xs text-center")
         != graph
-      
-  //- The node status will only show 'online' in the table if the string status in the db corrosponds to 'Online'
-  a(class="text-3xl") Devices
-  table(class="table-auto border-4 rounded")
-    thead
-      tr
-        th(class="px-4 py-2")
-          | Name  
-        th(class="px-4 py-2")
-          | ID
-        th(class="px-4 py-2")
-          | Status
-        th(class="px-4 py-2")
-          | Sensors
-          
-    tbody
-      each node in nodes
-        tr
-          td(class="border px-4 py-2 bg-red-200 mt-6") 
-            div(class="bg-red-200")
-              | #{node.name}
-          td(class="border px-4 py-2") #{node.nodeID}
-          td(class="border px-4 py-2")
-            if node.status == "Online"
-              span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800") #{node.status}
-            else
-              span(class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800") #{node.status}
-          td(class="border px-4 py-2")
-            each sensor in node.sensors
-              <a href="/download/#{node.nodeID}/#{sensor}">#{sensor}</a>
-              br
-              // TODO: Needs prettyprinting
 
   div(class="m-20")
   div(class="mx-auto max-w-5xl flex flex-col items-center ")
@@ -82,22 +50,6 @@ block content
       div(style="max-height: 12rem;" class="overflow-auto no-scrollbar")
         each node in nodes
           +nodeRow(node)
-        //div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
-          div(class="ml-2 w-32 overflow-auto flex")
-            | ghjghjghtestas
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | 123123
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Active
-          div(class="ml-2 w-48 overflow-auto no-scrollbar")
-            | Humid,mamsms,sa
-          div(class="ml-2 w-32 overflow-auto no-scrollbar")
-            | Temeperaturet
-          //form(action=`/add-node/${node._id || ''}` method="POST" class="card")
-          button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Edit device
-          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
-            | Download data
 
 
 

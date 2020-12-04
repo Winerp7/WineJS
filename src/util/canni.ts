@@ -1,6 +1,6 @@
 const co = require('co');
 const generate = require('node-chartist');
-const width = 300;
+const width = 500;
 const height = 300;
 
 // Chartist examples
