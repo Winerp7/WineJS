@@ -46,7 +46,9 @@ block content
     tbody
       each node in nodes
         tr
-          td(class="border px-4 py-2") #{node.name}
+          td(class="border px-4 py-2 bg-red-200 mt-6") 
+            div(class="bg-red-200")
+              | #{node.name}
           td(class="border px-4 py-2") #{node.nodeID}
           td(class="border px-4 py-2")
             if node.status == "Online"
@@ -58,7 +60,87 @@ block content
               <a href="/download/#{node.nodeID}/#{sensor}">#{sensor}</a>
               br
               // TODO: Needs prettyprinting
-            
+
+  div(class="m-20")
+  div(class="mx-auto max-w-5xl flex flex-col items-center ")
+    span(class="text-lg text-center font-medium")
+      | Your devices
+    div( class="flex flex-col py-2 font-light text-sm")
+      div(class="text-gray-500 bg-white flex flex-row py-4 px-4 rounded-xl ")
+        div(class="ml-2 w-32")
+          | Name
+        div(class="ml-2 w-32")
+          | ID
+        div(class="ml-2 w-32")
+          | Status
+        div(class="ml-2 w-48")
+          | Sensors
+        div(class="ml-2 w-32")
+          | Functionality
+      div(style="max-height: 12rem;" class="overflow-auto no-scrollbar")
+        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
+          div(class="ml-2 w-32 overflow-auto flex")
+            | ghjghjghtestas
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | 123123
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Active
+          div(class="ml-2 w-48 overflow-auto no-scrollbar")
+            | Humid,mamsms,sa
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Temeperaturet
+          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Edit device
+          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Download data
+        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
+          div(class="ml-2 w-32 overflow-auto flex")
+            | ghjghjghtestas
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | 123123
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Active
+          div(class="ml-2 w-48 overflow-auto no-scrollbar")
+            | Humid,mamsms,sa
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Temeperaturet
+          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Edit device
+          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Download data
+        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
+          div(class="ml-2 w-32 overflow-auto flex")
+            | ghjghjghtestas
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | 123123
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Active
+          div(class="ml-2 w-48 overflow-auto no-scrollbar")
+            | Humid,mamsms,sa
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Temeperaturet
+          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Edit device
+          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Download data
+        div(class="mt-2 text-gray-800 bg-white flex flex-row py-4 px-4 rounded-xl items-center")
+          div(class="ml-2 w-32 overflow-auto flex")
+            | ghjghjghtestas
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | 123123
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Active
+          div(class="ml-2 w-48 overflow-auto no-scrollbar")
+            | Humid,mamsms,sa
+          div(class="ml-2 w-32 overflow-auto no-scrollbar")
+            | Temeperaturet
+          button(class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Edit device
+          button(class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
+            | Download data
+
+
+
 
   script. 
     window.addEventListener('DOMContentLoaded', () => {
@@ -81,3 +163,5 @@ block content
           checkboxes[index].checked = "true";
       }
     })
+
+  
