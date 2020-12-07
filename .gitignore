@@ -63,3 +63,6 @@ typings/
 
 # random macOS file which changes sometimes but is not related to the project
 .DS_Store
+
+# Image files
+/images

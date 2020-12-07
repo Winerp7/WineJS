@@ -31,7 +31,7 @@ block content
               img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Configure master node
-            form(action="" method="POST")
+            form(action="/add-node" method="POST")
               div(class="mt-4 text-sm mx-4")
                 | WiFi name
               div(class="mt-1 text-sm mx-4")
@@ -73,7 +73,7 @@ block content
               img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Configure slave node
-            form(action="" method="POST")
+            form(action="/add-node" method="POST")
               div(class="mt-4 text-sm mx-4")
                 | WiFi name
               div(class="mt-1 text-sm mx-4")
@@ -101,9 +101,6 @@ block scripts
       const modalMasterBtn = document.querySelector('#addMasterBtn');
       const modalSlaveBtn = document.querySelector('#addSlaveBtn');
 
-      const configureMasterBtn = document.querySelector('#configureMaster');
-      const configureSlaveBtn = document.querySelector('#configureSlave');
-
       const closeModalMaster = document.querySelector('#closeModalMaster');
       const closeModalSlave = document.querySelector('#closeModalSlave');
 
@@ -122,4 +119,27 @@ block scripts
       modalSlaveBtn.addEventListener('click', toggleSlaveModal); 
       closeModalMaster.addEventListener('click', toggleMasterModal);
       closeModalSlave.addEventListener('click', toggleSlaveModal); 
+
+      const wifiNameMaster = document.querySelector('#wifinamemaster');
+      const wifiPasswordMaster = document.querySelector('#wifipasswordmaster');
+      const wifiNameSlave = document.querySelector('#wifinameslave');
+      const wifiPasswordSlave = document.querySelector('#wifipasswordslave');
+
+      const configureMasterBtn = document.querySelector('#configureMaster');
+      const configureSlaveBtn = document.querySelector('#configureSlave');
+
+      const closeMasterModalOnSubmit = () => {
+        if (wifiNameMaster.value.length > 0 && wifiPasswordMaster.value.length > 0) {
+          toggleMasterModal();
+        }
+      }
+      
+      const closeSlaveModalOnSubmit = () => {
+        if (wifiNameSlave.value.length > 0 && wifiPasswordSlave.value.length > 0) {
+          toggleSlaveModal();
+        }
+      }
+
+      configureMasterBtn.addEventListener('click', closeMasterModalOnSubmit);
+      configureSlaveBtn.addEventListener('click', closeSlaveModalOnSubmit);
     })

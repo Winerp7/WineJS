@@ -44,7 +44,7 @@ router.post('/account/reset/:token',
 );
 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
-router.post('/add-node', catchErrors(nodeController.createNode));
+router.post('/add-node', authController.isLoggedIn, catchErrors(nodeController.downloadImage));
 router.get('/nodes/:id/edit', catchErrors(funcController.fetchFunctionality), nodeController.editNode);
 router.post('/add-node/:id', catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.updateNode));
 router.get('/nodes',
