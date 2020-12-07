@@ -49,7 +49,7 @@ export const directDashboard = async (req: Request, res: Response) => {
       }
     }
   }
-  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter });
+  res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter, funcs: req.functionalities });
 };
 
 export const updateFilters = async (req: Request, res: Response) => {

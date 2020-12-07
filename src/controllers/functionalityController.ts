@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IUser } from '../models/userModel';
+import { Node} from "../models/nodeModel";
+import { INode } from '../models/nodeModel';
 import { Functionality } from "../models/functionalityModel"; 
 
 // For GET request "/functionality/add": Renders the 'add-functionality'-page. No DB call or other function call returning a promise, therefore 

@@ -16,7 +16,13 @@ mixin nodeRow(node = {})
       else 
         | #{node.sensors.join(", ")}
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
-      | #{node.function}
+      if (node.function)
+        each func in funcs
+          if (node.function.equals(func._id))
+            | #{func.name}
+      else 
+        | No functionality
+
     form(action=`/nodes/${node._id}/edit` method="GET" class="card")
       button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-indigo-100 hover:border-teal-400 hover:bg-indigo-100 hover:text-teal-400")
         | Edit device
