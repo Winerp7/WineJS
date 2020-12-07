@@ -34,7 +34,7 @@ jobs:
 
       - run: npm install
         env:
-          MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
+          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
 
       - run: npm test
