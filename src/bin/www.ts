@@ -5,17 +5,20 @@ import mongoose from 'mongoose';
 // import environment variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 
+let dbConnectionString: string;
 
 // TODO: Add prober error handler function in errorHandler.ts
-if (!process.env.MONGO_CONNECTION_STRING) {
+if (process.env.NODE_ENV == 'test' && process.env.TEST_DB) {
+  dbConnectionString = process.env.TEST_DB;
+  console.log("connecting to the test database");
+} else if (process.env.NODE_ENV == 'development' && process.env.MONGO_CONNECTION_STRING) {
+  dbConnectionString = process.env.MONGO_CONNECTION_STRING;
+  console.log("connecting to the development database");
+} else {
   throw 'Missing environment Mongo connection string! 🔥🔥';
 }
 
-let dbConnectionString = process.env.MONGO_CONNECTION_STRING;
 
-if (process.env.NODE_ENV == 'test') {
-  dbConnectionString = process.env.TEST_DB!;
-}
 
 // Connect to database and handle bad connections
 mongoose.connect(dbConnectionString, {
