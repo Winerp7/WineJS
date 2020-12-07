@@ -39,7 +39,7 @@ jobs:
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
-      - run: npm test --TESTDB=$TEST_DB
+      - run: npm test
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
           CI: true
