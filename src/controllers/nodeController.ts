@@ -29,7 +29,7 @@ export const fetchNodes = async (req: Request, _res: Response, next: NextFunctio
 };
 
 export const getNodes = (req: Request, res: Response) => {
-  res.render('nodes', { title: 'Your nodes', nodes: req.nodes });
+  res.render('nodes', { title: 'Your nodes', nodes: req.nodes, funcs: req.functionalities});
 };
 
 // Finds a specific node based on its unique _id from mongoDB
@@ -45,11 +45,20 @@ export const editNode = async (req: Request, res: Response) => {
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
-  if (req.body.function)
-    req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
 
-  console.log(req.body);
+  if (req.body.function) {
+    const temp = req.functionalities?.filter(functionality => functionality.name === req.body.function); 
+    if (temp && temp.length > 0)
+      req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
+    else 
+      req.body.function = null; 
+  } 
 
+  // Check if we add a new functionality and set status to 'pending'
+  const myNode = await Node.findById(req.params.id); 
+  if (myNode && (((myNode.function === null && req.body.function != null)) || !(myNode.function.equals(req.body.function)))) {
+    req.body.updateStatus = 'Pending'; 
+  }
 
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one

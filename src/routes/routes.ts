@@ -10,7 +10,7 @@ import { catchErrors } from '../util/errorHandlers';
 import { validateSettings } from '../util/validator';
 
 
-router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
+router.get('/dashboard', authController.isLoggedIn, catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
 router.post('/dashboard', catchErrors(userController.updateFilters));
 router.get('/download/:nodeID', catchErrors(nodeController.fetchNodes), nodeController.downloadData);
 
@@ -49,6 +49,7 @@ router.get('/nodes/:id/edit', catchErrors(funcController.fetchFunctionality), no
 router.post('/add-node/:id', catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.updateNode));
 router.get('/nodes',
   authController.isLoggedIn,
+  catchErrors(funcController.fetchFunctionality),
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
