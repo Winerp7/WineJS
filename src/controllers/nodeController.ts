@@ -29,7 +29,7 @@ export const fetchNodes = async (req: Request, _res: Response, next: NextFunctio
 };
 
 export const getNodes = (req: Request, res: Response) => {
-  res.render('nodes', { title: 'Your nodes', nodes: req.nodes });
+  res.render('nodes', { title: 'Your nodes', nodes: req.nodes, funcs: req.functionalities});
 };
 
 // Finds a specific node based on its unique _id from mongoDB

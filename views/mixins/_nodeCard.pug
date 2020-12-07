@@ -18,12 +18,21 @@ mixin nodeCard(node = {})
       div(class="flex flex-col items-center overflow-auto mb-2")
         p(class="text-gray-700") Status
         p(class="text-lg") #{node.status}
+      if (!(node.function === null || node.function === undefined))
+        div(class="flex flex-col items-center overflow-auto mb-2")
+          p(class="text-gray-700") Functionality
+
+          each func in funcs
+            if (node.function.equals(func._id))
+              p(class="text-lg") #{func.name}
+
       if (!node.isMaster)
-        div(class="flex flex-col items-center overflow-auto")
-          p(class="text-gray-700") Sensors
-            each sensor in node.sensors
-              div(class="flex flex-col items-center justify-center text-lg")
-                | #{sensor}
+        if (!(node.sensors === null || node.sensors === undefined || node.sensors.length === 0))
+          div(class="flex flex-col items-center overflow-auto")
+            p(class="text-gray-700") Sensors
+              each sensor in node.sensors
+                div(class="flex flex-col items-center justify-center text-lg")
+                  | #{sensor}
     div(class="flex flex-row items-center justify-center")
       button(id="activeBtn" class="mr-2 mt-2 text-sm place-self-center px-5 py-1 bg-red-500 border border-red-500 rounded-lg text-gray-100 hover:border-red-500 hover:bg-gray-100 hover:text-red-500 focus:outline-none") 
         // add if statement to determine if button should be "deactivate" or "activate"

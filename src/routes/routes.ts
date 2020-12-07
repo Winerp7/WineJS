@@ -49,6 +49,7 @@ router.get('/nodes/:id/edit', catchErrors(funcController.fetchFunctionality), no
 router.post('/add-node/:id', catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.updateNode));
 router.get('/nodes',
   authController.isLoggedIn,
+  catchErrors(funcController.fetchFunctionality),
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );
