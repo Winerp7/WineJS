@@ -35,15 +35,22 @@ export const getNodes = (req: Request, res: Response) => {
 // Finds a specific node based on its unique _id from mongoDB
 export const editNode = async (req: Request, res: Response) => {
   const node = await Node.findOne({ _id: req.params.id });
+
   if (!node) {
     console.log('here should be a proper error 🙂');
   } else {
-    res.render('add-node', { title: `Edit ${node.name}`, node: node });
+    res.render('edit-device', { title: `Edit ${node.name}`, node: node, funcs: req.functionalities});
   }
 };
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
+  if (req.body.function)
+    req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
+
+  console.log(req.body);
+
+
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one
     runValidators: true // runs the validators to ensure there is stil name etc.
@@ -51,20 +58,16 @@ export const updateNode = async (req: Request, res: Response) => {
 
   if (!node) {
     // TODO: Add proper handling
-    console.log("The node do not exist 🔥");
+    console.log("The node does not exist 🔥");
   } else {
-    req.flash('success', `Successfully updated <strong>${node.name}</strong>. 
-    <a href="/nodes/${node.slug}">View Node --> </a>`);
-    res.redirect(`/nodes/${node._id}/edit`);
+    req.flash('success', `Successfully updated ${node.name}! 🔥`);
+    res.redirect(`/nodes`);
   }
 };
 
 export const downloadData = async (req: Request, res: Response) => {
-  let user = req.user as IUser;
-  // @ts-ignore
-  const sensorDataList = await Node.findSensorDataBySensorID(req.params.nodeID, req.params.sensor, user) as INode;
-
-  var fileContents = Buffer.from(JSON.stringify(sensorDataList), "ascii");
+  var nodeData = req.nodes?.filter(node => node.nodeID === req.params.nodeID);
+  var fileContents = Buffer.from(JSON.stringify(nodeData), "ascii");
   var readStream = new Stream.PassThrough();
   readStream.end(fileContents);
   res.set('Content-disposition', 'attachment; filename=' + "SensorData.json");
