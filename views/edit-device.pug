@@ -1,0 +1,207 @@
+extends _layout 
+
+block content
+    div(class="text-gray-900 font-light text-5xl items-center text-center")
+        | Edit your device '#{node.name}'
+        p(class="mt-2 text-lg text-gray-600")
+            | Click the field the edit your device. You can add existing functionalities to your device, or create a new functionality by clicking the button 'Create functionality'. 
+    div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
+    
+    form(action=`/add-node/${node._id}` method="POST" class="flex flex-col justify-center items-center")
+        div(id="deviceBox" class="flex flex-col bg-gray-100 max-w-4xl w-full shadow-lg rounded-lg text-gray-900 justify-self-center")
+            
+            // ******* Device content begins here ******* 
+            
+            div(id="deviceName" class="text-lg font-light border-b flex flex-row items-center py-2 hover:bg-gray-200 cursor-pointer")
+                div(class="mx-4 w-64 text-gray-600")
+                    | Name
+                input(value=`${node.name}` type="text" readonly id="nodeName" name="name" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")
+                div(class="flex ml-auto items-center mr-10 text-gray-600")
+                    <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            
+            // *************** Modal change name begins here *****************
+
+            div(id="modalDeviceName" class="hidden bg-gray-900 bg-opacity-75 h-full overflow-auto fixed inset-0 flex flex-col justify-center items-center")
+                div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+                    div(class="flex text-white")
+                        <svg id="closeModalDeviceName" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    div(class="flex justify-center")
+                        img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+                    div(class="flex justify-center items-center")
+                        h4(class="text-2xl font-light px-10") Change device name
+                    div(class="mt-3 text-sm mx-4 text-center text-gray-900")
+                        | Device name
+                    div(class="mt-1 text-sm mx-4 text-center")
+                        input(id="newNodeName" type="text" class="p-1 rounded border border-gray-700 focus:outline-none text-center" value=`${node.name}`)
+                    div(class="mt-5 flex justify-center text-md")
+                        div(id="saveEditDeviceName" class="cursor-pointer focus:outline-none mb-2 px-5 py-1 bg-indigo-400 border border-indigo-400 rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
+                            | Enter name
+
+            // *************** Modal change name ends here *****************
+
+            div(id="deviceID" class="text-lg font-light border-b flex flex-row items-center py-2 hover:bg-gray-200 cursor-pointer")
+                div(class="mx-4 w-64 text-gray-600")
+                    | ID
+                input(value=`${node.nodeID}` type="text" readonly id="nodeID" name="nodeID" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")
+                div(class="flex ml-auto items-center mr-10 text-gray-600")
+                    <svg class="w-auto h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+
+            // *************** Modal change nodeID begins here *****************
+
+            div(id="modalDeviceID" class="hidden bg-gray-900 bg-opacity-75 h-full overflow-auto fixed inset-0 flex flex-col justify-center items-center")
+                div(class="bg-gray-200 max-w-sm py-3 px-3 rounded-lg shadow-xl")
+                    div(class="flex text-white")
+                        <svg id="closeModalDeviceID" class="ml-auto text-gray-700 w-5 h-5 cursor-pointer hover:bg-gray-300 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    div(class="flex justify-center")
+                        img(class="h-16 w-auto mr-2" src='/images/logo.png' alt='Wine logo black')
+                    div(class="flex justify-center items-center")
+                        h4(class="text-2xl font-light px-10") Change device ID
+                    div(class="mt-3 text-sm mx-4 text-center text-gray-900")
+                        | Device ID
+                    div(class="mt-1 text-sm mx-4 text-center")
+                        input(id="newNodeID" type="text" class="p-1 rounded border border-gray-700 focus:outline-none text-center" value=`${node.nodeID}`)
+                    div(class="mt-5 flex justify-center text-md")
+                        div(id="saveEditDeviceID" class="cursor-pointer focus:outline-none mb-2 px-5 py-1 bg-indigo-400 border border-indigo-400 rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
+                            | Enter ID
+
+            // *************** Modal change nodeID ends here *****************
+
+            
+            if (!node.isMaster)
+                div(id="deviceFunc" class="text-lg font-light border-b flex flex-row py-2 items-center")
+                    div(class="mx-4 w-64 text-gray-600")
+                      | Functionality
+                    if (!funcs.length)
+                      input(value="No existing functionalities..." type="text" readonly class="w-64 bg-transparent focus:outline-none font-light text-lg")  
+                    else
+                      - var isFound = false
+                      - var myFuncName
+                      each func in funcs 
+                        if (node.function && node.function.equals(func._id))
+                          - isFound = true
+                          - myFuncName = func.name
+                      
+                      div(class="flex flex-col max-w-xs w-full")
+                        div(class="flex flex-row p-2 max-w-xs w-full border rounded-lg cursor-pointer" id="funcsDropdownBar") 
+                          if (isFound)
+                            input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                          else
+                            input(id="chosenFunc" value="Choose an existing functionality..." name="function" type="text" readonly class="w-full cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                          <svg id="arrowDown" class="w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                          <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        // I'm not sure how else to do it without including a div here, the dropdown is absolute therefore wont follow
+                        // flex-col unless wrapped in another div  
+
+                        // *************** Dropdown functionalities starts here *****************
+                        div()
+                          div(style="max-height: 12rem;" class="hidden max-w-xs w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
+                              each func in funcs
+                                  div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
+                                      | #{func.name}
+                        
+                        // *************** Dropdown functionalities ends here *****************
+
+                        
+                    div(class="flex ml-auto mr-10")
+                      a(href="/functionality/add" class=" flex text-center p-2 font-semibold rounded-lg text-xs bg-green-300 hover:bg-green-500 cursor-pointer")
+                        | Add functionality
+
+            div(id="deviceSensors" class="text-lg font-light border-b flex flex-row items-center py-4")
+                div(class="mx-4 w-64 text-gray-600")
+                    | Sensors
+                div(id="nodeSensors" class="w-64 overflow-x-auto")
+                    if (!node.sensors.length)
+                        | No sensors
+                    else if (node.sensors.length === 1)
+                        | #{node.sensors.join(" ")}
+                    else if (node.sensors.length === 2)
+                        | #{node.sensors.join(" & ")}
+                    else 
+                        | #{node.sensors.join(", ")}
+                div(class="flex ml-auto items-center mr-8 pr-1 text-gray-500 cursor-pointer")
+                    <svg class="w-auto h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+
+        button(type="submit" id="saveNewNodeBtn" class="mt-6 shadow text-2xl focus:outline-none px-8 py-2 bg-indigo-400 border border-indigo-400 rounded-xl text-indigo-100 hover:border-indigo-400 hover:bg-indigo-100 hover:text-indigo-400")
+            | Save
+    
+block scripts
+    script. 
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // Modal for name
+            const nodeNameBar = document.querySelector('#deviceName');
+            const nodeNameModal = document.querySelector('#modalDeviceName');
+            const nodeNameCloseModal = document.querySelector('#closeModalDeviceName');
+            const nodeNameSaveBtn = document.querySelector('#saveEditDeviceName');
+            const newNodeName = document.querySelector('#newNodeName');
+            const nodeName = document.querySelector('#nodeName');
+
+            const toggleNodeNameModal = () => {
+                nodeNameModal.classList.toggle('hidden');
+            }
+
+            const toggleNodeNameModalSave = () => {
+                nodeName.value = newNodeName.value; 
+                nodeNameModal.classList.toggle('hidden');
+            }
+
+            nodeNameBar.addEventListener('click', toggleNodeNameModal);
+            nodeNameCloseModal.addEventListener('click', toggleNodeNameModal);
+            nodeNameSaveBtn.addEventListener('click', toggleNodeNameModalSave);
+
+            // Modal for ID
+            const nodeIDBar = document.querySelector('#deviceID');
+            const nodeIDModal = document.querySelector('#modalDeviceID');
+            const nodeIDCloseModal = document.querySelector('#closeModalDeviceID');
+            const nodeIDSaveBtn = document.querySelector('#saveEditDeviceID');
+            const newNodeID = document.querySelector('#newNodeID');
+            const nodeID = document.querySelector('#nodeID');
+
+            const toggleNodeIDModal = () => {
+                nodeIDModal.classList.toggle('hidden');
+            }
+
+            const toggleNodeIDModalSave = () => {
+                nodeID.value = newNodeID.value; 
+                nodeIDModal.classList.toggle('hidden');
+            }
+
+            nodeIDBar.addEventListener('click', toggleNodeIDModal);
+            nodeIDCloseModal.addEventListener('click', toggleNodeIDModal);
+            nodeIDSaveBtn.addEventListener('click', toggleNodeIDModalSave);
+
+            // Dropdown boi
+            dropdownFunctionalities
+
+            const arrowUp = document.querySelector('#arrowUp');
+            const arrowDown = document.querySelector('#arrowDown'); 
+            const funcsDropdownBar = document.querySelector('#funcsDropdownBar'); 
+            const dropdownFuncs = document.querySelector('#dropdownFunctionalities');
+      
+            const toggleFunctionalityDropDown = () => {
+                dropdownFuncs.classList.toggle('hidden');
+                arrowUp.classList.toggle('hidden');
+                arrowDown.classList.toggle('hidden');
+                funcsDropdownBar.classList.toggle('bg-gray-200');
+            }
+
+            funcsDropdownBar.addEventListener('click', toggleFunctionalityDropDown)
+        
+            // Select functionality in dropdown
+            const chosenFunc = document.querySelector('#chosenFunc');
+
+            const chooseFunctionality = (value) => {
+                dropdownFuncs.classList.toggle('hidden');
+                arrowUp.classList.toggle('hidden');
+                arrowDown.classList.toggle('hidden');
+                funcsDropdownBar.classList.toggle('bg-gray-200');
+                chosenFunc.value = value;
+            }
+
+            const funcs = document.querySelectorAll("div.func"); // Gets all funcs
+            funcs.forEach(function(currentValue, currentIndex, listObj) {
+                currentValue.addEventListener('click', function() {
+                    chooseFunctionality(currentValue.innerText);
+                });
+            });
+        });
