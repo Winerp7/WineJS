@@ -1,11 +1,9 @@
-const { login } = require("../../support");
-
 describe('The Home Page', () => {
   it('should log in using cy.request', () => {
     cy.login()
   })
 
-  it.skip('should login visually', () => {
+  it('should login visually', () => {
     // Visit homepage
     cy.visit('/')
     // Open the login modal
@@ -25,7 +23,7 @@ describe('The Home Page', () => {
     cy.getCookies().should('have.length', 1)
   })
 
-  it.skip('should register user', () => {
+  it('should register user', () => {
     // Visit homepage
     cy.visit('/')
     // Open the register modal

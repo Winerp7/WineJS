@@ -21,8 +21,11 @@ const fs = require('fs');
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  // read the variables.env file
   var envFileArr = fs.readFileSync(`${process.cwd()}/variables.env`, 'utf8').split('\n');
 
+  // get all variables that is related to 'test'
   const envs = []
   envFileArr.forEach((env) => {
     if (env.startsWith('TEST')) {
@@ -30,8 +33,6 @@ module.exports = (on, config) => {
       envs.push(env.split('=')[1])
     }
   })
-
-  console.log('AAAAAL: ', envs);
 
   config.env.TEST_NAME = envs[0];
   config.env.TEST_EMAIL = envs[1];
