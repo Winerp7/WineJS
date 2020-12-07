@@ -1,4 +1,11 @@
 describe('The Home Page', () => {
+
+  beforeEach(() => {
+    // reset and seed the database prior to every test
+    cy.exec('npm run nuke && npm run sample')
+  })
+
+
   it('should log in using cy.request', () => {
     cy.login()
   })
@@ -21,6 +28,9 @@ describe('The Home Page', () => {
     cy.get('#formLoginBtn').click()
     // Checks cookie is set upon login
     cy.getCookies().should('have.length', 1)
+
+    // Should be on a new URL which includes '/dashboard'
+    cy.url().should('include', '/dashboard')
   })
 
   it('should register user', () => {
@@ -49,7 +59,9 @@ describe('The Home Page', () => {
     // Click register
     cy.get('#registerBtn').click()
 
-    //! Delete the same user here
+    // Should be on a new URL which includes '/dashboard'
+    cy.url().should('include', '/dashboard')
+    //cy.exec('npm run nuke && npm run sample')
   })
 
 
