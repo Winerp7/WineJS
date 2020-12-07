@@ -11,6 +11,7 @@ export interface INode extends Document {
   isMaster: boolean;
   status: string;
   sensors: string[];
+  updateStatus: string; 
   function: mongoose.Types.ObjectId;
   slug: string;
   owner: mongoose.Types.ObjectId; 

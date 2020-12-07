@@ -48,8 +48,11 @@ export const updateNode = async (req: Request, res: Response) => {
   if (req.body.function)
     req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
 
-  console.log(req.body);
-
+  // Check if we add a new functionality and set status to 'pending'
+  const myNode = await Node.findById(req.params.id); 
+  if (myNode && !(myNode.function.equals(req.body.function))) {
+    req.body.updateStatus = 'Pending'; 
+  }
 
   const node = await Node.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // returns the new node instead of the old one

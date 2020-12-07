@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { IUser } from '../models/userModel';
 import { Node} from "../models/nodeModel";
-import { INode } from '../models/nodeModel';
 import { Functionality } from "../models/functionalityModel"; 
 
 // For GET request "/functionality/add": Renders the 'add-functionality'-page. No DB call or other function call returning a promise, therefore 
@@ -69,6 +68,7 @@ export const updateFunctionality = async (req: Request, res: Response) => {
     // Validation
     const foundFuncName = await Functionality.findOne({ name: req.body.name, owner: user._id});
     if (foundFuncName) {
+
         if (foundFuncName._id != req.params.id) {
             req.flash('error', 'A functionality already exists with that delightful name ⛔');
             return res.redirect(`/functionality/${req.params.id}/edit`);
@@ -84,6 +84,9 @@ export const updateFunctionality = async (req: Request, res: Response) => {
         req.flash('error', 'Could not find the functionality you tried to update in the database ⛔'); 
         return res.redirect('/functionality');
     } else {
+      // Find all nodes with this functionality and changes their status to 'pending'
+      await Node.updateMany({owner: user._id, function: req.params.id}, {updateStatus: 'Pending'});
+
       req.flash('success', `Successfully updated ${functionality.name} 🔥`);
       res.redirect(`/functionality`);
     }
@@ -96,6 +99,7 @@ export const deleteFunctionality = async (req: Request, res: Response) => {
             req.flash('error', 'Sorry, something went wrong when trying to delete the functionality!');
             res.redirect('/functionality');
         }
+
         req.flash('success', `The functionality was deleted! 👋`);
         return res.redirect('/functionality');
     });
