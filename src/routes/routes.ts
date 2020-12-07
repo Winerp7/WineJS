@@ -10,9 +10,9 @@ import { catchErrors } from '../util/errorHandlers';
 import { validateSettings } from '../util/validator';
 
 
-router.get('/dashboard', authController.isLoggedIn, catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
+router.get('/dashboard', authController.isLoggedIn, catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.fetchNodes), catchErrors(userController.directDashboard));
 router.post('/dashboard', catchErrors(userController.updateFilters));
-router.get('/download/:nodeID/:sensor', authController.isLoggedIn, nodeController.downloadData);
+router.get('/download/:nodeID', catchErrors(nodeController.fetchNodes), nodeController.downloadData);
 
 router.get('/settings', authController.isLoggedIn, userController.settings);
 router.post('/settings/:userSetting', validateSettings, catchErrors(userController.updateSettings));
@@ -44,11 +44,12 @@ router.post('/account/reset/:token',
 );
 
 router.get('/add-node', authController.isLoggedIn, nodeController.addNode);
-router.post('/add-node', catchErrors(nodeController.createNode));
-router.post('/add-node/:id', catchErrors(nodeController.updateNode));
-router.get('/nodes/:id/edit', catchErrors(nodeController.editNode));
+router.post('/add-node', authController.isLoggedIn, catchErrors(nodeController.downloadImage));
+router.get('/nodes/:id/edit', catchErrors(funcController.fetchFunctionality), nodeController.editNode);
+router.post('/add-node/:id', catchErrors(funcController.fetchFunctionality), catchErrors(nodeController.updateNode));
 router.get('/nodes',
   authController.isLoggedIn,
+  catchErrors(funcController.fetchFunctionality),
   catchErrors(nodeController.fetchNodes),
   nodeController.getNodes
 );

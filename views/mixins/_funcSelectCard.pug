@@ -1,0 +1,7 @@
+mixin funcSelect(func = {})
+  form(action=`/functionality/${func._id}/edit` method="GET" class="flex flex-col mx-12 rounded-3xl text-xs my-4 py-6 bg-gray-100 shadow-md max-w-sm")
+    div(class="flex items-center")
+            div(class="text-gray-700 mr-4 ")
+              | #{func.name}
+            div(id="selectedBtn1" class="ml-auto  rounded-lg text-xs p-2 bg-red-400 hover:font-semibold cursor-pointer")
+              | Selected
