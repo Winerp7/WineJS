@@ -35,10 +35,11 @@ jobs:
       - run: npm install
 
 
-      - run: echo Hello world $lort
+      - run: echo Hello world $TEST_DB
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
+      - run: tsc && cross-env NODE_ENV=test TEST_DB=$TEST_DB start-server-and-test start http://localhost:3000 cy:run 
 
       - run: npm test
         env:
