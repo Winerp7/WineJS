@@ -33,7 +33,9 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
 
       - run: npm install
-        run: echo Hello world $TEST_DB
+
+
+      - run: echo Hello world $TEST_DB
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
