@@ -11,11 +11,8 @@
     "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css",
     "postinstall": "tsc",
     "start": "node ./dist/bin/www",
-    "pis:af": "node ./dist/bin/www cross-env NODE_ENV=test",
     "cy:run": "cypress run",
-    "ye:env": "export NODE_ENV=test",
     "test": "tsc && cross-env NODE_ENV=test start-server-and-test start http://localhost:3000 cy:run",
-    "failedbadly:test": " npm start & wait-on http://localhost:3000 npm run cy:run",
     "sample": "tsc && node ./dist/util/load-sample-data.js",
     "nuke": "tsc && node ./dist/util/load-sample-data.js --delete"
   },
