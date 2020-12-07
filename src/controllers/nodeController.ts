@@ -70,3 +70,11 @@ export const downloadData = async (req: Request, res: Response) => {
   res.set('Content-disposition', 'attachment; filename=' + "SensorData.json");
   readStream.pipe(res);
 };
+
+export const downloadImage = async (req: Request, res: Response) => {
+  if (req.body.namemaster && req.body.passwordmaster) {
+    res.download("images/master.img");
+  } else if (req.body.nameslave && req.body.passwordslave) {
+    res.download("images/slave.img");
+  }
+}
