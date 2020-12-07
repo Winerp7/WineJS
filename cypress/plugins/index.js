@@ -33,6 +33,8 @@ module.exports = (on, config) => {
       envs.push(env.split('=')[1])
     }
   })
+ console.log("Her er jeg, jeg er vild med dig :)):):):9:9");
+ console.log(process.env.TEST_NAME);
 
   config.env.TEST_NAME = envs[0];
   config.env.TEST_EMAIL = envs[1];

@@ -42,4 +42,5 @@ jobs:
       - run: npm test
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
+          TEST_NAME: Bente Bent
           CI: true
