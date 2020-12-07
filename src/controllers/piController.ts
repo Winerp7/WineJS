@@ -78,18 +78,23 @@ export const getFunctionality = async (req: Request, res: Response) => {
   nodes.forEach(async (node: INode) => {
     // Finds the specific func for a node
     const func = allFuncs.find((f: {_id: string, setup: string, loop: string, reboot: boolean}) => f._id == String(node.function));
-    nodeUpdates.push({
-      nodeID: node.nodeID,
-      body: {
-        setup: func.setup,
-        loop: func.loop,
-        reboot: func.reboot,
-        sleep: false // TODO: Wus fix
-      }
-    });
+    nodeUpdates.push(createNodeUpdate(node, func));
   });
   res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
 };
+
+function createNodeUpdate(node: INode, func: {_id: string, setup: string, loop: string, reboot: boolean}){
+  let body: { setup: string, loop: string, reboot: boolean, sleep: boolean }
+  if(func == undefined){
+    body = { setup: '', loop: '', reboot: false, sleep: true }
+  } else {
+    body = { setup: func.setup, loop: func.loop, reboot: func.reboot, sleep: true }
+  }
+  return {
+    nodeID: node.nodeID,
+    body: body
+  }
+}
 
 function objectId(s: string){
   return mongoose.Types.ObjectId(s);
