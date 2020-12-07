@@ -13,7 +13,9 @@
     "start": "node ./dist/bin/www",
     "cy:run": "cypress run",
     "test": "start-server-and-test start http://localhost:3000 npm run cy:run",
-    "failedbadly:test": " npm start & wait-on http://localhost:3000 npm run cy:run"
+    "failedbadly:test": " npm start & wait-on http://localhost:3000 npm run cy:run",
+    "sample": "tsc && node ./dist/util/load-sample-data.js",
+    "nuke": "tsc && node ./dist/util/load-sample-data.js --delete"
   },
   "dependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",
