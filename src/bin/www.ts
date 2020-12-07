@@ -8,8 +8,8 @@ require('dotenv').config({ path: 'variables.env' });
 let dbConnectionString: string;
 
 // TODO: Add prober error handler function in errorHandler.ts
-if (process.env.NODE_ENV == 'test') {
-  dbConnectionString = String(process.env.TEST_DB);
+if (process.env.NODE_ENV == 'test' && process.env.TEST_DB) {
+  dbConnectionString = process.env.TEST_DB;
   console.log("connecting to the test database");
 } else if (process.env.NODE_ENV == 'development' && process.env.MONGO_CONNECTION_STRING) {
   dbConnectionString = process.env.MONGO_CONNECTION_STRING;
