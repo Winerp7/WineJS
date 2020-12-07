@@ -91,11 +91,17 @@ block content
                           <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         // I'm not sure how else to do it without including a div here, the dropdown is absolute therefore wont follow
                         // flex-col unless wrapped in another div  
+
+                        // *************** Dropdown functionalities starts here *****************
                         div()
-                          div(style="max-height: 12rem;" class="hidden max-w-sm w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
+                          div(style="max-height: 12rem;" class="hidden max-w-xs w-full divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
                               each func in funcs
                                   div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
                                       | #{func.name}
+                        
+                        // *************** Dropdown functionalities ends here *****************
+
+                        
                     div(class="flex ml-auto mr-10")
                       a(href="/functionality/add" class=" flex text-center p-2 font-semibold rounded-lg text-xs bg-green-300 hover:bg-green-500 cursor-pointer")
                         | Add functionality

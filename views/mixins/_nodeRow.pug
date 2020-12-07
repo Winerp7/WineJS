@@ -7,7 +7,14 @@ mixin nodeRow(node = {})
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       | #{node.status}
     div(class="ml-2 w-48 overflow-auto no-scrollbar")
-      | #{node.sensors}
+      if (!node.sensors.length)
+        | No sensors
+      else if (node.sensors.length === 1)
+        | #{node.sensors.join(" ")}
+      else if (node.sensors.length === 2)
+        | #{node.sensors.join(" & ")}
+      else 
+        | #{node.sensors.join(", ")}
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       | #{node.function}
     form(action=`/nodes/${node._id}/edit` method="GET" class="card")
