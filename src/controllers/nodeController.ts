@@ -45,8 +45,14 @@ export const editNode = async (req: Request, res: Response) => {
 
 // Updates a node in the DB
 export const updateNode = async (req: Request, res: Response) => {
-  if (req.body.function)
-    req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
+
+  if (req.body.function) {
+    const temp = req.functionalities?.filter(functionality => functionality.name === req.body.function); 
+    if (temp && temp.length > 0)
+      req.body.function = req.functionalities?.filter(functionality => functionality.name === req.body.function)[0].id;
+    else 
+      req.body.function = null; 
+  } 
 
   // Check if we add a new functionality and set status to 'pending'
   const myNode = await Node.findById(req.params.id); 
