@@ -45,7 +45,10 @@ const nodeSchema = new mongoose.Schema({
     value: Number,
     sensor: String
   }],
-  function: mongoose.Types.ObjectId,
+  function: { 
+    type: mongoose.Types.ObjectId,
+    default: null
+  },
   slug: String,
   owner: {
     type: mongoose.Types.ObjectId,

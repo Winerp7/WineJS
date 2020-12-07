@@ -94,9 +94,18 @@ export const updateFunctionality = async (req: Request, res: Response) => {
 
 // For GET request "functionality/delete/:id": Deletes the specific functionality from the DB
 export const deleteFunctionality = async (req: Request, res: Response) => {
+    const user = req.user as IUser;
     await Functionality.findOneAndDelete({ _id: req.params.id }, function (err) {
         if (err) {
             req.flash('error', 'Sorry, something went wrong when trying to delete the functionality!');
+            res.redirect('/functionality');
+        }  
+    });
+
+    // Find nodes with the functinality and update their status to 'Pending'
+    await Node.updateMany({owner: user._id, function: req.params.id}, {updateStatus: 'Pending', function: null}, function (err) {
+        if (err) {
+            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality from your nodes!');
             res.redirect('/functionality');
         }
 
