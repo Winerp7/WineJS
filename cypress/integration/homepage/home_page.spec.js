@@ -26,7 +26,7 @@ describe('The Home Page', () => {
     cy.url().should('include', '/dashboard');
   });
 
-  it('should register user', () => {
+  it.skip('should register user', () => {
     // Visit homepage
     cy.visit('/');
     // Open the register modal
@@ -58,6 +58,6 @@ describe('The Home Page', () => {
   });
 
   // TODO: test register and login secondary modals
-  
+
 
 });
