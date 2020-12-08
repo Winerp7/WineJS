@@ -35,14 +35,11 @@ jobs:
       - run: npm install
 
 
-      - run: echo Hello world $TEST_DB
-        env:
-          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
       - run: export CYPRESS_TEST_DB=${{ secrets.MONGO_CONNECTION_STRING }}
 
       - run: npm test 
         env:
-          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
-          TEST_NAME: Bente Bent
+          #TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
+          #TEST_NAME: Bente Bent
           CI: true
