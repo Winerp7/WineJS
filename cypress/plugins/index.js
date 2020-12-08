@@ -21,6 +21,7 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 
+  // should work now
   config.env.TEST_NAME = process.env.TEST_NAME;
   config.env.TEST_EMAIL = process.env.TEST_EMAIL;
   config.env.TEST_PASS = process.env.TEST_PASS;
