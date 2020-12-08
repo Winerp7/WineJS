@@ -1,69 +1,63 @@
 describe('The Home Page', () => {
-
-  beforeEach(() => {
-    // reset and seed the database prior to every test
-    cy.exec('npm run nuke && npm run sample')
-  })
-
-
   it('should log in using cy.request', () => {
-    cy.login()
-  })
+    cy.login();
+  });
 
   it('should login visually', () => {
     // Visit homepage
-    cy.visit('/')
+    cy.visit('/');
     // Open the login modal
-    cy.contains('Log in').click()
+    cy.contains('Log in').click();
     // Enter credentials in the modal
     cy.get('#sign-in-username')
       .type(Cypress.env('TEST_EMAIL'))
-      .should('have.value', Cypress.env('TEST_EMAIL'))
+      .should('have.value', Cypress.env('TEST_EMAIL'));
 
     cy.get('#sign-in-password')
-    .type(Cypress.env('TEST_PASS'))
-    .should('have.value', Cypress.env('TEST_PASS'))
+      .type(Cypress.env('TEST_PASS'))
+      .should('have.value', Cypress.env('TEST_PASS'));
 
     // Click sign in
-    cy.get('#formLoginBtn').click()
+    cy.get('#formLoginBtn').click();
     // Checks cookie is set upon login
-    cy.getCookies().should('have.length', 1)
+    cy.getCookies().should('have.length', 1);
 
     // Should be on a new URL which includes '/dashboard'
-    cy.url().should('include', '/dashboard')
-  })
+    cy.url().should('include', '/dashboard');
+  });
 
   it('should register user', () => {
     // Visit homepage
-    cy.visit('/')
+    cy.visit('/');
     // Open the register modal
-    cy.get('#signUpBtn').click()
+    cy.get('#signUpBtn').click();
     // Enter credentials in the modal
     cy.get('#register-name')
       .type('Temporary User')
-      .should('have.value', 'Temporary User')
+      .should('have.value', 'Temporary User');
 
     cy.get('#register-email')
-    .type('temporary@email.com')
-    .should('have.value', 'temporary@email.com')
+      .type('temporary@email.com')
+      .should('have.value', 'temporary@email.com');
 
     cy.get('#register-password')
-    .type('temppass')
-    .should('have.value', 'temppass')
-
+      .type('temppass')
+      .should('have.value', 'temppass');
 
     cy.get('#register-password-confirm')
-    .type('temppass')
-    .should('have.value', 'temppass')
+      .type('temppass')
+      .should('have.value', 'temppass');
 
     // Click register
-    cy.get('#registerBtn').click()
+    cy.get('#registerBtn').click();
 
     // Should be on a new URL which includes '/dashboard'
-    cy.url().should('include', '/dashboard')
-    //cy.exec('npm run nuke && npm run sample')
-  })
+    cy.url().should('include', '/dashboard');
 
+    cy.exec('npm run nuke && npm run sample');
+  });
 
+  // TODO: test register and login secondary modals
+  
 
-})
+});

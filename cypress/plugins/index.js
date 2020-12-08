@@ -13,7 +13,6 @@
 // the project's config changing)
 
 // Importing the Required Modules
-const fs = require('fs');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -22,20 +21,9 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 
-  // read the variables.env file
-  var envFileArr = fs.readFileSync(`${process.cwd()}/variables.env`, 'utf8').split('\n');
+  config.env.TEST_NAME = process.env.TEST_NAME;
+  config.env.TEST_EMAIL = process.env.TEST_EMAIL;
+  config.env.TEST_PASS = process.env
 
-  // get all variables that is related to 'test'
-  const envs = []
-  envFileArr.forEach((env) => {
-    if (env.startsWith('TEST')) {
-      // Split by '=' and only take the part on the right side of '='
-      envs.push(env.split('=')[1])
-    }
-  })
-
-  config.env.TEST_NAME = envs[0];
-  config.env.TEST_EMAIL = envs[1];
-  config.env.TEST_PASS = envs[2];
-  return config
-}
+  return config;
+};

@@ -37,9 +37,10 @@ node_modules/
 jspm_packages/
 dist/
 
-# Testing directories
+# Testing directories / files
 cypress/screenshots
 cypress/videos
+cypress.env.json
 
 # Typescript v1 declaration files
 typings/
