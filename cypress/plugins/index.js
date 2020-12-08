@@ -24,10 +24,11 @@ module.exports = (on, config) => {
 
   console.log("Her er jeg, jeg er vild med dig :)):):):9:9");
   console.log(process.env.TEST_NAME);
+  /*
   config.env.TEST_NAME = 'Bente Bent'
   config.env.TEST_EMAIL = 'cypress@test.com';
   config.env.TEST_PASS = 'test123';
-
+*/
   // read the variables.env file
   /*
   var envFileArr = fs.readFileSync(`${process.cwd()}/variables.env`, 'utf8').split('\n');
