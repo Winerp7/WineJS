@@ -32,9 +32,11 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      - run: npm test 
+      - name: Test
+        run: npm test 
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
           TEST_NAME: ${{ secrets.TEST_NAME }}
