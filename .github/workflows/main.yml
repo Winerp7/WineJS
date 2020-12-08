@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [master, intergration]
+    branches: [integration_test]
   pull_request:
-    branches: [master, intergration]
+    branches: [master]
 
 jobs:
   build:
@@ -40,4 +40,5 @@ jobs:
           TEST_NAME: ${{ secrets.TEST_NAME }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASS: ${{ secrets.TEST_PASS }}
+          SECRET: ${{ secrets.SECRET }}
           CI: true
