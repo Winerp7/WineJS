@@ -23,7 +23,7 @@ module.exports = (on, config) => {
 
   config.env.TEST_NAME = process.env.TEST_NAME;
   config.env.TEST_EMAIL = process.env.TEST_EMAIL;
-  config.env.TEST_PASS = process.env
+  config.env.TEST_PASS = process.env.TEST_PASS;
 
   return config;
 };
