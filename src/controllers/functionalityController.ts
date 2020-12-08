@@ -28,7 +28,7 @@ export const createFunctionality = async (req: Request, res: Response) => {
     }
 
     // Deactivated is a reserved keyword for a "null" functionality, when the nodes are deactivated
-    if (req.body.name === 'Deactivated' || req.body.name === 'deactivated') {
+    if (req.body.name.toLowerCase() === 'deactivated') {
         req.flash('error', '"Deactivated" is a reserved keyword, and cannot be used ⛔');
         return res.redirect('/functionality/add'); 
     }
