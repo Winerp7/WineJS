@@ -23,10 +23,14 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   console.log("Her er jeg, jeg er vild med dig :)):):):9:9");
- console.log(process.env.TEST_NAME);
- console.log(Cypress.env('TEST_DB'));
+  console.log(process.env.TEST_NAME);
+  console.log(Cypress.env('TEST_DB'));
+  config.env.TEST_NAME = 'Bente Bent'
+  config.env.TEST_EMAIL = 'cypress@test.com';
+  config.env.TEST_PASS = 'test123';
 
   // read the variables.env file
+  /*
   var envFileArr = fs.readFileSync(`${process.cwd()}/variables.env`, 'utf8').split('\n');
 
   // get all variables that is related to 'test'
@@ -41,5 +45,6 @@ module.exports = (on, config) => {
   config.env.TEST_NAME = envs[0];
   config.env.TEST_EMAIL = envs[1];
   config.env.TEST_PASS = envs[2];
+  */
   return config
 }
