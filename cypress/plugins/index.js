@@ -24,7 +24,6 @@ module.exports = (on, config) => {
 
   console.log("Her er jeg, jeg er vild med dig :)):):):9:9");
   console.log(process.env.TEST_NAME);
-  console.log(Cypress.env('TEST_DB'));
   config.env.TEST_NAME = 'Bente Bent'
   config.env.TEST_EMAIL = 'cypress@test.com';
   config.env.TEST_PASS = 'test123';
