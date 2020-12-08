@@ -10,7 +10,11 @@
     "dev": "concurrently npm:dev:*",
     "build": "tailwindcss build ./public/stylesheets/tailwind.css -o ./public/stylesheets/styles.css",
     "postinstall": "tsc",
-    "start": "node ./dist/bin/www"
+    "start": "node ./dist/bin/www",
+    "cy:run": "cypress run",
+    "test": "tsc && cross-env NODE_ENV=test start-server-and-test start http://localhost:3000 cy:run",
+    "sample": "tsc && node ./dist/util/load-sample-data.js",
+    "nuke": "tsc && node ./dist/util/load-sample-data.js --delete"
   },
   "dependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",
@@ -63,6 +67,9 @@
     "@types/pug": "^2.0.4",
     "@types/validator": "^13.1.0",
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.5"
+    "cross-env": "^7.0.3",
+    "cypress": "^6.0.1",
+    "nodemon": "^2.0.5",
+    "start-server-and-test": "^1.11.6"
   }
 }

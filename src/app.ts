@@ -40,15 +40,10 @@ app.use(expressValidator());
 app.use(cookieParser());
 
 
-// TODO: Add prober error handler function in errorHandler.ts
-if (!process.env.SECRET) {
-  throw 'Missing environment secret! 🔥🔥';
-}
-
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 app.use(session({
-  secret: process.env.SECRET,
+  secret: process.env.SECRET || 'superdab',
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({ mongooseConnection: mongoose.connection })

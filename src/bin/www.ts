@@ -3,16 +3,27 @@
 import mongoose from 'mongoose';
 
 // import environment variables from our variables.env file
-require('dotenv').config({path: 'variables.env'});
+require('dotenv').config({ path: 'variables.env' });
 
+let dbConnectionString: string; 
 
+console.log(process.env.NODE_ENV);
+console.log("DABBER: ", process.env.TEST_DB);
 // TODO: Add prober error handler function in errorHandler.ts
-if (!process.env.MONGO_CONNECTION_STRING) {
+if (process.env.NODE_ENV == 'test' && process.env.TEST_DB) {
+  dbConnectionString = process.env.TEST_DB;
+  console.log("connecting to the test database");
+} else if (process.env.NODE_ENV == 'development' && process.env.MONGO_CONNECTION_STRING) {
+  dbConnectionString = process.env.MONGO_CONNECTION_STRING;
+  console.log("connecting to the development database");
+} else {
   throw 'Missing environment Mongo connection string! 🔥🔥';
 }
 
+
+
 // Connect to database and handle bad connections
-mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+mongoose.connect(dbConnectionString, {
   // settings to remove deprecation warnings
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -20,11 +31,11 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
   useUnifiedTopology: true
 }).then(_con => {
   //console.log(con.connections);
-  console.log('DB connection successful!');
+  console.log('DB connection successful!👍');
 })
-.catch(err => {
-  console.log(err);
-});
+  .catch(err => {
+    console.log(err);
+  });
 mongoose.Promise = global.Promise; // lets mongoose use ES6 promises
 
 // import all of our models
@@ -98,11 +109,9 @@ function onError(error: { syscall: string; code: any; }) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }

@@ -5,13 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master, intergration]
   pull_request:
-    branches: [ master ]
+    branches: [master, intergration]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,22 +19,25 @@ jobs:
         mongodb-version: [4.2]
 
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v1
+      - name: Git checkout
+        uses: actions/checkout@v1
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Start MongoDB v${{ matrix.node-version }}
-      uses: superchargejs/mongodb-github-action@1.2.0
-      with:
-        mongodb-version: ${{ matrix.mongodb-version }}
+      - name: Start MongoDB v${{ matrix.node-version }}
+        uses: superchargejs/mongodb-github-action@1.2.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
 
+      - run: npm install
 
-    - run: npm install
-      
-    - run: npm test
-      env:
-        CI: true
+      - run: npm test 
+        env:
+          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
+          TEST_NAME: ${{ secrets.TEST_NAME }}
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASS: ${{ secrets.TEST_PASS }}
+          CI: true

@@ -11,7 +11,7 @@ export const initNode = async (req: Request, res: Response) => {
   // TODO: if master inits and exists get all functionality
   const existingNode = await Node.findOne({ nodeID: req.body.nodeID, owner: owner });
   if (existingNode) {
-    res.status(200).send('Already exists');
+    res.status(200).send('Node already exists');
     return;
   }
 
@@ -20,7 +20,7 @@ export const initNode = async (req: Request, res: Response) => {
   const node = await (new Node(req.body)).save();
   if (!node) {
     // TODO: Add proper handling
-    res.sendStatus(404).send('Sorry mate - thats not a node 👎');
+    res.status(404).send('Sorry mate - thats not a node 👎');
   } else {
     res.status(200).send('A master node has been created 👯‍♀️');
   }
@@ -67,7 +67,6 @@ export const getFunctionality = async (req: Request, res: Response) => {
     res.status(200).send('No nodes waiting to update');
     return;
   }
-
   //Finds all functionality, which needs to be sent to the master node
   //@ts-ignore
   const allFuncs = await Functionality.findFuncsForNodes(nodes, owner);
@@ -75,21 +74,27 @@ export const getFunctionality = async (req: Request, res: Response) => {
   // For each node that is Pending an 'nodeUpdate' object is pushed to the 'nodeUpdates' array 
   let nodeUpdates: {nodeID: string, body: {setup: string, loop: string, reboot: boolean, sleep: boolean}}[] = [];
 
+  // Finds the specific func for a node and adds it to nodeUpdates
   nodes.forEach(async (node: INode) => {
-    // Finds the specific func for a node
     const func = allFuncs.find((f: {_id: string, setup: string, loop: string, reboot: boolean}) => f._id == String(node.function));
-    nodeUpdates.push({
-      nodeID: node.nodeID,
-      body: {
-        setup: func.setup,
-        loop: func.loop,
-        reboot: func.reboot,
-        sleep: false // TODO: Wus fix
-      }
-    });
+    nodeUpdates.push(createNodeUpdate(node, func));
   });
   res.status(200).send(JSON.stringify(nodeUpdates).replace(/\\\\/g, '\\'));
 };
+
+// Creates the object which is returned to a master with a nodes functionality
+function createNodeUpdate(node: INode, func: {_id: string, setup: string, loop: string, reboot: boolean}){
+  let body: { setup: string, loop: string, reboot: boolean, sleep: boolean }
+  if(func == undefined){
+    body = { setup: '', loop: '', reboot: false, sleep: true }
+  } else {
+    body = { setup: func.setup, loop: func.loop, reboot: func.reboot, sleep: true }
+  }
+  return {
+    nodeID: node.nodeID,
+    body: body
+  }
+}
 
 function objectId(s: string){
   return mongoose.Types.ObjectId(s);
