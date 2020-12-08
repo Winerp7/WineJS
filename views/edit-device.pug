@@ -73,7 +73,7 @@ block content
                       | Functionality
                     div(class="flex flex-col lg:flex-row lg:items-center flex-grow")
                         if (!funcs.length)
-                            input(value="No existing functionalities..." type="text" readonly class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                            input(value="No existing functionalities..." type="text" readonly class="w-64 overflow-x-auto bg-transparent focus:outline-none font-light text-lg")  
                         else
                             - var isFound = false
                             - var myFuncName
@@ -85,9 +85,12 @@ block content
                             div(class="flex flex-col w-64 mr-2 lg:mr-0")
                                 div(class="flex flex-row p-2 w-64 border rounded-lg cursor-pointer" id="funcsDropdownBar") 
                                     if (isFound)
-                                        input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                                        if (myFuncName === 'Deactivate')
+                                            input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 text-red-500 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                                        else 
+                                            input(value=`${myFuncName}` name="function" type="text" readonly id="chosenFunc" class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
                                     else
-                                        input(id="chosenFunc" value="Choose functionality..." name="function" type="text" readonly class="w-64 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
+                                        input(id="chosenFunc" value="Deactivated" name="function" type="text" readonly class="w-64 text-red-500 overflow-x-auto cursor-pointer bg-transparent focus:outline-none font-light text-lg")  
                                     <svg id="arrowDown" class="w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                     <svg id="arrowUp" class="hidden w-3 h-auto ml-auto mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 
@@ -96,8 +99,8 @@ block content
                                 // flex-col unless wrapped in another div  
                                 div(class="")
                                     div(style="max-height: 12rem;" class="w-64 hidden divide-y overflow-auto absolute border rounded-lg flex flex-col bg-gray-100" id="dropdownFunctionalities")
-                                        div(class="func p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
-                                            | None
+                                        div(class="func p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-red-500")
+                                            | Deactivated
                                         each func in funcs
                                             div(class="func flex flex-row p-2 items-center hover:bg-gray-200 max-h-full cursor-pointer text-gray-700")
                                                 | #{func.name}
@@ -196,6 +199,10 @@ block scripts
                 arrowDown.classList.toggle('hidden');
                 funcsDropdownBar.classList.toggle('bg-gray-200');
                 chosenFunc.value = value;
+                if (value === 'Deactivate')
+                    chosenFunc.classList.add('text-red-500'); 
+                else 
+                    chosenFunc.classList.remove('text-red-500');
             }
 
             const funcs = document.querySelectorAll("div.func"); // Gets all funcs

@@ -7,6 +7,7 @@ block content
     | Dashboard
     p(class="mt-2 text-lg text-gray-600")
       | Scroll to see your sensor data displayed on graphs and an overview of <a href="/nodes" class="text-gray-900 hover:underline">your network devices</a>.
+      | In the list of all your devices at the bottom, you can download the sensor data of a specific device. 
   div(id="sectionSplitter" class="w-full border-b mb-8 mt-8") 
   div(class="flex flex-col items-center mb-4 ")
     button(id="graphsBtn" class="focus\:outline-none flex px-2 py-1 text-sm border rounded-lg border-gray-400 mt-0 mr-1 z-10")
@@ -34,10 +35,12 @@ block content
   // ******* Graph end here *******
 
   // ******* Device table begins here *******
-  div(class="m-20")
+  div(id="sectionSplit" class="w-full border-b mb-6")
   div(class="mx-auto max-w-5xl flex flex-col items-center ")
-    span(class="text-lg text-center font-medium")
+    span(class="text-3xl font-light text-center")
       | Your devices
+    span(class="mt-2 text-sm text-gray-600 mb-2 font-light")
+      | Scroll to see all your devices. Click the 'Download data'-button to download the data of a device. 
     div( class="flex flex-col py-2 font-light text-sm")
       div(class="text-gray-500 bg-white flex flex-row py-4 px-4 rounded-xl ")
         div(class="ml-2 w-32")
@@ -50,7 +53,7 @@ block content
           | Sensors
         div(class="ml-2 w-32")
           | Functionality
-      div(style="max-height: 12rem;" class="overflow-auto no-scrollbar")
+      div(style="max-height: 18rem;" class="overflow-auto no-scrollbar")
         each node in nodes
           +nodeRow(node)
   // ******* Device table ends here *******
