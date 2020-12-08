@@ -26,9 +26,16 @@ export const createFunctionality = async (req: Request, res: Response) => {
         req.flash('error', 'A functionality already exists with that delightful name ⛔');
         return res.redirect('/functionality/add');
     }
+
+    // Deactivated is a reserved keyword for a "null" functionality, when the nodes are deactivated
+    if (req.body.name === 'Deactivated' || req.body.name === 'deactivated') {
+        req.flash('error', '"Deactivated" is a reserved keyword, and cannot be used ⛔');
+        return res.redirect('/functionality/add'); 
+    }
+
     const func = await (new Functionality(req.body)).save();
 
-    req.flash('success', `Successfully created functionality '${func.name}'.`);
+    req.flash('success', `Successfully created functionality '${func.name}' 🔥`);
     res.redirect('/functionality');
 }; 
 
@@ -97,7 +104,7 @@ export const deleteFunctionality = async (req: Request, res: Response) => {
     const user = req.user as IUser;
     await Functionality.findOneAndDelete({ _id: req.params.id }, function (err) {
         if (err) {
-            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality!');
+            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality ⛔ ');
             res.redirect('/functionality');
         }  
     });
@@ -105,7 +112,7 @@ export const deleteFunctionality = async (req: Request, res: Response) => {
     // Find nodes with the functinality and update their status to 'Pending'
     await Node.updateMany({owner: user._id, function: req.params.id}, {updateStatus: 'Pending', function: null}, function (err) {
         if (err) {
-            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality from your nodes!');
+            req.flash('error', 'Sorry, something went wrong when trying to delete the functionality from your nodes ⛔');
             res.redirect('/functionality');
         }
 
