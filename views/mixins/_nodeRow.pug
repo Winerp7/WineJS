@@ -26,5 +26,5 @@ mixin nodeRow(node = {})
     form(action=`/nodes/${node._id}/edit` method="GET" class="card")
       button(type="submit" class="ml-4 w-14 mr-2 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-white hover:border-teal-400 hover:bg-white hover:text-teal-400")
         | Edit device
-    a(href=`/download/${node.nodeID}` class="ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-white hover:border-teal-400 hover:bg-white hover:text-teal-400")
+    a(href=`/download/${node.nodeID}` class="text-center ml-4 w-14 curser-pointer focus:outline-none px-2 py-1 bg-teal-400 border border-teal-400 rounded-xl text-white hover:border-teal-400 hover:bg-white hover:text-teal-400")
       | Download data
