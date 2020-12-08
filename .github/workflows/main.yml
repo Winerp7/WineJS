@@ -34,14 +34,10 @@ jobs:
 
       - run: npm install
 
-
-
-      #- run: export CYPRESS_TEST_DB=${{ secrets.MONGO_CONNECTION_STRING }}
-
       - run: npm test 
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
-          TEST_NAME: Bente Bent
-          TEST_EMAIL: cypress@test.com
-          TEST_PASS: test123
+          TEST_NAME: ${{ secrets.TEST_NAME }}
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASS: ${{ secrets.TEST_PASS }}
           CI: true
