@@ -39,7 +39,9 @@ jobs:
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
 
-      - run: npm test
+      - run: export CYPRESS_TEST_DB=${{ secrets.MONGO_CONNECTION_STRING }}
+
+      - run: npm test 
         env:
           TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
           TEST_NAME: Bente Bent

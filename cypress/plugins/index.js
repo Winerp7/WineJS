@@ -24,6 +24,7 @@ module.exports = (on, config) => {
 
   console.log("Her er jeg, jeg er vild med dig :)):):):9:9");
  console.log(process.env.TEST_NAME);
+ console.log(process.env.CYPRESS_TEST_DB);
 
   // read the variables.env file
   var envFileArr = fs.readFileSync(`${process.cwd()}/variables.env`, 'utf8').split('\n');
@@ -40,5 +41,7 @@ module.exports = (on, config) => {
   config.env.TEST_NAME = envs[0];
   config.env.TEST_EMAIL = envs[1];
   config.env.TEST_PASS = envs[2];
+  process.env.TEST_EMAIL = config.env.TEST_EMAIL;
+  console.log(process.env.TEST_EMAIL);
   return config
 }
