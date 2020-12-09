@@ -33,4 +33,3 @@ jobs:
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASS: ${{ secrets.TEST_PASS }}
           SECRET: ${{ secrets.SECRET }}
-          CI: true
