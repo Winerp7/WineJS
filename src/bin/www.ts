@@ -5,10 +5,8 @@ import mongoose from 'mongoose';
 // import environment variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 
-let dbConnectionString: string; 
+let dbConnectionString: string;
 
-console.log(process.env.NODE_ENV);
-console.log("DABBER: ", process.env.TEST_DB);
 // TODO: Add prober error handler function in errorHandler.ts
 if (process.env.NODE_ENV == 'test' && process.env.TEST_DB) {
   dbConnectionString = process.env.TEST_DB;

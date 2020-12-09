@@ -1,13 +1,9 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: WineJS Continuous Integration
 
 on:
   push:
-    branches: [master, intergration]
   pull_request:
-    branches: [master, intergration]
+    branches: [master]
 
 jobs:
   build:
@@ -15,8 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
-        mongodb-version: [4.2]
+        node-version: [14.x]
 
     steps:
       - name: Git checkout
@@ -27,17 +22,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Start MongoDB v${{ matrix.node-version }}
-        uses: superchargejs/mongodb-github-action@1.2.0
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: Install dependencies
+        run: npm install
 
-      - run: npm install
-
-      - run: npm test 
+      - name: Test
+        run: npm test 
         env:
-          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
+          TEST_DB: ${{ secrets.TEST_DB }}
           TEST_NAME: ${{ secrets.TEST_NAME }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASS: ${{ secrets.TEST_PASS }}
-          CI: true
+          SECRET: ${{ secrets.SECRET }}

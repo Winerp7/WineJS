@@ -85,10 +85,10 @@ export const getFunctionality = async (req: Request, res: Response) => {
 // Creates the object which is returned to a master with a nodes functionality
 function createNodeUpdate(node: INode, func: {_id: string, setup: string, loop: string, reboot: boolean}){
   let body: { setup: string, loop: string, reboot: boolean, sleep: boolean }
-  if(func == undefined){
-    body = { setup: '', loop: '', reboot: false, sleep: true }
+  if(func){
+    body = { setup: func.setup, loop: func.loop, reboot: func.reboot, sleep: false }
   } else {
-    body = { setup: func.setup, loop: func.loop, reboot: func.reboot, sleep: true }
+    body = { setup: '', loop: '', reboot: false, sleep: true }
   }
   return {
     nodeID: node.nodeID,

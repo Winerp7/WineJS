@@ -1,4 +1,10 @@
 describe('The Home Page', () => {
+  // runs once before all tests in the block
+  before(() => {
+    // nuke test db and load sample data
+    cy.exec('npm run nuke && npm run sample');
+  });
+
   it('should log in using cy.request', () => {
     cy.login();
   });
@@ -51,9 +57,10 @@ describe('The Home Page', () => {
     // Click register
     cy.get('#registerBtn').click();
 
-    // Should be on a new URL which includes '/dashboard'
+    // Should be redirected to '/dashboard'
     cy.url().should('include', '/dashboard');
 
+    // remove the registered user to not interfer with other test
     cy.exec('npm run nuke && npm run sample');
   });
 
