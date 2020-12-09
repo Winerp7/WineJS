@@ -33,7 +33,7 @@ export const directDashboard = async (req: Request, res: Response) => {
           // Retrieve values and timestamps from sensorData
           for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
             // Remove date and decimals for better readability
-            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
+            let timestamp: string = sensorDataList[dataIndex].sensorData.time;
             timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
             timestamps.push(timestamp);
             values.push(sensorDataList[dataIndex].sensorData.value);
