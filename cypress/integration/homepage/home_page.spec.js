@@ -1,4 +1,10 @@
 describe('The Home Page', () => {
+  // runs once before all tests in the block
+  before(() => {
+    // nuke test db and load sample data
+    cy.exec('npm run nuke && npm run sample');
+  });
+
   it('should log in using cy.request', () => {
     cy.login();
   });
