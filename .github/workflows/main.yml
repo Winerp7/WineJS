@@ -29,7 +29,7 @@ jobs:
       - name: Test
         run: npm test 
         env:
-          TEST_DB: ${{ secrets.MONGO_CONNECTION_STRING }}
+          TEST_DB: ${{ secrets.TEST_DB }}
           TEST_NAME: ${{ secrets.TEST_NAME }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASS: ${{ secrets.TEST_PASS }}
