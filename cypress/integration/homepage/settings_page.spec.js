@@ -58,9 +58,25 @@ describe('The Settings Page', () => {
       .should('have.value', newEmail)
   });
 
-  it('should change password', () => {
-    const newEmail = 'test@test.com';
+  // it('should change password', () => {
+  //   const newPass = 'newpass';
 
-  });
+  //   // Change password
+  //   cy.get('[test-cy=setting-password]')
+  //     .click()
+  //     .get('[test-cy=setting-curr-pass]')
+  //     .type(Cypress.env('TEST_PASS'))
+  //     .get('[test-cy=setting-new-pass]')
+  //     .type(newPass)
+  //     .get('[test-cy=setting-new-pass-repeat]')
+  //     .type(newPass)
+  //     .get('[test-cy=save-pass-btn]')
+  //     .click()
+  //   // Log out
+
+  //   // Login with new password
+
+
+  // });
 
 });
