@@ -51,9 +51,10 @@ describe('The Home Page', () => {
     // Click register
     cy.get('#registerBtn').click();
 
-    // Should be on a new URL which includes '/dashboard'
+    // Should be redirected to '/dashboard'
     cy.url().should('include', '/dashboard');
 
+    // remove the registered user to not interfer with other test
     cy.exec('npm run nuke && npm run sample');
   });
 

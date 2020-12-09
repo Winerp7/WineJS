@@ -37,7 +37,7 @@ Cypress.Commands.add('login', () => {
   expect(email, 'email was set').to.be.a('string').and.not.be.empty
   // but the password value should not be shown
   if (typeof password !== 'string' || !password) {
-    throw new Error('Missing password value, set using CYPRESS_password=...')
+    throw new Error('Missing password value, from env variables')
   }
 
   cy.request({
@@ -49,5 +49,7 @@ Cypress.Commands.add('login', () => {
       password
     }
   })
+  // if the cookie is there we should be logged in
   cy.getCookie('connect.sid').should('exist')
+  cy.visit('/dashboard')
 })
