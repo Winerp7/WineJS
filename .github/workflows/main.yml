@@ -1,4 +1,4 @@
-name: WineJS CI
+name: WineJS Continuous Integration
 
 on:
   push:
