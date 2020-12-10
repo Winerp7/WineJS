@@ -29,10 +29,10 @@ block content
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Change name
             form(action="/settings/name" method="POST")
-              div(class="mt-2 text-xs mx-4")
+              div(class="mt-2 text-xs mx-4 text-center")
                 | Name
               div(class="mt-1 text-xs mx-4")
-                input(type="text" name="name" value=user.name id="new-name" test-cy="setting-name-input" class="pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
+                input(type="text" name="name" value=user.name id="new-name" test-cy="setting-name-input" class="text-center pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
               div(class="mt-5 flex justify-center text-md")
                 button(id="saveNameBtn" test-cy="save-name-btn" class="px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400 focus:outline-none")
                   | Save
@@ -63,14 +63,14 @@ block content
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-10") Change mail
             form(action="/settings/email" method="POST")
-              div(class="mt-2 text-xs mx-4")
+              div(class="mt-2 text-xs mx-4 text-center")
                 | Current mail
               div(class="mt-1 text-xs mx-4")
-                input(type="email" name="email" value=user.email id="old-email" test-cy="setting-old-email-input" class="pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
-              div(class="mt-2 text-xs mx-4")
+                input(type="email" name="email" value=user.email id="old-email" test-cy="setting-old-email-input" class="text-center pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
+              div(class="mt-2 text-xs mx-4 text-center")
                 | New mail
               div(class="mt-1 text-xs mx-4")
-                input(type="email" name="newEmail" id="new-email" test-cy="setting-new-email-input" class="pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
+                input(type="email" name="newEmail" id="new-email" test-cy="setting-new-email-input" class="text-center pl-1 w-full rounded border border-gray-700 focus:outline-none" required)
               div(class="mt-5 flex justify-center text-md")
                 button(id="saveEmailBtn" test-cy="save-email-btn" class="focus:outline-none px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
                   | Save
@@ -98,18 +98,18 @@ block content
             div(class="flex justify-center items-center")
               h4(class="text-2xl font-light px-8") Change password
             form(action="/settings/password" method="POST")
-              div(class="mt-2 text-xs mx-4")
+              div(class="mt-2 text-xs mx-4 text-center")
                 | Current password
-              div(class="mt-1 text-xs mx-4")
-                input(type="password" name="password" id="old-pass" test-cy="setting-curr-pass" class="focus:outline-none pl-1 w-full rounded border border-gray-700" required)
-              div(class="mt-2 text-xs mx-4")
+              div(class="mt-1 text-xs mx-4 text-center")
+                input(type="password" name="password" id="old-pass" test-cy="setting-curr-pass" class="text-center focus:outline-none pl-1 w-full rounded border border-gray-700" required)
+              div(class="mt-2 text-xs mx-4 text-center")
                 | New password
               div(class="mt-1 text-xs mx-4")
-                input(type="password" name="newPasswordOne" id="new-pass-one" test-cy="setting-new-pass" class="focus:outline-none pl-1 w-full rounded border border-gray-700" required)
-              div(class="mt-2 text-xs mx-4")
+                input(type="password" name="newPasswordOne" id="new-pass-one" test-cy="setting-new-pass" class="text-center focus:outline-none pl-1 w-full rounded border border-gray-700" required)
+              div(class="mt-2 text-xs mx-4 text-center")
                 | Repeat new password
               div(class="mt-1 text-xs mx-4")
-                input(type="password" name="newPasswordTwo" id="new-pass-two" test-cy="setting-new-pass-repeat" class="focus:outline-none pl-1 w-full rounded border border-gray-700" required)
+                input(type="password" name="newPasswordTwo" id="new-pass-two" test-cy="setting-new-pass-repeat" class="text-center focus:outline-none pl-1 w-full rounded border border-gray-700" required)
               div(class="mt-5 flex justify-center text-md")
                 button(id="savePassBtn" test-cy="save-pass-btn" class="focus:outline-none px-5 py-1 bg-indigo-400 border rounded-lg text-gray-100 hover:border-indigo-400 hover:bg-gray-200 hover:text-indigo-400")
                   | Save
