@@ -10,8 +10,8 @@ describe('The My Devices Page', () => {
     // so we don't have to login before each test
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit nodes page, as all test in this file is about nodes
-    cy.visit('/nodes');
-    cy.url().should('contain', '/nodes')
+    cy.visit('/nodes', { timeout: 30000 });
+
   });
 
   it('should check there is a Master node', () => {
