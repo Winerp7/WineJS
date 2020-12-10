@@ -5,11 +5,11 @@ describe('The Home Page', () => {
     cy.exec('npm run nuke && npm run sample');
   });
 
-  it('should log in using cy.request', () => {
+  it.skip('should log in using cy.request', () => {
     cy.login();
   });
 
-  it('should login visually', () => {
+  it.skip('should login visually', () => {
     // Visit homepage
     cy.visit('/');
     // Open the login modal

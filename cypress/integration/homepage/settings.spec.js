@@ -15,7 +15,7 @@ describe('The Settings Page', () => {
     cy.visit('/settings');
   });
 
-  it('should change name', () => {
+  it.skip('should change name', () => {
     const newName = 'Bent Gutten';
     // Check the name is equal to the one we used at login
     // And then change the name to 'Bent Gutten'
@@ -37,7 +37,7 @@ describe('The Settings Page', () => {
       .should('have.value', newName);
   });
 
-  it('should change email', () => {
+  it.skip('should change email', () => {
     const newEmail = 'test@test.com';
     // Check the email is equal to the one we used at login
     // And then change the email to 'test@test.com'
@@ -59,7 +59,7 @@ describe('The Settings Page', () => {
   });
 
   // this test is dependent on the change email test
-  it('should change password', () => {
+  it.skip('should change password', () => {
     const email = 'test@test.com';
     const password = 'newpass';
 

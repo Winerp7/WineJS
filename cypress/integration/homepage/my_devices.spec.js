@@ -13,11 +13,11 @@ describe('The My Devices Page', () => {
     cy.visit('/nodes');
   });
 
-  it('should check there is a Master node', () => {
+  it.skip('should check there is a Master node', () => {
     cy.contains('Master node')
   });
 
-  it('should edit of Slave node with nodeID SomeNodeID2', () => {
+  it.skip('should edit of Slave node with nodeID SomeNodeID2', () => {
     // Properties of the node we test
     const name = 'SomeNode2'
     const nodeID = 'SomeNodeID2'
@@ -32,7 +32,7 @@ describe('The My Devices Page', () => {
       .click()
 
     // edit node information
-    
+
       //.get('[test-cy=node-name]')
       //.should('have.value', 'SomeNode2')
 

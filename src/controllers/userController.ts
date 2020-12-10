@@ -33,7 +33,7 @@ export const directDashboard = async (req: Request, res: Response) => {
           // Retrieve values and timestamps from sensorData
           for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
             // Remove date and decimals for better readability
-            let timestamp: string = sensorDataList[dataIndex].sensorData.timestamp;
+            let timestamp: string = sensorDataList[dataIndex].sensorData.time;
             timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
             timestamps.push(timestamp);
             values.push(sensorDataList[dataIndex].sensorData.value);
@@ -102,14 +102,14 @@ export const validateRegister = (req: Request, res: Response, next: NextFunction
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply a name 🙂').notEmpty();
   req.checkBody('email', 'That Email is not valid 📧').isEmail();
-  /* 
+  /*
   Normalizing handles different variations of the "same" email, examples that google allows:
   Test@gmail.com
   TEST@gmail.com
   test@googlemail.com
   t.e.s.t@gmail.com
   test+123@gmail.com
-  
+
   Normalized result: test@gmail.com
   */
   req.sanitizeBody('email').normalizeEmail({
