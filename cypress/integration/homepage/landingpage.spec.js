@@ -1,11 +1,11 @@
-describe('The Home Page', () => {
+describe('The Landing Page', () => {
   // runs once before all tests in the block
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
   });
 
-  it.skip('should log in using cy.request', () => {
+  it('should log in using cy.request', () => {
     cy.login();
   });
 
