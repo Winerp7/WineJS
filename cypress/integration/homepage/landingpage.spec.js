@@ -68,7 +68,7 @@ describe('The Home Page', () => {
   });
 
 
-  // TODO: test register and login secondary modals
+  // !TODO: test register and login secondary modals
 
 
 });
