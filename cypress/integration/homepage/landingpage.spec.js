@@ -32,6 +32,9 @@ describe('The Home Page', () => {
     cy.url().should('include', '/dashboard');
   });
 
+  // TODO: Test logout visually
+
+
   it.skip('should register user', () => {
     // Visit homepage
     cy.visit('/');
@@ -63,6 +66,7 @@ describe('The Home Page', () => {
     // remove the registered user to not interfer with other test
     cy.exec('npm run nuke && npm run sample');
   });
+
 
   // TODO: test register and login secondary modals
 

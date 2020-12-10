@@ -10,7 +10,7 @@ describe('The Settings Page', () => {
   beforeEach(() => {
     // Keep using the cookies from first time we login
     // so we don't have to login before each test
-    Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken')
+    Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit settings page, as all test in this file is about settings
     cy.visit('/settings');
   });
@@ -55,28 +55,48 @@ describe('The Settings Page', () => {
     cy.get('[test-cy=setting-email]')
       .click()
       .get('[test-cy=setting-old-email-input]')
-      .should('have.value', newEmail)
+      .should('have.value', newEmail);
   });
 
-  // it('should change password', () => {
-  //   const newPass = 'newpass';
+  // this test is dependent on the change email test
+  it('should change password', () => {
+    const email = 'test@test.com';
+    const password = 'newpass';
 
-  //   // Change password
-  //   cy.get('[test-cy=setting-password]')
-  //     .click()
-  //     .get('[test-cy=setting-curr-pass]')
-  //     .type(Cypress.env('TEST_PASS'))
-  //     .get('[test-cy=setting-new-pass]')
-  //     .type(newPass)
-  //     .get('[test-cy=setting-new-pass-repeat]')
-  //     .type(newPass)
-  //     .get('[test-cy=save-pass-btn]')
-  //     .click()
-  //   // Log out
+    // Change password
+    cy.get('[test-cy=setting-password]')
+      .click()
+      .get('[test-cy=setting-curr-pass]')
+      .type(Cypress.env('TEST_PASS'))
+      .get('[test-cy=setting-new-pass]')
+      .type(password)
+      .get('[test-cy=setting-new-pass-repeat]')
+      .type(password)
+      .get('[test-cy=save-pass-btn]')
+      .click();
 
-  //   // Login with new password
+    // Log out
+    cy.visit('/logout');
+    // Login with new password
 
+    // clear cookies because we preserve the cookies
+    // from first time we login in the beginning
+    cy.clearCookies();
+    // send login request without having to do it visually
+    cy.request({
+      method: 'POST',
+      url: '/login',
+      form: true,
+      body: {
+        email,
+        password,
+      },
+    });
 
-  // });
-
+    // if the cookie is there we should be logged in
+    cy.getCookie('connect.sid').should('exist');
+    // if it can visit dashboard then it's logged in
+    // since /dashboard is a protected route
+    cy.visit('/dashboard');
+  });
 });

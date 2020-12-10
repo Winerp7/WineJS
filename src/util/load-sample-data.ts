@@ -36,6 +36,7 @@ async function deleteData() {
   await User.remove();
   await Node.remove();
   await Functionality.remove();
+  await mongoose.connection.db.dropCollection('sessions')
   console.log('Data Deleted. To load sample data, run\n\n\t npm run sample\n\n');
   process.exit();
 }
