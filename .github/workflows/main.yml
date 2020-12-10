@@ -2,6 +2,7 @@ name: WineJS Continuous Integration
 
 on:
   push:
+    branches: [!master]
   pull_request:
     branches: [master]
 
@@ -26,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Test
-        run: npm test 
+        run: npm test
         env:
           TEST_DB: ${{ secrets.TEST_DB }}
           TEST_NAME: ${{ secrets.TEST_NAME }}
