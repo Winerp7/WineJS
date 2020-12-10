@@ -11,6 +11,7 @@ describe('The My Devices Page', () => {
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit nodes page, as all test in this file is about nodes
     cy.visit('/nodes');
+    cy.url().should('contain', '/nodes')
   });
 
   it('should check there is a Master node', () => {
