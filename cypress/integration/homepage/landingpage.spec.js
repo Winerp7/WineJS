@@ -1,4 +1,4 @@
-describe('The Home Page', () => {
+describe('The Landing Page', () => {
   // runs once before all tests in the block
   before(() => {
     // nuke test db and load sample data
@@ -9,7 +9,7 @@ describe('The Home Page', () => {
     cy.login();
   });
 
-  it('should login visually', () => {
+  it.skip('should login visually', () => {
     // Visit homepage
     cy.visit('/');
     // Open the login modal
@@ -31,6 +31,9 @@ describe('The Home Page', () => {
     // Should be on a new URL which includes '/dashboard'
     cy.url().should('include', '/dashboard');
   });
+
+  // TODO: Test logout visually
+
 
   it.skip('should register user', () => {
     // Visit homepage
@@ -64,7 +67,8 @@ describe('The Home Page', () => {
     cy.exec('npm run nuke && npm run sample');
   });
 
-  // TODO: test register and login secondary modals
+
+  // !TODO: test register and login secondary modals
 
 
 });
