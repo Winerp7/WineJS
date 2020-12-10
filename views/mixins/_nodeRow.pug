@@ -7,14 +7,19 @@ mixin nodeRow(node = {})
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       | #{node.status}
     div(class="ml-2 w-48 overflow-auto no-scrollbar")
-      if (!node.sensors.length)
-        | No sensors
-      else if (node.sensors.length === 1)
-        | #{node.sensors.join(" ")}
-      else if (node.sensors.length === 2)
-        | #{node.sensors.join(" & ")}
+      if (node.function)
+          each func in funcs
+            if (node.function.equals(func._id))
+              if (!func.sensors.length)
+                | No sensors
+              else if (func.sensors.length === 1)
+                | #{func.sensors.join(" ")}
+              else if (func.sensors.length === 2)
+                | #{func.sensors.join(" & ")}
+              else 
+                | #{func.sensors.join(", ")}
       else 
-        | #{node.sensors.join(", ")}
+        | No sensors
     div(class="ml-2 w-32 overflow-auto no-scrollbar")
       if (node.function)
         each func in funcs

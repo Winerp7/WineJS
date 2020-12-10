@@ -33,7 +33,8 @@ export const createFunctionality = async (req: Request, res: Response) => {
         return res.redirect('/functionality/add'); 
     }
 
-    console.log(getSensorNames(req.body.loop));
+    // Gets all the sensor names in the functionality loop code
+    req.body.sensors = getSensorNames(req.body.loop)
 
     const func = await (new Functionality(req.body)).save();
 

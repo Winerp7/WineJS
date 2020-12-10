@@ -5,6 +5,7 @@ export interface IFunctionality extends Document {
     setup: string;
     loop: string; 
     description: string; 
+    sensors: string[];
     reboot: boolean; 
     owner: mongoose.Types.ObjectId; 
   }
@@ -27,6 +28,7 @@ const functionalitySchema = new mongoose.Schema({
         type: String,
         default: 'No description'
     },
+    sensors: [String],
     reboot: {
         type: Boolean,
         default: false
