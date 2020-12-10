@@ -15,7 +15,7 @@ describe('The Settings Page', () => {
     cy.visit('/settings');
   });
 
-  it.skip('should change name', () => {
+  it('should change name', () => {
     const newName = 'Bent Gutten';
     // Check the name is equal to the one we used at login
     // And then change the name to 'Bent Gutten'
@@ -37,7 +37,7 @@ describe('The Settings Page', () => {
       .should('have.value', newName);
   });
 
-  it.skip('should change email', () => {
+  it('should change email', () => {
     const newEmail = 'test@test.com';
     // Check the email is equal to the one we used at login
     // And then change the email to 'test@test.com'
@@ -59,7 +59,7 @@ describe('The Settings Page', () => {
   });
 
   // this test is dependent on the change email test
-  it.skip('should change password', () => {
+  it('should change password', () => {
     const email = 'test@test.com';
     const password = 'newpass';
 
@@ -95,8 +95,5 @@ describe('The Settings Page', () => {
 
     // if the cookie is there we should be logged in
     cy.getCookie('connect.sid').should('exist');
-    // if it can visit dashboard then it's logged in
-    // since /dashboard is a protected route
-    cy.visit('/dashboard');
   });
 });

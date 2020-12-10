@@ -40,6 +40,15 @@ Cypress.Commands.add('login', () => {
     throw new Error('Missing password value, from env variables')
   }
 
+  // cy.intercept({
+  //   method: 'POST',
+  //   url: '/login',
+  //   form: true,
+  //   body: {
+  //     email,
+  //     password
+  //   }
+  // }).as('login2')
   cy.request({
     method: 'POST',
     url: '/login',
@@ -49,6 +58,8 @@ Cypress.Commands.add('login', () => {
       password
     }
   })
+
+  //cy.wait('@login2')
   // if the cookie is there we should be logged in
   cy.getCookie('connect.sid').should('exist')
   cy.visit('/dashboard')

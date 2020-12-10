@@ -9,7 +9,7 @@ describe('The Landing Page', () => {
     cy.login();
   });
 
-  it.skip('should login visually', () => {
+  it('should login visually', () => {
     // Visit homepage
     cy.visit('/');
     // Open the login modal
@@ -25,17 +25,19 @@ describe('The Landing Page', () => {
 
     // Click sign in
     cy.get('#formLoginBtn').click();
+
+    cy.wait(5000)
+    // Should be on a new URL which includes '/dashboard'
+    cy.url().should('contain', '/dashboard');
     // Checks cookie is set upon login
     cy.getCookies().should('have.length', 1);
 
-    // Should be on a new URL which includes '/dashboard'
-    cy.url().should('include', '/dashboard');
   });
 
   // TODO: Test logout visually
 
 
-  it.skip('should register user', () => {
+  it('should register user', () => {
     // Visit homepage
     cy.visit('/');
     // Open the register modal
@@ -60,11 +62,9 @@ describe('The Landing Page', () => {
     // Click register
     cy.get('#registerBtn').click();
 
+    cy.wait(5000)
     // Should be redirected to '/dashboard'
-    cy.url().should('include', '/dashboard');
-
-    // remove the registered user to not interfer with other test
-    cy.exec('npm run nuke && npm run sample');
+    cy.url().should('contain', '/dashboard');
   });
 
 

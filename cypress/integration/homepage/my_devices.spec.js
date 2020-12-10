@@ -1,3 +1,5 @@
+const { waitForDebugger } = require("inspector");
+
 describe('The My Devices Page', () => {
   // runs once before all tests in the block :)
   before(() => {
@@ -10,15 +12,15 @@ describe('The My Devices Page', () => {
     // so we don't have to login before each test
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit nodes page, as all test in this file is about nodes
-    cy.visit('/nodes', { timeout: 30000 });
-
+    cy.visit('/nodes');
+    cy.wait(5000)
   });
 
   it('should check there is a Master node', () => {
     cy.contains('Master node')
   });
 
-  it.skip('should edit of Slave node with nodeID SomeNodeID2', () => {
+  it('should edit of Slave node with nodeID SomeNodeID2', () => {
     // Properties of the node we test
     const name = 'SomeNode2'
     const nodeID = 'SomeNodeID2'
