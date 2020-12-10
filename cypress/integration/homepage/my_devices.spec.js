@@ -1,5 +1,5 @@
 describe('The My Devices Page', () => {
-  // runs once before all tests in the block
+  // runs once before all tests in the block :)
   before(() => {
     cy.exec('npm run nuke && npm run sample');
     cy.login();
