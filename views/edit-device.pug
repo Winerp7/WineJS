@@ -115,19 +115,7 @@ block content
                 div(class="mx-4 w-64 text-gray-600")
                     | Sensors
                 div(id="nodeSensors" class="w-64 overflow-x-auto")
-                    if (node.function)
-                        each func in funcs
-                            if (node.function.equals(func._id))
-                                if (!func.sensors.length)
-                                    | No sensors
-                                else if (func.sensors.length === 1)
-                                    | #{func.sensors.join(" ")}
-                                else if (func.sensors.length === 2)
-                                    | #{func.sensors.join(" & ")}
-                                else 
-                                    | #{func.sensors.join(", ")}
-                    else 
-                        | No sensors
+                    input(id="sensors" value="" type="text" readonly class="w-64 overflow-x-auto bg-transparent focus:outline-none font-light text-lg")
                 div(class="flex ml-auto items-center mr-2 pr-1 text-gray-500 cursor-pointer")
                     <svg class="w-auto h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 
@@ -197,6 +185,19 @@ block scripts
         
             // Select functionality in dropdown
             const chosenFunc = document.querySelector('#chosenFunc');
+            const sensors = document.querySelector('#sensors');
+            let funcsAsString = "#{JSON.stringify(funcs)}";
+            funcsAsString = funcsAsString.replaceAll('&quot;', '\"')
+            var functionalities = JSON.parse(funcsAsString);
+
+            // initially set sensor text
+            for (let i = 0; i < functionalities.length; i++) {
+                if (functionalities[i].name === chosenFunc.value) {
+                    sensors.value = functionalities[i].sensors;
+                    break;
+                }
+                sensors.value = "";
+            }
 
             const chooseFunctionality = (value) => {
                 dropdownFuncs.classList.toggle('hidden');
@@ -208,6 +209,15 @@ block scripts
                     chosenFunc.classList.add('text-red-500'); 
                 else 
                     chosenFunc.classList.remove('text-red-500');
+                
+                // set sensor text
+                for (let i = 0; i < functionalities.length; i++) {
+                    if (functionalities[i].name === value) {
+                        sensors.value = functionalities[i].sensors;
+                        break;
+                    }
+                sensors.value = "";
+                }
             }
 
             const funcs = document.querySelectorAll("div.func"); // Gets all funcs

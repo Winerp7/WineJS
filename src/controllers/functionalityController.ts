@@ -84,7 +84,7 @@ export const updateFunctionality = async (req: Request, res: Response) => {
             return res.redirect(`/functionality/${req.params.id}/edit`);
         }
     }
-
+    req.body.sensors = getSensorNames(req.body.loop)
     const functionality = await Functionality.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true, // returns the new functionality instead of the old one
       runValidators: true // runs the validators to ensure there is still name etc.

@@ -56,7 +56,7 @@ export const updateNode = async (req: Request, res: Response) => {
 
   // Check if we add a new functionality and set status to 'pending'
   const myNode = await Node.findById(req.params.id); 
-  if (myNode && (((myNode.function === null && req.body.function != null)) || (myNode.function != null && !(myNode.function.equals(req.body.function))))) {
+  if (myNode && (((myNode.function === null && req.body.function != null)) || !(myNode.function.equals(req.body.function)))) {
     req.body.updateStatus = 'Pending'; 
   }
 
