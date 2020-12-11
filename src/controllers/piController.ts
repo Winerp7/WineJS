@@ -100,7 +100,7 @@ function objectId(s: string){
   return mongoose.Types.ObjectId(s);
 }
 
-// TODO: Thats an any
+// TODO: Thats an any 
 function convertSensorData(body: any){
   let newBody = []
   for(let nodeID in body){
