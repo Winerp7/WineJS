@@ -3,6 +3,7 @@ describe('The Landing Page', () => {
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
+    cy.wait(3000);
   });
 
   it('should log in using cy.request', () => {
@@ -26,16 +27,14 @@ describe('The Landing Page', () => {
     // Click sign in
     cy.get('#formLoginBtn').click();
 
-    cy.wait(5000)
+    cy.wait(3000);
     // Should be on a new URL which includes '/dashboard'
     cy.url().should('contain', '/dashboard');
     // Checks cookie is set upon login
     cy.getCookies().should('have.length', 1);
-
   });
 
   // TODO: Test logout visually
-
 
   it('should register user', () => {
     // Visit homepage
@@ -62,13 +61,10 @@ describe('The Landing Page', () => {
     // Click register
     cy.get('#registerBtn').click();
 
-    cy.wait(5000)
-    // Should be redirected to '/dashboard'
-    cy.url().should('contain', '/dashboard');
+    // Checks the cookie is set, which means we are logged in
+    // this is faster and more reliable check than redirecting
+    cy.getCookies().should('have.length', 1);
   });
 
-
   // !TODO: test register and login secondary modals
-
-
 });

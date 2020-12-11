@@ -3,8 +3,10 @@ describe('The Settings Page', () => {
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
+    cy.wait(3000)
     // Need to login before each test to have access to /settings url
     cy.login();
+    cy.wait(3000)
   });
 
   beforeEach(() => {

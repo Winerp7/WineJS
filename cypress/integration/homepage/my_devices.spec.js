@@ -4,6 +4,7 @@ describe('The My Devices Page', () => {
   // runs once before all tests in the block :)
   before(() => {
     cy.exec('npm run nuke && npm run sample');
+    cy.wait(3000)
     cy.login();
   });
 
@@ -13,7 +14,7 @@ describe('The My Devices Page', () => {
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit nodes page, as all test in this file is about nodes
     cy.visit('/nodes');
-    cy.wait(5000)
+    //cy.wait(3000)
   });
 
   it('should check there is a Master node', () => {
@@ -36,8 +37,8 @@ describe('The My Devices Page', () => {
 
     // edit node information
 
-      //.get('[test-cy=node-name]')
-      //.should('have.value', 'SomeNode2')
+    //.get('[test-cy=node-name]')
+    //.should('have.value', 'SomeNode2')
 
   });
 
