@@ -1,5 +1,3 @@
-const { waitForDebugger } = require("inspector");
-
 describe('The My Devices Page', () => {
   // runs once before all tests in the block :)
   before(() => {

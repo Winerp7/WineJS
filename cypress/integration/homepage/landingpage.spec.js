@@ -10,7 +10,7 @@ describe('The Landing Page', () => {
     cy.login();
   });
 
-  it('should login visually', () => {
+  it.skip('should login visually', () => {
     // Visit homepage
     cy.visit('/');
     // Open the login modal
