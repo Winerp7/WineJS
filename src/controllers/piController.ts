@@ -105,13 +105,15 @@ function convertSensorData(body: any){
   let newBody = []
   for(let nodeID in body){
     let nodeBody = body[nodeID];
-    let sensorData = [];
+    let sensorData: {sensor: string, value: number, time: string}[] = [];
     for (let data in nodeBody){
-      let sensor = ''; let value = 0; let time = ''
+      let time = ''; let sensorValues: {sensor: string, value: number}[] = []
       Object.keys(nodeBody[data]).forEach((field: string) => {
-        if(field != 'time'){ sensor = field; value = nodeBody[data][sensor]} else { time = nodeBody[data]['time']}
+        if(field != 'time'){ sensorValues.push({sensor: field, value: nodeBody[data][field]})} else { time = nodeBody[data]['time']}
       });
-      sensorData.push({sensor: sensor, value: value, time: time})
+      sensorValues.forEach((sensorValue: {sensor: string, value: number}) => {
+        sensorData.push({sensor: sensorValue.sensor, value: sensorValue.value, time: time})
+      });
     }
     newBody.push({nodeID: nodeID, data: sensorData})
   }
