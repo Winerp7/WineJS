@@ -14,7 +14,7 @@ describe('The My Devices Page', () => {
 
   });
 
-  it('should check there is a Master node', () => {
+  it.skip('should check there is a Master node', () => {
     cy.contains('Master node')
   });
 
