@@ -110,14 +110,14 @@ export const validateRegister = (req: Request, res: Response, next: NextFunction
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply a name 🙂').notEmpty();
   req.checkBody('email', 'That Email is not valid 📧').isEmail();
-  /* 
+  /*
   Normalizing handles different variations of the "same" email, examples that google allows:
   Test@gmail.com
   TEST@gmail.com
   test@googlemail.com
   t.e.s.t@gmail.com
   test+123@gmail.com
-  
+
   Normalized result: test@gmail.com
   */
   req.sanitizeBody('email').normalizeEmail({

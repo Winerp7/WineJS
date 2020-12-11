@@ -34,7 +34,7 @@ Cypress.Commands.add('login', () => {
   const password = Cypress.env('TEST_PASS')
 
   // it is ok for the email to be visible in the Command Log
-  expect(email, 'email was set').to.be.a('string').and.not.be.empty
+  //expect(email, 'email was set').to.be.a('string').and.not.be.empty
   // but the password value should not be shown
   if (typeof password !== 'string' || !password) {
     throw new Error('Missing password value, from env variables')
