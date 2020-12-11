@@ -3,6 +3,7 @@ import { IUser, User } from "../models/userModel";
 import { makeLine} from '../util/canni';
 import { promisify } from 'es6-promisify';
 import { INode, Node } from "../models/nodeModel";
+import { Functionality } from '../models/functionalityModel';
 
 export const directResetPassword = async (_req: Request, res: Response) => {
   res.render('reset-password', { path: '/reset-password' });
@@ -14,41 +15,48 @@ export const directDashboard = async (req: Request, res: Response) => {
   let filter: string[] = []; // All sensor names to be in the filters
   let graphs: string[] = [];
 
-  if (req.nodes != null) {
-    // Iterate through the user's nodes
+  if (req.nodes != null) {   
     for (let nodeIndex: number = 0; nodeIndex < req.nodes.length; nodeIndex++) {
-      // Iterate through the current node's sensors
-      let nodeName: string = req.nodes[nodeIndex].name;
-      for (let sensorIndex: number = 0; sensorIndex < req.nodes[nodeIndex].sensors.length; sensorIndex++) {
-        let sensorName: string = req.nodes[nodeIndex].sensors[sensorIndex];
-        let filterElement: string = nodeName + ": " + sensorName;
-        filter.push(filterElement);
+      const node: INode = req.nodes[nodeIndex]; 
 
-        // If the user has selected the sensor with 'id' in their filter
-        if (user.filter.includes(filterElement)) {
-          let timestamps: string[] = [];  // Holds all timestamps from the sensor
-          let values: number[] = [];      // Holds all values from the sensor
-          // @ts-ignore
-          const sensorDataList = await Node.findSensorDataBySensorID(req.nodes[nodeIndex].nodeID, sensorName, user) as INode;
-          // Retrieve values and timestamps from sensorData
-          for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
-            // Remove date and decimals for better readability
-            let timestamp: string = sensorDataList[dataIndex].sensorData.time;
-            timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
-            timestamps.push(timestamp);
-            values.push(sensorDataList[dataIndex].sensorData.value);
+      // Checks if the node has a functionality and then retreives the sensors for the functionality
+      if(node.function) {
+        const func = await Functionality.findById(node.function);
+        if(!func) throw 'Functionality does not exist'
+        if(func.sensors) {
+          for (let sensorIndex: number = 0; sensorIndex < func.sensors.length; sensorIndex++) {
+            let sensorName: string = func.sensors[sensorIndex];
+            let filterElement: string = node.name + ": " + sensorName;
+            filter.push(filterElement);
+
+            // If the user has selected the sensor with 'id' in their filter
+            if (user.filter.includes(filterElement)) {
+              let timestamps: string[] = [];  // Holds all timestamps from the sensor
+              let values: number[] = [];      // Holds all values from the sensor
+              // @ts-ignore
+              const sensorDataList = await Node.findSensorDataBySensorID(node.nodeID, sensorName, user) as INode;
+              // Retrieve values and timestamps from sensorData
+              for (let dataIndex: number = 0; dataIndex < sensorDataList.length ; dataIndex++) {
+                // Remove date and decimals for better readability
+                let timestamp: string = sensorDataList[dataIndex].sensorData.time;
+                timestamp = timestamp.split(/T|\./)[1]; // Index0=date, Index1=time, Index2=second decimals
+                timestamps.push(timestamp);
+                values.push(sensorDataList[dataIndex].sensorData.value);
+              }
+
+              // Generate the graph for the sensor
+              graphs.push(await makeLine(
+                filterElement,
+                timestamps,
+                values,
+              ));
+            }
           }
-
-          // Generate the graph for the sensor
-          graphs.push(await makeLine(
-            filterElement,
-            timestamps,
-            values,
-          ));
         }
       }
-    }
+    } 
   }
+
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter, funcs: req.functionalities });
 };
 

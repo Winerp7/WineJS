@@ -33,6 +33,9 @@ export const createFunctionality = async (req: Request, res: Response) => {
         return res.redirect('/functionality/add'); 
     }
 
+    // Gets all the sensor names in the functionality loop code
+    req.body.sensors = getSensorNames(req.body.loop)
+
     const func = await (new Functionality(req.body)).save();
 
     req.flash('success', `Successfully created functionality '${func.name}' 🔥`);
@@ -120,3 +123,23 @@ export const deleteFunctionality = async (req: Request, res: Response) => {
         return res.redirect('/functionality');
     });
 };
+
+
+function getSensorNames(inputString: string){
+    function findMatches(regex: RegExp, str: string, matches: string[] = []) {
+        const res = regex.exec(str);
+        res && matches.push(res[1]) && findMatches(regex, str, matches);
+        return matches;
+    }
+
+    let find_upload_regex = new RegExp("upload[(]{[^{}]+}[)]", "g");
+    let extract_key_regex = new RegExp("[\"']([^\"']+)[\"']( )*:", "g");
+
+    let json = find_upload_regex.exec(inputString);
+    if(!json){
+        throw 'not dab';
+    }
+
+    let matches = findMatches(extract_key_regex, json[0]);
+    return matches;
+}

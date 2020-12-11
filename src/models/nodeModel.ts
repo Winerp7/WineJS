@@ -10,7 +10,8 @@ export interface INode extends Document {
   name: string;
   isMaster: boolean;
   status: string;
-  sensors: string[];
+  sensors: string[]; //TODO: Remove
+  sensorData: {time: string, value: number, sensor: string}[]
   updateStatus: string; 
   function: mongoose.Types.ObjectId;
   slug: string;
