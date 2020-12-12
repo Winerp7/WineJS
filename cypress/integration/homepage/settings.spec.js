@@ -1,5 +1,5 @@
 describe('The Settings Page', () => {
-  // runs once before all tests in the block
+  // runs once before all tests in the block sup
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
