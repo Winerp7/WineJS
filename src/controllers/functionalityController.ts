@@ -85,6 +85,9 @@ export const updateFunctionality = async (req: Request, res: Response) => {
         }
     }
 
+    // Gets all the sensor names in the functionality loop code
+    req.body.sensors = getSensorNames(req.body.loop)
+
     const functionality = await Functionality.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true, // returns the new functionality instead of the old one
       runValidators: true // runs the validators to ensure there is still name etc.
@@ -131,14 +134,11 @@ function getSensorNames(inputString: string){
         res && matches.push(res[1]) && findMatches(regex, str, matches);
         return matches;
     }
-
     let find_upload_regex = new RegExp("upload[(]{[^{}]+}[)]", "g");
     let extract_key_regex = new RegExp("[\"']([^\"']+)[\"']( )*:", "g");
 
     let json = find_upload_regex.exec(inputString);
-    if(!json){
-        throw 'not dab';
-    }
+    if(!json) return [] // If no upload function then there is no sensors
 
     let matches = findMatches(extract_key_regex, json[0]);
     return matches;
