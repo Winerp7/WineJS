@@ -15,9 +15,9 @@ export const directDashboard = async (req: Request, res: Response) => {
   let filter: string[] = []; // All sensor names to be in the filters
   let graphs: string[] = [];
 
-  if (req.nodes != null) {   
+  if (req.nodes != null) {
     for (let nodeIndex: number = 0; nodeIndex < req.nodes.length; nodeIndex++) {
-      const node: INode = req.nodes[nodeIndex]; 
+      const node: INode = req.nodes[nodeIndex];
 
       // Checks if the node has a functionality and then retreives the sensors for the functionality
       if(node.function) {
@@ -54,7 +54,7 @@ export const directDashboard = async (req: Request, res: Response) => {
           }
         }
       }
-    } 
+    }
   }
 
   res.render('dashboard', { pageTitle: 'Dashboard', path: '/dashboard', graphs: graphs, nodes: req.nodes, filter: filter, userFilter: user.filter, funcs: req.functionalities });

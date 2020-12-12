@@ -2,8 +2,9 @@ describe('The My Devices Page', () => {
   // runs once before all tests in the block :)
   before(() => {
     cy.exec('npm run nuke && npm run sample');
-    cy.wait(3000)
+    cy.wait(5000)
     cy.login();
+    cy.wait(3000)
   });
 
   beforeEach(() => {
@@ -11,8 +12,8 @@ describe('The My Devices Page', () => {
     // so we don't have to login before each test
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit nodes page, as all test in this file is about nodes
-    cy.visit('/nodes');
-    //cy.wait(3000)
+    cy.visit('/nodes')
+    cy.wait(3000)
   });
 
   it('should check there is a Master node', () => {

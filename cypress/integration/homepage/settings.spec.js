@@ -3,7 +3,7 @@ describe('The Settings Page', () => {
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
-    cy.wait(3000)
+    cy.wait(5000)
     // Need to login before each test to have access to /settings url
     cy.login();
     cy.wait(3000)
@@ -15,9 +15,10 @@ describe('The Settings Page', () => {
     Cypress.Cookies.preserveOnce('connect.sid', 'csrftoken');
     // visit settings page, as all test in this file is about settings
     cy.visit('/settings');
+    cy.wait(3000)
   });
 
-  it.skip('should change name', () => {
+  it('should change name', () => {
     const newName = 'Bent Gutten';
     // Check the name is equal to the one we used at login
     // And then change the name to 'Bent Gutten'
@@ -39,7 +40,7 @@ describe('The Settings Page', () => {
       .should('have.value', newName);
   });
 
-  it.skip('should change email', () => {
+  it('should change email', () => {
     const newEmail = 'test@test.com';
     // Check the email is equal to the one we used at login
     // And then change the email to 'test@test.com'

@@ -3,14 +3,14 @@ describe('The Landing Page', () => {
   before(() => {
     // nuke test db and load sample data
     cy.exec('npm run nuke && npm run sample');
-    cy.wait(3000);
+    cy.wait(5000);
   });
 
   it('should log in using cy.request', () => {
     cy.login();
   });
 
-  it.skip('should login visually', () => {
+  it('should login visually', () => {
     // Visit homepage
     cy.visit('/');
     // Open the login modal
